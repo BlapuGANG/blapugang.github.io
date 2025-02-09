@@ -1,0 +1,49 @@
+/* Tooltip Container */
+.tooltip {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none; /* Allow clicks to pass through */
+    display: none; /* Hide by default */
+}
+
+/* Tooltip Content */
+.tooltip-text {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap; /* Prevent text wrapping */
+
+    /* Position the tooltip */
+    position: absolute;
+    top: -35px; /* Adjust vertical position */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+}
+
+/* Tooltip Arrow */
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px; /* Center the arrow */
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent; /* Black arrow pointing down */
+}
+
+/* Show tooltip on hover */
+.thread-stats span:hover + .tooltip .tooltip-text,
+.thread-stats span:focus + .tooltip .tooltip-text {
+    visibility: visible;
+}
+
+/* Adjust arrow position for right-aligned tooltips */
+.thread-stats .ts-page:hover + .tooltip .tooltip-text::after {
+    left: auto;
+    right: 5px; /* Adjust arrow position for right-aligned tooltips */
+    margin-left: 0;
+}
