@@ -215,4 +215,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Call formatGreentext for existing posts
   formatGreentext();
+
+  // --- Cookie Banner Logic ---
+  const cookieBanner = document.getElementById('cookie-banner');
+  const oldInterfaceBtn = document.getElementById('cookie-old-btn');
+  const newInterfaceBtn = document.getElementById('cookie-new-btn');
+
+  function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  function showCookieBanner() {
+    if (!getCookie('siteChoiceMade')) {
+      if (cookieBanner) {
+        cookieBanner.style.display = 'block';
+      }
+    } else {
+      // If choice is already made, and it was 'new', redirect to new-ui.html
+      // This handles the case where the user revisits index.html after choosing 'new'
+      if (getCookie('siteChoice') === 'new' && window.location.pathname !== '/new-ui.html') {
+        window.location.href = 'new-ui.html';
+      }
+    }
+  }
+
+  if (oldInterfaceBtn) {
+    oldInterfaceBtn.addEventListener('click', () => {
+      setCookie('siteChoiceMade', 'yes', 30);
+      setCookie('siteChoice', 'old', 30);
+      if (cookieBanner) {
+        cookieBanner.style.display = 'none';
+      }
+      // No redirect needed, user stays on current page.
+      // Potentially apply 'old' style if it's different from current,
+      // but for now, it just hides the banner.
+    });
+  }
+
+  if (newInterfaceBtn) {
+    newInterfaceBtn.addEventListener('click', () => {
+      setCookie('siteChoiceMade', 'yes', 30);
+      setCookie('siteChoice', 'new', 30);
+      if (cookieBanner) {
+        cookieBanner.style.display = 'none';
+      }
+      window.location.href = 'new-ui.html'; // Redirect to the new UI page
+    });
+  }
+
+  // Show banner on page load (if not on new-ui.html itself, to avoid banner loop)
+  if (cookieBanner && window.location.pathname.indexOf('new-ui.html') === -1) {
+    showCookieBanner();
+  }
 });
