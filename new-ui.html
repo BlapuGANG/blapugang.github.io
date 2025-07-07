@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blapu - New UI</title>
+    <meta name="description" content="Blapu: New simplified UI with Vestige widgets.">
+    <link rel="icon" href="assets/images/blapu-logo.png" type="image/png">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6dd5ed, #2193b0);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1); /* Translucent white */
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%); /* For Safari */
+            border-radius: 15px;
+            border: 1px solid rgba(209, 213, 219, 0.3); /* Light border */
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #f0f0f0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #e0e0e0;
+        }
+
+        .widget-container {
+            display: flex;
+            flex-direction: column; /* Stack widgets vertically on small screens */
+            gap: 20px; /* Space between widgets */
+            margin-top: 20px;
+        }
+
+        .widget {
+            background: rgba(255, 255, 255, 0.05); /* Slightly more transparent */
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(209, 213, 219, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            height: 400px; /* Default height, can be adjusted */
+            width: 100%; /* Full width of container */
+        }
+
+        .widget iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px; /* Match widget's border radius */
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .widget-container {
+                flex-direction: row; /* Widgets side-by-side on larger screens */
+            }
+            .widget {
+                height: 650px; /* Taller widgets on larger screens */
+            }
+        }
+
+        .footer-nav {
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            width: fit-content;
+        }
+
+        .footer-nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="assets/images/blapu-logo.png" alt="Blapu Logo" style="width: 100px; height: 100px; margin-bottom: 20px;">
+        <h1>Welcome to the New Blapu Interface!</h1>
+        <p>
+            This simplified view focuses on providing you with direct access to key Blapu information and trading tools via Vestige.
+            Below you'll find the Blapu asset chart and a swap widget to easily trade.
+        </p>
+
+        <div class="widget-container">
+            <div class="widget">
+                <iframe
+                    id="vestige-chart-iframe"
+                    title="Vestige Chart Widget"
+                    src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=true&currency=USD"
+                ></iframe>
+            </div>
+            <div class="widget">
+                <iframe
+                    id="vestige-swap-iframe"
+                    title="Vestige Swap Widget"
+                    src="https://vestige.fi/widget/swap?asset_in=0&asset_out=401752010"
+                ></iframe>
+            </div>
+        </div>
+         <div class="footer-nav">
+            <a href="index.html" id="go-to-old-ui">Return to Full Site (Old UI)</a>
+        </div>
+    </div>
+
+    <script>
+        // Script to handle returning to old UI and clearing the choice
+        const goToOldUiButton = document.getElementById('go-to-old-ui');
+
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        if (goToOldUiButton) {
+            goToOldUiButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default link behavior before cookie is set
+                setCookie('siteChoice', 'old', 30); // Set choice to 'old'
+                // The 'siteChoiceMade' cookie remains 'yes'
+                window.location.href = 'index.html';
+            });
+        }
+    </script>
+</body>
+</html>

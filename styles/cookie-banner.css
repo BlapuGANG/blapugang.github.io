@@ -1,0 +1,44 @@
+#cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    z-index: 1000; /* Ensure it's above other content */
+    border-top: 1px solid #555;
+    display: none; /* Initially hidden, JS will show it */
+}
+
+#cookie-banner p {
+    margin: 0 0 10px 0;
+    font-size: 1em;
+}
+
+#cookie-banner button {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#cookie-banner button:hover {
+    background-color: #4cae4c;
+}
+
+#cookie-banner button#cookie-old-btn {
+    background-color: #f0ad4e;
+}
+
+#cookie-banner button#cookie-old-btn:hover {
+    background-color: #ec971f;
+}
