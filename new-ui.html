@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blapu - New UI</title>
+    <meta name="description" content="Blapu: New simplified UI with Vestige widgets.">
+    <link rel="icon" href="assets/images/blapu-logo.png" type="image/png">
+    <style>
+        @keyframes dance {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            }
+            25% {
+                transform: translate(20px, -15px) rotate(5deg) scale(1.05);
+                border-radius: 30% 70% 50% 50% / 50% 40% 50% 60%;
+            }
+            50% {
+                transform: translate(-10px, 10px) rotate(-5deg) scale(1);
+                border-radius: 50% 50% 30% 70% / 40% 60% 30% 70%;
+            }
+            75% {
+                transform: translate(10px, 5px) rotate(3deg) scale(1.03);
+                border-radius: 60% 40% 70% 30% / 50% 50% 40% 60%;
+            }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px; /* Add some padding for small screens */
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-color: #0a192f; /* Fallback if animation div fails */
+            position: relative; /* For z-indexing context */
+        }
+
+        #animated-blapu-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Deepest background */
+            overflow: hidden; /* Prevent scrollbars from blobs */
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Default page background */
+        }
+
+        .blapu-blob {
+            position: absolute;
+            width: 200px; /* Size of the blob */
+            height: 180px;
+            background: radial-gradient(circle at center, rgba(0, 123, 255, 0.6), rgba(0, 80, 180, 0.8)); /* Blueish, frog-like */
+            animation: dance 15s infinite ease-in-out;
+            opacity: 0.7; /* Slightly transparent blob */
+            filter: blur(5px); /* Soften the blob edges */
+        }
+
+        /* Multiple blobs for more dynamic background */
+        .blob-1 { top: 10%; left: 10%; width: 250px; height: 230px; animation-duration: 18s; opacity: 0.6;}
+        .blob-2 { top: 60%; left: 70%; width: 180px; height: 200px; animation-duration: 12s; animation-delay: -5s; opacity: 0.5;}
+        .blob-3 { top: 30%; left: 40%; width: 150px; height: 140px; animation-duration: 20s; animation-delay: -10s; opacity: 0.65;}
+
+
+        .glass-panel { /* Renamed .container to .glass-panel for clarity */
+            width: 90%;
+            max-width: 800px; /* Max width for content */
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 20px;
+            text-align: center;
+            z-index: 1; /* Above background, below potential modals */
+
+            /* Liquid Glass Effect - Inspired by the article */
+            background: rgba(255, 255, 255, 0.1); /* More transparent */
+            backdrop-filter: blur(12px) saturate(160%);
+            -webkit-backdrop-filter: blur(12px) saturate(160%); /* For Safari */
+            border-radius: 1.5rem; /* 24px */
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2),
+                        inset 0 2px 10px rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-panel::before { /* Subtle inner shine/highlight */
+            content: '';
+            position: absolute;
+            top: 1px; /* Offset by border */
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
+            width: calc(100% - 2px);
+            height: calc(100% - 2px);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem; /* Match parent */
+            z-index: -1; /* Behind content, on top of main background */
+            pointer-events: none; /* Allow clicks through */
+            box-shadow: inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+                        inset 5px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+
+        h1 {
+            font-size: clamp(1.8em, 5vw, 2.5em); /* Responsive font size */
+            margin-bottom: 15px;
+            color: #f0f0f0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        p {
+            font-size: clamp(1em, 3vw, 1.1em); /* Responsive font size */
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #e0e0e0;
+        }
+
+        .widget-container {
+            display: flex;
+            flex-direction: column; /* Stack widgets vertically by default for mobile */
+            gap: 25px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .widget { /* This will be a glass panel itself */
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            border-radius: 1rem; /* 16px */
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15),
+                        inset 0 1px 5px rgba(255, 255, 255, 0.1);
+            min-height: 350px; /* Min height for widgets */
+            width: 100%;
+            box-sizing: border-box; /* Ensure padding doesn't add to width */
+            position: relative; /* For potential pseudo-elements if needed */
+        }
+
+        .widget iframe {
+            width: 100%;
+            height: 100%; /* Make iframe fill the widget space */
+            min-height: 330px; /* Ensure iframe content is visible */
+            border: none;
+            border-radius: 0.75rem; /* Slightly less than widget for inset look */
+        }
+
+        .footer-nav {
+            margin-top: 30px;
+            padding: 10px; /* Smaller padding */
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            width: auto; /* Fit content */
+            display: inline-block; /* Allow text-align center on parent to work */
+        }
+
+        .footer-nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: clamp(0.9em, 2.5vw, 1em);
+        }
+
+        .footer-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #f0f0f0;
+        }
+
+        /* No media query needed for widget stacking if column is default */
+        /* Responsive adjustments for larger screens can be added if desired, */
+        /* e.g., making widgets side-by-side, but current request is mobile-first vertical */
+
+    </style>
+</head>
+<body>
+    <div id="animated-blapu-bg">
+        <div class="blapu-blob blob-1"></div>
+        <div class="blapu-blob blob-2"></div>
+        <div class="blapu-blob blob-3"></div>
+    </div>
+
+    <div class="glass-panel">
+        <img src="assets/images/blapu-logo.png" alt="Blapu Logo" style="width: clamp(80px, 20vw, 100px); height: clamp(80px, 20vw, 100px); margin-bottom: 20px;">
+        <h1>Welcome to the New Blapu Interface!</h1>
+        <p>
+            This simplified view focuses on providing you with direct access to key Blapu information and trading tools via Vestige.
+            Below you'll find the Blapu asset chart and a swap widget to easily trade.
+        </p>
+
+        <div class="widget-container">
+            <div class="widget">
+                <iframe
+                    id="vestige-chart-iframe"
+                    title="Vestige Chart Widget"
+                    src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=true&currency=USD"
+                ></iframe>
+            </div>
+            <div class="widget">
+                <iframe
+                    id="vestige-swap-iframe"
+                    title="Vestige Swap Widget"
+                    src="https://vestige.fi/widget/swap?asset_in=0&asset_out=401752010"
+                ></iframe>
+            </div>
+        </div>
+         <div class="footer-nav">
+            <a href="index.html" id="go-to-old-ui">Return to Full Site (Old UI)</a>
+        </div>
+    </div>
+
+    <script>
+        // Script to handle returning to old UI and clearing the choice
+        const goToOldUiButton = document.getElementById('go-to-old-ui');
+
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        if (goToOldUiButton) {
+            goToOldUiButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                setCookie('siteChoice', 'old', 30);
+                window.location.href = 'index.html';
+            });
+        }
+    </script>
+</body>
+</html>
