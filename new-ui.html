@@ -111,6 +111,9 @@
         .blob-3 { top: 25%; left: 45%; width: 180px; height: 170px; animation: dance 25s infinite ease-in-out alternate; animation-delay: -12s; opacity: 0.45;}
 
         /* --- Blapu Dancer --- */
+        .blapu-dancer, .blapu-dancer * {
+            box-sizing: border-box;
+        }
         /* Base container size (matches media query for >520px) */
         .blapu-dancer {
             position: absolute;
@@ -192,35 +195,33 @@
             border: 2px solid #000;
             border-radius: 50%;
             position: relative;
-            /* overflow: hidden; Re-evaluate if needed, start with visible for debugging */
-            overflow: visible;
+            overflow: hidden; /* Eyelid is child, should be contained/clipped by this if it exceeds eye bounds */
         }
 
         /* New Eyelid Shape styling */
         .blapu-dancer .eyelid-shape {
             position: absolute;
             top: 0;
-            left: 0; /* Align with eye's top-left */
+            left: 0;
             width: 100%;
-            height: 50%; /* Covers top half of the eye */
+            height: 45%; /* Covers slightly less than top half */
             background-color: #1e50ff; /* Blapu's blue */
             border-bottom: 2px solid #000;
-            /* Creates a droopy curve at the bottom of the eyelid */
-            border-radius: 0 0 60% 60% / 0 0 100% 100%;
-            z-index: 1; /* Above sclera, below pupil if pupil overlaps */
+            border-radius: 0 0 50% 50% / 0 0 100% 100%; /* Adjusted for slightly less height */
+            z-index: 1;
         }
 
         /* Pupil relative to .eye */
         .blapu-dancer .pupil {
             position: absolute;
-            bottom: 10%; /* Adjusted to sit clearly in lower half */
+            bottom: 12%; /* Adjusted to be well within the lower ~55% */
             left: 50%;
             transform: translateX(-50%);
-            width: 30%;
-            height: 35%;
+            width: 25%;  /* Slightly smaller pupil */
+            height: 30%; /* Slightly smaller pupil */
             background: #000;
             border-radius: 50%;
-            z-index: 2; /* Ensure pupil is on top of eyelid if any overlap (should not happen) */
+            z-index: 2;
         }
         /* Sparkle relative to .pupil */
         .blapu-dancer .pupil::after {
