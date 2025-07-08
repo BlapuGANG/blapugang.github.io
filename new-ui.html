@@ -188,34 +188,39 @@
             height: 100%; /* Relative to its implicit height or parent if fixed H */
                            /* Let's fix eye height relative to head's height */
             height: 36%; /* 45px / 125px head height */
-            background: #fff;
+            background: #fff; /* Sclera */
             border: 2px solid #000;
             border-radius: 50%;
             position: relative;
-            overflow: hidden;
+            /* overflow: hidden; Re-evaluate if needed, start with visible for debugging */
+            overflow: visible;
         }
-         /* Eyelid relative to .eye */
-        .blapu-dancer .eye::before { /* Droopy eyelid */
-            content: '';
+
+        /* New Eyelid Shape styling */
+        .blapu-dancer .eyelid-shape {
             position: absolute;
-            top: -50%; /* Starts halfway up its own height, above the eye's top edge */
-            left: -10%; /* Slight overhang for better curve coverage */
-            width: 120%; /* Slightly wider than eye for curve */
-            height: 100%; /* Same height as the eye itself */
-            background: #1e50ff;
+            top: 0;
+            left: 0; /* Align with eye's top-left */
+            width: 100%;
+            height: 50%; /* Covers top half of the eye */
+            background-color: #1e50ff; /* Blapu's blue */
             border-bottom: 2px solid #000;
-            border-radius: 50%; /* This will make the bottom edge curved */
+            /* Creates a droopy curve at the bottom of the eyelid */
+            border-radius: 0 0 60% 60% / 0 0 100% 100%;
+            z-index: 1; /* Above sclera, below pupil if pupil overlaps */
         }
+
         /* Pupil relative to .eye */
         .blapu-dancer .pupil {
             position: absolute;
-            bottom: 15%; /* Adjusted: Pupil slightly lower */
+            bottom: 10%; /* Adjusted to sit clearly in lower half */
             left: 50%;
             transform: translateX(-50%);
-            width: 30%;  /* Adjusted: Pupil slightly smaller width */
-            height: 35%; /* Adjusted: Pupil slightly smaller height */
+            width: 30%;
+            height: 35%;
             background: #000;
             border-radius: 50%;
+            z-index: 2; /* Ensure pupil is on top of eyelid if any overlap (should not happen) */
         }
         /* Sparkle relative to .pupil */
         .blapu-dancer .pupil::after {
@@ -580,9 +585,11 @@
             <div class="head">
                 <div class="eyes">
                     <div class="eye">
+                        <div class="eyelid-shape"></div>
                         <div class="pupil"></div>
                     </div>
                     <div class="eye">
+                        <div class="eyelid-shape"></div>
                         <div class="pupil"></div>
                     </div>
                 </div>
