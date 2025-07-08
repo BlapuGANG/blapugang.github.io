@@ -52,7 +52,7 @@
 
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             margin: 0;
             padding: 10px 20px;
             color: #fff;
@@ -98,7 +98,7 @@
             height: 325px; /* 650px * 0.5 */
             z-index: -2;
             animation: detailedCripWalk 15s infinite linear;
-            filter: blur(10px);
+            filter: blur(6px); /* Lightened blur */
         }
 
         .blapu-dancer .head {
@@ -513,14 +513,14 @@
             .blapu-dancer {
                 width: 180px;
                 height: 234px; /* Adjusted for 650px original height aspect ratio (180 * 650/500) */
-                filter: blur(12px);
+                filter: blur(7px); /* Lightened blur for medium screens */
             }
         }
          @media (max-width: 380px) {
             .blapu-dancer {
                 width: 150px;
                 height: 195px; /* (150 * 650/500) */
-                filter: blur(14px);
+                filter: blur(8px); /* Lightened blur for small screens */
             }
          }
 
