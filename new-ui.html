@@ -1,652 +1,590 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blapu - New UI</title>
-    <meta name="description" content="Blapu: New simplified UI with Vestige widgets.">
-    <link rel="icon" href="assets/images/blapu-logo.png" type="image/png">
-    <style>
-        @keyframes dance { /* For the floating blobs */
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg) scale(1);
-                border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            }
-            25% {
-                transform: translate(20px, -15px) rotate(5deg) scale(1.05);
-                border-radius: 30% 70% 50% 50% / 50% 40% 50% 60%;
-            }
-            50% {
-                transform: translate(-10px, 10px) rotate(-5deg) scale(1);
-                border-radius: 50% 50% 30% 70% / 40% 60% 30% 70%;
-            }
-            75% {
-                transform: translate(10px, 5px) rotate(3deg) scale(1.03);
-                border-radius: 60% 40% 70% 30% / 50% 50% 40% 60%;
-            }
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blapu - New UI</title>
+  <meta name="description" content="Blapu: New simplified UI with Vestige widgets.">
+  <link rel="icon" href="assets/images/blapu-logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 10px 20px;
+      color: #fff;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      position: relative;
+      overflow-x: hidden;
+    }
 
-        @keyframes detailedCripWalk { /* Original Smooth Cripwalk Style */
-            0%   { transform: translateX(-40vw) translateY(0px) rotate(-5deg); }
-            25%  { transform: translateX(0vw) translateY(-15px) rotate(0deg); } /* Center point, slight bob */
-            50%  { transform: translateX(40vw) translateY(0px) rotate(5deg); }
-            75%  { transform: translateX(0vw) translateY(-10px) rotate(0deg); } /* Center point, slight bob */
-            100% { transform: translateX(-40vw) translateY(0px) rotate(-5deg); }
-        }
+    /* Animated Blobs */
+    @keyframes dance {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      }
+      25% {
+        transform: translate(20px, -15px) rotate(5deg) scale(1.05);
+        border-radius: 30% 70% 50% 50% / 50% 40% 50% 60%;
+      }
+      50% {
+        transform: translate(-10px, 10px) rotate(-5deg) scale(1);
+        border-radius: 50% 50% 30% 70% / 40% 60% 30% 70%;
+      }
+      75% {
+        transform: translate(10px, 5px) rotate(3deg) scale(1.03);
+        border-radius: 60% 40% 70% 30% / 50% 50% 40% 60%;
+      }
+    }
+    .blapu-blob {
+      position: absolute;
+      background: radial-gradient(circle at center, rgba(0, 123, 255, 0.4), rgba(0, 80, 180, 0.6));
+      opacity: 0.5;
+      filter: blur(8px);
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      z-index: 0;
+    }
+    .blob-1 { top: 10%; left: 5%; width: 300px; height: 280px; animation: dance 22s infinite ease-in-out alternate; animation-delay: -2s; opacity: 0.4;}
+    .blob-2 { top: 55%; left: 75%; width: 220px; height: 250px; animation: dance 15s infinite ease-in-out alternate; animation-delay: -7s; opacity: 0.35;}
+    .blob-3 { top: 25%; left: 45%; width: 180px; height: 170px; animation: dance 25s infinite ease-in-out alternate; animation-delay: -12s; opacity: 0.45;}
 
-        @keyframes blapuArmSwing { /* Smooth, simple swing */
-            0%, 100% { transform: rotate(20deg); }
-            50% { transform: rotate(-20deg); }
-        }
+    /* Blapu Animation Keyframes */
+    @keyframes detailedCripWalk {
+      0%   { transform: translateX(-40vw) translateY(0px) rotate(-5deg); }
+      25%  { transform: translateX(0vw) translateY(-15px) rotate(0deg); }
+      50%  { transform: translateX(40vw) translateY(0px) rotate(5deg); }
+      75%  { transform: translateX(0vw) translateY(-10px) rotate(0deg); }
+      100% { transform: translateX(-40vw) translateY(0px) rotate(-5deg); }
+    }
+    @keyframes blapuArmSwing {
+      0%, 100% { transform: rotate(20deg);}
+      50% { transform: rotate(-20deg);}
+    }
+    @keyframes blapuArmSwingR {
+      0%, 100% { transform: rotate(-20deg);}
+      50% { transform: rotate(20deg);}
+    }
+    @keyframes blapuLegSwing {
+      0%, 100% { transform: rotate(-15deg);}
+      50% { transform: rotate(15deg);}
+    }
+    @keyframes blapuLegSwingR {
+      0%, 100% { transform: rotate(15deg);}
+      50% { transform: rotate(-15deg);}
+    }
 
-        @keyframes blapuLegSwing { /* Smooth, simple stride */
-            0%, 100% { transform: rotate(-15deg) translateY(0px); }
-            50% { transform: rotate(15deg) translateY(-5px); } /* Slight lift during forward stride */
-        }
+    /* Blapu Character Blueprint Styles */
+    .character-container {
+      position: absolute;
+      bottom: 1%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 650px;
+      z-index: 1;
+      filter: blur(5px);
+      animation: detailedCripWalk 25s infinite ease-in-out;
+      pointer-events: none;
+      user-select: none;
+    }
+    /* Head */
+    .head {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 250px;
+      background: #1e50ff;
+      border: 3px solid #000;
+      border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%;
+      z-index: 5;
+    }
+    /* Ears */
+    .ear {
+      position: absolute;
+      top: 15px;
+      width: 70px;
+      height: 90px;
+      background: #1e50ff;
+      border: 3px solid #000;
+      z-index: 4;
+    }
+    .ear.left {
+      left: 100px;
+      border-radius: 80% 20% 5% 5% / 100% 20% 5% 5%;
+      transform: rotate(-15deg);
+    }
+    .ear.right {
+      right: 100px;
+      border-radius: 20% 80% 5% 5% / 20% 100% 5% 5%;
+      transform: rotate(15deg);
+    }
+    .ear::after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 50px;
+      background: #ff47b6;
+      border-radius: 50% / 60% 60% 40% 40%;
+    }
+    /* Eyes */
+    .eyes {
+      position: absolute;
+      top: 90px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    .eye {
+      width: 110px;
+      height: 90px;
+      background: #fff;
+      border: 3px solid #000;
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+    }
+    .eye::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -10px;
+      width: 130px;
+      height: 100px;
+      background: #1e50ff;
+      border-bottom: 3px solid #000;
+      border-radius: 50%;
+    }
+    .pupil {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 35px;
+      height: 40px;
+      background: #000;
+      border-radius: 50%;
+    }
+    .pupil::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border-radius: 50%;
+    }
+    /* Lips */
+    .lips {
+      position: absolute;
+      top: 190px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 45px;
+      background: #ff47b6;
+      border: 3px solid #000;
+      border-radius: 30% 30% 50% 50% / 30% 30% 100% 100%;
+    }
+    /* Body */
+    .body {
+      position: absolute;
+      top: 298px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 240px;
+      height: 180px;
+      background: #6d4c41;
+      border: 3px solid #000;
+      border-top: none;
+      border-radius: 10% 10% 20px 20px;
+      z-index: 3;
+    }
+    /* Neck */
+    .neck-line {
+      position: absolute;
+      top: 298px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: #000;
+      z-index: 6;
+    }
+    /* Arms */
+    .arm {
+      position: absolute;
+      top: 310px;
+      width: 60px;
+      height: 130px;
+      background: #6d4c41;
+      border: 3px solid #000;
+      z-index: 2;
+      transform-origin: top center;
+    }
+    .arm.left {
+      left: 70px;
+      border-radius: 30px 10px 10px 30px;
+      animation: blapuArmSwing 3s infinite ease-in-out alternate;
+    }
+    .arm.right {
+      right: 70px;
+      border-radius: 10px 30px 30px 10px;
+      animation: blapuArmSwingR 3s infinite ease-in-out alternate;
+    }
+    /* Hands */
+    .hand {
+      position: absolute;
+      top: 110px;
+      width: 60px;
+      height: 60px;
+      background: #1e50ff;
+      border: 3px solid #000;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    }
+    .arm.left .hand { left: -15px; }
+    .arm.right .hand { right: -15px; }
+    /* Legs */
+    .legs {
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 120px;
+      z-index: 1;
+    }
+    .leg {
+      position: absolute;
+      bottom: 0;
+      width: 120px;
+      height: 120px;
+      background: #bdc3c7;
+      border: 3px solid #000;
+      transform-origin: top center;
+    }
+    .leg.left {
+      left: 0;
+      border-radius: 40px 10px 0 0;
+      animation: blapuLegSwing 2s infinite ease-in-out;
+    }
+    .leg.right {
+      right: 0;
+      border-radius: 10px 40px 0 0;
+      animation: blapuLegSwingR 2s infinite ease-in-out;
+    }
+    /* Shoes */
+    .shoe {
+      position: absolute;
+      bottom: -50px;
+      width: 130px;
+      height: 80px;
+      background-color: #e74c3c;
+      border: 3px solid #000;
+      z-index: 2;
+    }
+    .leg.left .shoe {
+      left: -5px;
+      border-radius: 30px 10px 15px 15px;
+    }
+    .leg.right .shoe {
+      right: -5px;
+      border-radius: 10px 30px 15px 15px;
+    }
+    .shoe::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 25px;
+      background: #fff;
+      border-top: 3px solid #000;
+      border-radius: 0 0 12px 12px;
+    }
+    .shoe::after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 25px;
+      width: 35px;
+      height: 30px;
+      background: #fff;
+      border: 3px solid #000;
+      border-radius: 10px;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            margin: 0;
-            padding: 10px 20px;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            background-color: #0a192f;
-            position: relative;
-        }
+    /* Glass Panel Styles */
+    .glass-panel {
+      width: 90%;
+      max-width: 800px;
+      margin: 40px auto 30px auto;
+      padding: 20px;
+      text-align: center;
+      z-index: 10;
+      position: relative;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px) saturate(140%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25),
+                  inset 0 2px 8px rgba(255, 255, 255, 0.1);
+    }
+    .glass-panel::before {
+      content: '';
+      position: absolute;
+      top: 1px; left: 1px; right: 1px; bottom: 1px;
+      width: calc(100% - 2px); height: calc(100% - 2px);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 1.5rem;
+      z-index: -1;
+      pointer-events: none;
+      box-shadow: inset -4px -4px 12px rgba(255, 255, 255, 0.08),
+                  inset 4px 4px 12px rgba(0, 0, 0, 0.08);
+    }
 
-        #animated-blapu-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            overflow: hidden;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-        }
+    /* Hero Header and Links */
+    .hero-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      gap: 15px;
+    }
+    .hero-header .hero-link, .footer-nav a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: clamp(0.8em, 2.2vw, 0.9em);
+      padding: 10px 15px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2),
+                  inset 1px 1px 1px rgba(255,255,255,0.2),
+                  inset -1px -1px 1px rgba(0,0,0,0.1);
+      transition: all 0.2s ease-out;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+      text-align: center;
+      flex-basis: 130px;
+      flex-grow: 1;
+    }
+    .hero-header .hero-link:hover, .footer-nav a:hover {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3),
+                  inset 1px 1px 1px rgba(255,255,255,0.3),
+                  inset -1px -1px 1px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+      color: #fff;
+    }
+    .hero-header .hero-link:active, .footer-nav a:active {
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2),
+                  inset 1px 1px 2px rgba(0,0,0,0.2);
+      transform: translateY(1px);
+    }
+    .hero-header .blapu-logo-link img {
+      width: clamp(70px, 18vw, 90px);
+      height: clamp(70px, 18vw, 90px);
+      display: block;
+    }
 
-        .blapu-blob {
-            position: absolute;
-            background: radial-gradient(circle at center, rgba(0, 123, 255, 0.4), rgba(0, 80, 180, 0.6));
-            opacity: 0.5;
-            filter: blur(8px);
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-        }
-        .blob-1 { top: 10%; left: 5%; width: 300px; height: 280px; animation: dance 22s infinite ease-in-out alternate; animation-delay: -2s; opacity: 0.4;}
-        .blob-2 { top: 55%; left: 75%; width: 220px; height: 250px; animation: dance 15s infinite ease-in-out alternate; animation-delay: -7s; opacity: 0.35;}
-        .blob-3 { top: 25%; left: 45%; width: 180px; height: 170px; animation: dance 25s infinite ease-in-out alternate; animation-delay: -12s; opacity: 0.45;}
+    h1 {
+      font-size: clamp(1.8em, 5vw, 2.5em);
+      margin-top: 10px;
+      margin-bottom: 15px;
+      color: #f0f0f0;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+    p {
+      font-size: clamp(1em, 3vw, 1.1em);
+      line-height: 1.6;
+      margin-bottom: 25px;
+      color: #e0e0e0;
+    }
 
-        /* --- Blapu Dancer --- */
-        .blapu-dancer, .blapu-dancer * {
-            box-sizing: border-box;
-        }
-        /* Base container size (matches media query for >520px) */
-        .blapu-dancer {
-            position: absolute;
-            bottom: 1%;
-            left: 50%;
-            width: 250px;
-            height: 325px;
-            z-index: -2;
-            animation: detailedCripWalk 25s infinite ease-in-out; /* Slow, smooth walk */
-            filter: blur(6px); /* Adjusted blur for smoother animation visibility */
-        }
+    /* Widgets */
+    .widget-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin-top: 20px;
+      width: 100%;
+    }
+    .widget {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(6px) saturate(100%);
+      -webkit-backdrop-filter: blur(6px) saturate(100%);
+      border-radius: 1rem;
+      padding: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
+                  inset 0 1px 3px rgba(255, 255, 255, 0.08);
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      min-height: 350px;
+    }
+    .widget-swap { min-height: 400px; }
+    .widget iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0.75rem;
+      min-height: 330px;
+    }
+    .widget-swap iframe { min-height: 380px; }
 
-        /* Head relative to .blapu-dancer (250x325px) */
-        /* Original head was 280x250 in a 500x650 container */
-        .blapu-dancer .head {
-            position: absolute;
-            top: 7.7%;     /* 25px / 325px */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 56%;    /* 140px / 250px */
-            height: 38.5%; /* 125px / 325px */
-            background: #1e50ff;
-            border: 2px solid #000;
-            border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%;
-            z-index: 5;
-        }
+    /* Footer Nav */
+    .footer-nav {
+      margin-top: 30px;
+      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+      width: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 15px;
+    }
+    .footer-nav .separator {
+      color: rgba(255,255,255,0.4);
+      align-self: center;
+    }
 
-        /* Ears relative to .head */
-        .blapu-dancer .ear {
-            position: absolute;
-            top: -6%;    /* (7.5px / 125px head height) approx - but relative to head's top: -7.5px / 125px = -6% of head height*/
-                         /* More robust: fixed px for small details like ear overlap */
-            top: -10px; /* Adjusted fixed px for overlap based on new head height */
-            width: 25%;   /* 35px / 140px head width */
-            height: 36%;  /* 45px / 125px head height */
-            background: #1e50ff;
-            border: 2px solid #000;
-            z-index: 4; /* Below head's main plane, but above body */
-        }
-        .blapu-dancer .ear.left {
-            left: 15%; /* Adjusted from 50px/280px of original head */
-            border-radius: 80% 20% 5% 5% / 100% 20% 5% 5%;
-            transform: rotate(-15deg);
-        }
-        .blapu-dancer .ear.right {
-            right: 15%; /* Adjusted */
-            border-radius: 20% 80% 5% 5% / 20% 100% 5% 5%;
-            transform: rotate(15deg);
-        }
-        /* Inner ear relative to .ear */
-        .blapu-dancer .ear::after {
-            content: '';
-            position: absolute;
-            top: 16.6%; /* 7.5px / 45px ear height */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 57%;  /* 20px / 35px ear width */
-            height: 55.5%; /* 25px / 45px ear height */
-            background: #ff47b6;
-            border-radius: 50% / 60% 60% 40% 40%;
-        }
-
-        /* Eyes container relative to .head */
-        .blapu-dancer .eyes {
-            position: absolute;
-            top: 36%;    /* 45px / 125px head height */
-            width: 100%;
-            display: flex;
-            justify-content: center; /* This will space out the eyes */
-            gap: 3.5%;    /* (2.5px / 140px head width) * 2 for gap on each side of center line */
-        }
-        /* Eye relative to .eyes container (flex item) */
-        .blapu-dancer .eye {
-            width: 39%;   /* 55px / 140px head width (approx, as it's a flex item) */
-            height: 100%; /* Relative to its implicit height or parent if fixed H */
-                           /* Let's fix eye height relative to head's height */
-            height: 36%;
-            background: #fff; /* Sclera */
-            border: 2px solid #000;
-            border-radius: 50%;
-            position: relative;
-            overflow: visible; /* Ensure everything is visible for debugging */
-        }
-
-        /* Simplified Eyelid Shape styling */
-        .blapu-dancer .eyelid-shape {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 30%; /* Covers only top 30% of the eye */
-            background-color: #1e50ff; /* Blapu's blue */
-            /* No border-bottom for ultra simplicity, or a very thin one if needed */
-            /* border-bottom: 1px solid #000; */
-            /* Simple curve or even straight if that helps visibility first */
-            border-radius: 0 0 20% 20% / 0 0 100% 100%;
-            z-index: 1; /* Above sclera, below pupil */
-        }
-
-        /* Pupil relative to .eye - Simplified and positioned for guaranteed visibility */
-        .blapu-dancer .pupil {
-            position: absolute;
-            top: 30%; /* Position from top */
-            left: 30%; /* Position from left */
-            width: 40%;  /* Explicit size for pupil */
-            height: 50%; /* Explicit size for pupil */
-            background: #000;
-            border-radius: 50%;
-            z-index: 2; /* Ensure pupil is above the simple-eyelid */
-        }
-        /* Sparkle relative to .pupil - Restored */
-        .blapu-dancer .pupil::after {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: 22.8%;
-            width: 28.5%;
-            height: 25%;
-            background: #fff;
-            border-radius: 50%;
-        }
-        }
-
-        /* Lips relative to .head */
-        .blapu-dancer .lips {
-            position: absolute;
-            top: 76%;     /* 95px / 125px head height */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 71.4%;  /* 100px / 140px head width */
-            height: 18%;   /* 22.5px / 125px head height */
-            background: #ff47b6;
-            border: 2px solid #000;
-            border-radius: 30% 30% 50% 50% / 30% 30% 100% 100%;
-        }
-
-        /* Neck relative to .blapu-dancer container */
-        .blapu-dancer .neck-line {
-            position: absolute;
-            top: 45.8%;    /* 149px / 325px dancer height */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20%;   /* 50px / 250px dancer width */
-            height: 1px; /* Min 1px */
-            background: #000;
-            z-index: 6;
-        }
-
-        /* Body/Shirt relative to .blapu-dancer container */
-        .blapu-dancer .body-shirt {
-            position: absolute;
-            top: 45.8%;    /* 149px / 325px dancer height */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 48%;  /* 120px / 250px dancer width */
-            height: 27.7%; /* 90px / 325px dancer height */
-            background: #6d4c41;
-            border: 2px solid #000;
-            border-top: none;
-            border-radius: 5% 5% 10px 10px; /* Radius needs px for small values */
-            z-index: 3;
-        }
-
-        /* Arms relative to .blapu-dancer container */
-        .blapu-dancer .arm {
-            position: absolute;
-            top: 47.7%;    /* 155px / 325px dancer height */
-            width: 12%;   /* 30px / 250px dancer width */
-            height: 20%;  /* 65px / 325px dancer height */
-            background: #6d4c41;
-            border: 2px solid #000;
-            z-index: 2;
-            animation: blapuArmSwing 3s infinite ease-in-out alternate; /* Name, duration, timing, direction */
-            transform-origin: center 8%;
-        }
-        .blapu-dancer .arm.left {
-            left: 14%;
-            border-radius: 15px 5px 5px 15px;
-            animation-delay: -0.15s; /* Slightly adjusted delay for 3s duration */
-        }
-        .blapu-dancer .arm.right {
-            right: 14%;
-            border-radius: 5px 15px 15px 5px;
-            /* No delay for one arm, or a positive delay if preferred */
-        }
-        /* Hand relative to .arm */
-        .blapu-dancer .hand {
-            position: absolute;
-            top: 84.6%;     /* 55px / 65px arm height */
-            width: 100%;   /* 30px / 30px arm width */
-            height: 46%;  /* 30px / 65px arm height */
-            background: #1e50ff;
-            border: 2px solid #000;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-        }
-        .blapu-dancer .arm.left .hand { left: -25%; /* -7.5px / 30px arm width */ }
-        .blapu-dancer .arm.right .hand { right: -25%; /* -7.5px / 30px arm width */ }
-
-        /* Legs container relative to .blapu-dancer container */
-        .blapu-dancer .legs-container {
-            position: absolute;
-            top: 70.7%; /* 230px / 325px dancer height */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 56%;  /* 140px / 250px dancer width */
-            height: 18.5%; /* 60px / 325px dancer height (pants part) */
-            z-index: 1;
-        }
-        /* Leg relative to .legs-container */
-        .blapu-dancer .leg {
-            position: absolute;
-            bottom: 0;
-            width: 42.8%;   /* 60px / 140px legs-container width */
-            height: 100%;  /* 60px / 60px legs-container height */
-            background: #bdc3c7;
-            border: 2px solid #000;
-            animation: blapuLegSwing 2s infinite ease-in-out; /* Name, duration, timing */
-            transform-origin: center top;
-        }
-        .blapu-dancer .leg.left {
-            left: 0;
-            border-radius: 20px 5px 0 0;
-            animation-delay: -0.1s; /* Staggered start for left leg */
-        }
-        .blapu-dancer .leg.right {
-            right: 0;
-            border-radius: 5px 20px 0 0;
-            /* Right leg starts without delay, creating alternating motion */
-        }
-
-        /* Shoe relative to .leg */
-        .blapu-dancer .shoe {
-            position: absolute;
-            bottom: -41.6%; /* -25px / 60px leg height */
-            width: 108.3%;   /* 65px / 60px leg width */
-            height: 66.6%;  /* 40px / 60px leg height */
-            background-color: #e74c3c;
-            border: 2px solid #000;
-            z-index: 2;
-        }
-        .blapu-dancer .leg.left .shoe {
-            left: -4.1%;  /* -2.5px / 60px leg width */
-            border-radius: 15px 5px 7.5px 7.5px;
-        }
-        .blapu-dancer .leg.right .shoe {
-            right: -4.1%; /* -2.5px / 60px leg width */
-            border-radius: 5px 15px 7.5px 7.5px;
-        }
-        /* Sole relative to .shoe */
-        .blapu-dancer .shoe::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 31.25%; /* 12.5px / 40px shoe height */
-            background: #fff;
-            border-top: 2px solid #000;
-            border-radius: 0 0 6px 6px;
-        }
-        /* Lace area relative to .shoe */
-        .blapu-dancer .shoe::after {
-            content: '';
-            position: absolute;
-            top: 18.75%;    /* 7.5px / 40px shoe height */
-            left: 19.2%;  /* 12.5px / 65px shoe width */
-            width: 26.9%; /* 17.5px / 65px shoe width */
-            height: 37.5%;  /* 15px / 40px shoe height */
-            background: #fff;
-            border: 2px solid #000;
-            border-radius: 5px;
-        }
-        /* --- End Blapu Dancer CSS --- */
-
-        .glass-panel {
-            width: 90%;
-            max-width: 800px;
-            margin-top: 10px;
-            margin-bottom: 30px;
-            padding: 20px;
-            text-align: center;
-            z-index: 1;
-            position: relative;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px) saturate(140%);
-            -webkit-backdrop-filter: blur(10px) saturate(140%);
-            border-radius: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25),
-                        inset 0 2px 8px rgba(255, 255, 255, 0.1);
-        }
-
-        .glass-panel::before {
-            content: '';
-            position: absolute;
-            top: 1px; left: 1px; right: 1px; bottom: 1px;
-            width: calc(100% - 2px); height: calc(100% - 2px);
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 1.5rem;
-            z-index: -1;
-            pointer-events: none;
-            box-shadow: inset -4px -4px 12px rgba(255, 255, 255, 0.08),
-                        inset 4px 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .hero-header .hero-link, .footer-nav a {
-            color: #e0e0e0;
-            text-decoration: none;
-            font-size: clamp(0.8em, 2.2vw, 0.9em);
-            padding: 10px 15px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2),
-                        inset 1px 1px 1px rgba(255,255,255,0.2),
-                        inset -1px -1px 1px rgba(0,0,0,0.1);
-            transition: all 0.2s ease-out;
-            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
-        }
-
-        .hero-header .hero-link:hover, .footer-nav a:hover {
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3),
-                        inset 1px 1px 1px rgba(255,255,255,0.3),
-                        inset -1px -1px 1px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
-            color: #fff;
-        }
-        .hero-header .hero-link:active, .footer-nav a:active {
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2),
-                        inset 1px 1px 2px rgba(0,0,0,0.2);
-            transform: translateY(1px);
-        }
-
-        .hero-header .hero-link {
-            text-align: center;
-            flex-basis: 130px;
-            flex-grow: 1;
-        }
-
-        .hero-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            gap: 15px;
-        }
-
-        .hero-header .blapu-logo-link img {
-            width: clamp(70px, 18vw, 90px);
-            height: clamp(70px, 18vw, 90px);
-            display: block;
-        }
-
-        h1 {
-            font-size: clamp(1.8em, 5vw, 2.5em);
-            margin-top: 10px;
-            margin-bottom: 15px;
-            color: #f0f0f0;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        p {
-            font-size: clamp(1em, 3vw, 1.1em);
-            line-height: 1.6;
-            margin-bottom: 25px;
-            color: #e0e0e0;
-        }
-
-        .widget-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        .widget {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(6px) saturate(100%);
-            -webkit-backdrop-filter: blur(6px) saturate(100%);
-            border-radius: 1rem;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
-                        inset 0 1px 3px rgba(255, 255, 255, 0.08);
-            width: 100%;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        .widget-chart { min-height: 350px; }
-        .widget-swap { min-height: 400px; }
-
-        .widget iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 0.75rem;
-        }
-
-        #vestige-chart-iframe { min-height: 330px; }
-        #vestige-swap-iframe { min-height: 380px; }
-
-        .footer-nav {
-            margin-top: 30px;
-            padding: 10px 15px;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 10px;
-            width: auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px 15px;
-        }
-
-        .footer-nav .separator {
-            color: rgba(255,255,255,0.4);
-            align-self: center;
-        }
-
-        @media (max-width: 520px) {
-            .hero-header {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-            .hero-header .blapu-logo-link { order: 1; }
-            .hero-header .hero-link { order: 2; flex-basis: auto; text-align: center; width: 90%; }
-            .hero-header .hero-link.pact-link { order: 0; }
-            .hero-header .hero-link.powapp-link { order: 2; }
-
-            .footer-nav {
-                flex-direction: column;
-                align-items: center;
-                gap: 8px;
-            }
-            .footer-nav .separator { display: none; }
-            .blapu-dancer {
-                width: 180px;
-                height: 234px;
-                filter: blur(7px); /* Adjusted responsive blur */
-            }
-        }
-         @media (max-width: 380px) {
-            .blapu-dancer {
-                width: 150px;
-                height: 195px;
-                filter: blur(8px); /* Adjusted responsive blur */
-            }
-         }
-
-    </style>
+    /* Responsive */
+    @media (max-width: 700px) {
+      .character-container {
+        width: 320px;
+        height: 416px;
+        filter: blur(7px);
+      }
+    }
+    @media (max-width: 520px) {
+      .hero-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+      .footer-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .footer-nav .separator { display: none; }
+      .character-container {
+        width: 200px;
+        height: 260px;
+        filter: blur(8px);
+      }
+    }
+    @media (max-width: 380px) {
+      .character-container {
+        width: 150px;
+        height: 195px;
+        filter: blur(9px);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div id="animated-blapu-bg">
-        <div class="blapu-blob blob-1"></div>
-        <div class="blapu-blob blob-2"></div>
-        <div class="blapu-blob blob-3"></div>
-
-        <div class="blapu-dancer">
-            <!-- New Detailed Blapu HTML Structure -->
-            <div class="ear left"></div>
-            <div class="ear right"></div>
-            <div class="head">
-                <div class="eyes">
-                    <div class="eye">
-                        <div class="eyelid-shape"></div> <!-- Re-introducing simple eyelid -->
-                        <div class="pupil"></div>
-                    </div>
-                    <div class="eye">
-                        <div class="eyelid-shape"></div> <!-- Re-introducing simple eyelid -->
-                        <div class="pupil"></div>
-                    </div>
-                </div>
-                <div class="lips"></div>
-            </div>
-            <div class="neck-line"></div>
-            <div class="arm left">
-                <div class="hand"></div>
-            </div>
-            <div class="arm right">
-                <div class="hand"></div>
-            </div>
-            <div class="body-shirt"></div>
-            <div class="legs-container">
-                <div class="leg left">
-                    <div class="shoe"></div>
-                </div>
-                <div class="leg right">
-                    <div class="shoe"></div>
-                </div>
-            </div>
-            <!-- End New Detailed Blapu HTML Structure -->
+  <!-- Animated Blobs and Blapu Character -->
+  <div id="animated-blapu-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;overflow:hidden;">
+    <div class="blapu-blob blob-1"></div>
+    <div class="blapu-blob blob-2"></div>
+    <div class="blapu-blob blob-3"></div>
+    <!-- Blapu Character -->
+    <div class="character-container">
+      <div class="ear left"></div>
+      <div class="ear right"></div>
+      <div class="head">
+        <div class="eyes">
+          <div class="eye"><div class="pupil"></div></div>
+          <div class="eye"><div class="pupil"></div></div>
         </div>
+        <div class="lips"></div>
+      </div>
+      <div class="neck-line"></div>
+      <div class="arm left"><div class="hand"></div></div>
+      <div class="arm right"><div class="hand"></div></div>
+      <div class="body"></div>
+      <div class="legs">
+        <div class="leg left"><div class="shoe"></div></div>
+        <div class="leg right"><div class="shoe"></div></div>
+      </div>
     </div>
+  </div>
 
-    <div class="glass-panel">
-        <div class="hero-header">
-            <a href="https://app.pact.fi/pool/2966821814?chart=Volume&period=W" target="_blank" rel="noopener noreferrer" class="hero-link pact-link">Add ALGO/BLAPU LP on Pact.fi (Earn Rewards!)</a>
-            <a href="index.html" class="blapu-logo-link" aria-label="Blapu Main Site">
-                <img src="assets/images/blapu-logo.png" alt="Blapu Logo">
-            </a>
-            <a href="https://powapp.xyz/" target="_blank" rel="noopener noreferrer" class="hero-link powapp-link">We want > TOP 35 LP by TVL on PowApp</a>
-        </div>
-
-        <h1>Welcome to the New Blapu Interface!</h1>
-        <p>
-            This simplified view focuses on providing you with direct access to key Blapu information and trading tools via Vestige.
-            Below you'll find the Blapu asset chart and a swap widget to easily trade.
-        </p>
-
-        <div class="widget-container">
-            <div class="widget widget-chart">
-                <iframe
-                    id="vestige-chart-iframe"
-                    title="Vestige Chart Widget"
-                    aria-label="Vestige Chart Widget for Blapu"
-                    src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=true&currency=USD"
-                ></iframe>
-            </div>
-            <div class="widget widget-swap">
-                <iframe
-                    id="vestige-swap-iframe"
-                    title="Vestige Swap Widget"
-                    aria-label="Vestige Swap Widget for Blapu/ALGO"
-                    src="https://vestige.fi/widget/swap?asset_in=0&asset_out=401752010"
-                ></iframe>
-            </div>
-        </div>
-         <div class="footer-nav">
-            <a href="index.html" id="go-to-old-ui">Old UI</a>
-            <span class="separator">&bull;</span>
-            <a href="https://x.com/BlapuGANG" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
-            <span class="separator">&bull;</span>
-            <a href="https://t.me/BlapuGANG2" target="_blank" rel="noopener noreferrer">Telegram</a>
-            <span class="separator">&bull;</span>
-            <a href="https://dexscreener.com/algorand/amznifsqxyoicnkvqyzxqy5c3odqv7auanmgbjkv3guhhsblhwnl4ilfzm" target="_blank" rel="noopener noreferrer">DEX Screener</a>
-        </div>
+  <!-- Main Glass Panel Content -->
+  <div class="glass-panel">
+    <div class="hero-header">
+      <a href="https://app.pact.fi/pool/2966821814?chart=Volume&period=W" target="_blank" rel="noopener noreferrer" class="hero-link pact-link">Add ALGO/BLAPU LP on Pact.fi (Earn Rewards!)</a>
+      <a href="index.html" class="blapu-logo-link" aria-label="Blapu Main Site">
+        <img src="assets/images/blapu-logo.png" alt="Blapu Logo">
+      </a>
+      <a href="https://powapp.xyz/" target="_blank" rel="noopener noreferrer" class="hero-link powapp-link">We want &gt; TOP 35 LP by TVL on PowApp</a>
     </div>
-
-    <script>
-        const goToOldUiButton = document.getElementById('go-to-old-ui');
-
-        function setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        }
-
-        if (goToOldUiButton) {
-            goToOldUiButton.addEventListener('click', (event) => {
-                event.preventDefault();
-                setCookie('siteChoice', 'old', 30);
-                window.location.href = 'index.html';
-            });
-        }
-    </script>
+    <h1>Welcome to the New Blapu Interface!</h1>
+    <p>
+      This simplified view focuses on providing you with direct access to key Blapu information and trading tools via Vestige.<br>
+      Below you'll find the Blapu asset chart and a swap widget to easily trade.
+    </p>
+    <div class="widget-container">
+      <div class="widget widget-chart">
+        <iframe
+          id="vestige-chart-iframe"
+          title="Vestige Chart Widget"
+          aria-label="Vestige Chart Widget for Blapu"
+          src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=true&currency=USD"
+        ></iframe>
+      </div>
+      <div class="widget widget-swap">
+        <iframe
+          id="vestige-swap-iframe"
+          title="Vestige Swap Widget"
+          aria-label="Vestige Swap Widget for Blapu/ALGO"
+          src="https://vestige.fi/widget/swap?asset_in=0&asset_out=401752010"
+        ></iframe>
+      </div>
+    </div>
+    <div class="footer-nav">
+      <a href="index.html" id="go-to-old-ui">Old UI</a>
+      <span class="separator">&bull;</span>
+      <a href="https://x.com/BlapuGANG" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+      <span class="separator">&bull;</span>
+      <a href="https://t.me/BlapuGANG2" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <span class="separator">&bull;</span>
+      <a href="https://dexscreener.com/algorand/amznifsqxyoicnkvqyzxqy5c3odqv7auanmgbjkv3guhhsblhwnl4ilfzm" target="_blank" rel="noopener noreferrer">DEX Screener</a>
+    </div>
+  </div>
+  <script>
+    const goToOldUiButton = document.getElementById('go-to-old-ui');
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+    if (goToOldUiButton) {
+      goToOldUiButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        setCookie('siteChoice', 'old', 30);
+        window.location.href = 'index.html';
+      });
+    }
+  </script>
 </body>
 </html>
