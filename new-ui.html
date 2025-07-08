@@ -160,49 +160,51 @@
             width: 39%;   /* 55px / 140px head width (approx, as it's a flex item) */
             height: 100%; /* Relative to its implicit height or parent if fixed H */
                            /* Let's fix eye height relative to head's height */
-            height: 36%; /* 45px / 125px head height */
+            height: 36%;
             background: #fff; /* Sclera */
             border: 2px solid #000;
             border-radius: 50%;
             position: relative;
-            overflow: hidden; /* Eyelid is child, should be contained/clipped by this if it exceeds eye bounds */
+            overflow: visible; /* Ensure everything is visible for debugging */
         }
 
-        /* New Eyelid Shape styling */
+        /* Simplified Eyelid Shape styling */
         .blapu-dancer .eyelid-shape {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 45%; /* Covers slightly less than top half */
+            height: 30%; /* Covers only top 30% of the eye */
             background-color: #1e50ff; /* Blapu's blue */
-            border-bottom: 2px solid #000;
-            border-radius: 0 0 50% 50% / 0 0 100% 100%; /* Adjusted for slightly less height */
-            z-index: 1;
+            /* No border-bottom for ultra simplicity, or a very thin one if needed */
+            /* border-bottom: 1px solid #000; */
+            /* Simple curve or even straight if that helps visibility first */
+            border-radius: 0 0 20% 20% / 0 0 100% 100%;
+            z-index: 1; /* Above sclera, below pupil */
         }
 
-        /* Pupil relative to .eye */
+        /* Pupil relative to .eye - Simplified and positioned for guaranteed visibility */
         .blapu-dancer .pupil {
             position: absolute;
-            bottom: 12%; /* Adjusted to be well within the lower ~55% */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 25%;  /* Slightly smaller pupil */
-            height: 30%; /* Slightly smaller pupil */
+            top: 30%; /* Position from top */
+            left: 30%; /* Position from left */
+            width: 40%;  /* Explicit size for pupil */
+            height: 50%; /* Explicit size for pupil */
             background: #000;
             border-radius: 50%;
-            z-index: 2;
+            z-index: 2; /* Ensure pupil is above the simple-eyelid */
         }
-        /* Sparkle relative to .pupil */
+        /* Sparkle relative to .pupil - Restored */
         .blapu-dancer .pupil::after {
             content: '';
             position: absolute;
-            top: 20%;      /* 4px / 20px pupil height */
-            left: 22.8%;   /* 4px / 17.5px pupil width */
-            width: 28.5%;  /* 5px / 17.5px pupil width */
-            height: 25%;   /* 5px / 20px pupil height */
+            top: 20%;
+            left: 22.8%;
+            width: 28.5%;
+            height: 25%;
             background: #fff;
             border-radius: 50%;
+        }
         }
 
         /* Lips relative to .head */
@@ -551,11 +553,11 @@
             <div class="head">
                 <div class="eyes">
                     <div class="eye">
-                        <div class="eyelid-shape"></div>
+                        <div class="eyelid-shape"></div> <!-- Re-introducing simple eyelid -->
                         <div class="pupil"></div>
                     </div>
                     <div class="eye">
-                        <div class="eyelid-shape"></div>
+                        <div class="eyelid-shape"></div> <!-- Re-introducing simple eyelid -->
                         <div class="pupil"></div>
                     </div>
                 </div>
