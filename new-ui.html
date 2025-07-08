@@ -29,7 +29,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 10px 20px; /* Reduced top/bottom body padding, more specific margin on glass-panel */
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -65,17 +65,16 @@
         .blob-2 { top: 60%; left: 70%; width: 180px; height: 200px; animation-duration: 12s; animation-delay: -5s; opacity: 0.5;}
         .blob-3 { top: 30%; left: 40%; width: 150px; height: 140px; animation-duration: 20s; animation-delay: -10s; opacity: 0.65;}
 
-
         .glass-panel {
             width: 90%;
             max-width: 800px;
-            margin-top: 30px;
+            margin-top: 10px; /* Reduced top margin */
             margin-bottom: 30px;
             padding: 20px;
             text-align: center;
             z-index: 1;
 
-            position: relative; /* Needed for ::before pseudo-element */
+            position: relative;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px) saturate(160%);
             -webkit-backdrop-filter: blur(12px) saturate(160%);
@@ -92,9 +91,8 @@
             left: 1px;
             right: 1px;
             bottom: 1px;
-            /* Corrected width and height for ::before if parent has padding */
-            width: calc(100% - 2px); /* Adjust if parent padding affects this */
-            height: calc(100% - 2px); /* Adjust if parent padding affects this */
+            width: calc(100% - 2px);
+            height: calc(100% - 2px);
             background: rgba(255, 255, 255, 0.05);
             border-radius: 1.5rem;
             z-index: -1;
@@ -103,26 +101,33 @@
                         inset 5px 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .info-links {
+        .hero-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-around; /* Gives some space around items */
+            flex-wrap: wrap; /* Allow wrapping on small screens */
             margin-bottom: 20px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05); /* Subtle background for links area */
-            border-radius: 0.75rem;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            gap: 10px; /* Gap between items when they wrap or are side-by-side */
         }
 
-        .info-links p { /* Using p for better spacing and semantics */
-            margin: 8px 0;
+        .hero-header .blapu-logo-link img { /* Adjusted to target img within a potential link */
+            width: clamp(60px, 15vw, 80px); /* Slightly smaller logo in this layout */
+            height: clamp(60px, 15vw, 80px);
+            display: block; /* Remove extra space below image */
         }
 
-        .info-links a {
-            color: #cce7ff; /* Light blue, stands out a bit */
+        .hero-header .hero-link {
+            color: #cce7ff;
             text-decoration: none;
-            font-size: clamp(0.9em, 2.5vw, 1em);
+            font-size: clamp(0.8em, 2.2vw, 0.9em); /* Slightly smaller font for these links */
             transition: color 0.3s ease, text-shadow 0.3s ease;
+            padding: 5px;
+            text-align: center;
+            flex-basis: 120px; /* Give some base width to links to control wrapping */
+            flex-grow: 1;
         }
 
-        .info-links a:hover {
+        .hero-header .hero-link:hover {
             color: #ffffff;
             text-shadow: 0 0 5px rgba(255,255,255,0.7);
         }
@@ -130,12 +135,13 @@
 
         h1 {
             font-size: clamp(1.8em, 5vw, 2.5em);
+            margin-top: 10px; /* Add some space above H1 if hero items wrapped */
             margin-bottom: 15px;
             color: #f0f0f0;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        p { /* General paragraph styling */
+        p {
             font-size: clamp(1em, 3vw, 1.1em);
             line-height: 1.6;
             margin-bottom: 25px;
@@ -164,12 +170,12 @@
             position: relative;
         }
 
-        .widget-chart { /* Class for chart widget */
+        .widget-chart {
              min-height: 350px;
         }
 
-        .widget-swap { /* Class for swap widget, making it taller */
-            min-height: 400px; /* Increased from 350px */
+        .widget-swap {
+            min-height: 400px;
         }
 
         .widget iframe {
@@ -179,12 +185,13 @@
             border-radius: 0.75rem;
         }
 
-        /* Specific iframe min-heights to ensure content visibility */
         #vestige-chart-iframe {
             min-height: 330px;
+            aria-label: "Vestige Chart Widget for Blapu"; /* Added ARIA label */
         }
         #vestige-swap-iframe {
-            min-height: 380px; /* Increased by 50px from 330px */
+            min-height: 380px;
+            aria-label: "Vestige Swap Widget for Blapu/ALGO"; /* Added ARIA label */
         }
 
         .footer-nav {
@@ -209,6 +216,29 @@
             background-color: rgba(255, 255, 255, 0.2);
             color: #f0f0f0;
         }
+        /* Media query for very small screens if Link-Logo-Link needs to stack */
+        @media (max-width: 420px) {
+            .hero-header {
+                flex-direction: column; /* Stack items vertically */
+                align-items: center;
+                gap: 15px; /* Increase gap for vertical stacking */
+            }
+            .hero-header .blapu-logo-link {
+                order: 1; /* Logo in the middle of stacked items if desired, or adjust order */
+            }
+            .hero-header .hero-link {
+                order: 2; /* Links below logo */
+                flex-basis: auto; /* Allow full width */
+                text-align: center;
+            }
+            /* Ensure the Pact.fi link is distinct if stacking causes reordering */
+            .hero-header .hero-link.pact-link {
+                order: 0; /* Pact link first if stacked */
+            }
+             .hero-header .hero-link.powapp-link {
+                order: 2; /* PowApp link last if stacked */
+            }
+        }
 
     </style>
 </head>
@@ -220,11 +250,12 @@
     </div>
 
     <div class="glass-panel">
-        <img src="assets/images/blapu-logo.png" alt="Blapu Logo" style="width: clamp(80px, 20vw, 100px); height: clamp(80px, 20vw, 100px); margin-bottom: 10px;">
-
-        <div class="info-links">
-            <p><a href="https://app.pact.fi/pool/2966821814?chart=Volume&period=W" target="_blank" rel="noopener noreferrer">Add ALGO/BLAPU LP on Pact.fi (Earn Rewards!)</a></p>
-            <p><a href="https://powapp.xyz/" target="_blank" rel="noopener noreferrer">View LP Leaderboard on PowApp</a></p>
+        <div class="hero-header">
+            <a href="https://app.pact.fi/pool/2966821814?chart=Volume&period=W" target="_blank" rel="noopener noreferrer" class="hero-link pact-link">Add ALGO/BLAPU LP on Pact.fi (Earn Rewards!)</a>
+            <a href="index.html" class="blapu-logo-link" aria-label="Blapu Main Site"> <!-- Optional: Link logo to main site or remove <a> if just image -->
+                <img src="assets/images/blapu-logo.png" alt="Blapu Logo">
+            </a>
+            <a href="https://powapp.xyz/" target="_blank" rel="noopener noreferrer" class="hero-link powapp-link">View LP Leaderboard on PowApp</a>
         </div>
 
         <h1>Welcome to the New Blapu Interface!</h1>
@@ -241,7 +272,7 @@
                     src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=true&currency=USD"
                 ></iframe>
             </div>
-            <div class="widget widget-swap"> <!-- Added class for specific styling -->
+            <div class="widget widget-swap">
                 <iframe
                     id="vestige-swap-iframe"
                     title="Vestige Swap Widget"
