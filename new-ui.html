@@ -95,10 +95,10 @@
             left: 50%;
             width: 225px; /* Increased by ~50% from 150px */
             height: 300px;/* Increased by ~50% from 200px */
-            z-index: -3; /* Furthest back, behind blobs */
+            z-index: -2; /* Same plane as blobs, behind glass */
             animation: detailedCripWalk 15s infinite linear;
             transform-style: preserve-3d;
-            filter: blur(1px); /* Slight blur as it's in far background */
+            filter: blur(4px); /* Increased blur for a more hazy effect */
         }
 
         .dancer-head {
@@ -498,13 +498,13 @@
             .footer-nav .separator { display: none; }
             .blapu-dancer {
                 width: 180px; height: 240px; /* Adjusted responsive dancer size */
-                filter: blur(2px); /* Slightly more blur for smaller dancer */
+                filter: blur(5px); /* Increased blur for smaller dancer */
             }
         }
          @media (max-width: 380px) { /* For very small screens */
             .blapu-dancer {
                 width: 150px; height: 200px;
-                 filter: blur(2.5px);
+                 filter: blur(6px); /* Increased blur for very small dancer */
             }
          }
 
