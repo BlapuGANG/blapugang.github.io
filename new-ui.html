@@ -29,7 +29,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 10px 20px; /* Reduced top/bottom body padding, more specific margin on glass-panel */
+            padding: 10px 20px;
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -68,7 +68,7 @@
         .glass-panel {
             width: 90%;
             max-width: 800px;
-            margin-top: 10px; /* Reduced top margin */
+            margin-top: 10px;
             margin-bottom: 30px;
             padding: 20px;
             text-align: center;
@@ -104,26 +104,26 @@
         .hero-header {
             display: flex;
             align-items: center;
-            justify-content: space-around; /* Gives some space around items */
-            flex-wrap: wrap; /* Allow wrapping on small screens */
+            justify-content: space-around;
+            flex-wrap: wrap;
             margin-bottom: 20px;
-            gap: 10px; /* Gap between items when they wrap or are side-by-side */
+            gap: 10px;
         }
 
-        .hero-header .blapu-logo-link img { /* Adjusted to target img within a potential link */
-            width: clamp(60px, 15vw, 80px); /* Slightly smaller logo in this layout */
+        .hero-header .blapu-logo-link img {
+            width: clamp(60px, 15vw, 80px);
             height: clamp(60px, 15vw, 80px);
-            display: block; /* Remove extra space below image */
+            display: block;
         }
 
         .hero-header .hero-link {
             color: #cce7ff;
             text-decoration: none;
-            font-size: clamp(0.8em, 2.2vw, 0.9em); /* Slightly smaller font for these links */
+            font-size: clamp(0.8em, 2.2vw, 0.9em);
             transition: color 0.3s ease, text-shadow 0.3s ease;
             padding: 5px;
             text-align: center;
-            flex-basis: 120px; /* Give some base width to links to control wrapping */
+            flex-basis: 120px;
             flex-grow: 1;
         }
 
@@ -132,10 +132,9 @@
             text-shadow: 0 0 5px rgba(255,255,255,0.7);
         }
 
-
         h1 {
             font-size: clamp(1.8em, 5vw, 2.5em);
-            margin-top: 10px; /* Add some space above H1 if hero items wrapped */
+            margin-top: 10px;
             margin-bottom: 15px;
             color: #f0f0f0;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
@@ -187,56 +186,73 @@
 
         #vestige-chart-iframe {
             min-height: 330px;
-            aria-label: "Vestige Chart Widget for Blapu"; /* Added ARIA label */
+            /* aria-label added directly in HTML */
         }
         #vestige-swap-iframe {
             min-height: 380px;
-            aria-label: "Vestige Swap Widget for Blapu/ALGO"; /* Added ARIA label */
+            /* aria-label added directly in HTML */
         }
 
         .footer-nav {
             margin-top: 30px;
-            padding: 10px;
+            padding: 10px 15px; /* Adjusted padding for more space */
             background: rgba(0, 0, 0, 0.25);
             border-radius: 10px;
             width: auto;
-            display: inline-block;
+            display: flex; /* Use flexbox for footer links */
+            flex-wrap: wrap; /* Allow wrapping */
+            justify-content: center; /* Center links */
+            gap: 10px 15px; /* Row and column gap */
         }
 
-        .footer-nav a {
+        .footer-nav a, .footer-nav span { /* Include span for separator styling */
             color: #fff;
             text-decoration: none;
-            padding: 8px 15px;
+            padding: 8px 0; /* Adjusted padding, horizontal handled by gap */
             border-radius: 5px;
             transition: background-color 0.3s ease, color 0.3s ease;
-            font-size: clamp(0.9em, 2.5vw, 1em);
+            font-size: clamp(0.85em, 2.5vw, 0.95em); /* Slightly smaller footer links */
         }
 
         .footer-nav a:hover {
             background-color: rgba(255, 255, 255, 0.2);
             color: #f0f0f0;
         }
-        /* Media query for very small screens if Link-Logo-Link needs to stack */
+
+        .footer-nav .separator { /* Styling for separators */
+            color: rgba(255,255,255,0.5);
+            margin: 0 5px; /* Add some space around separators if not using gap effectively */
+            display: inline-block; /* Needed if not flex items themselves */
+        }
+
+
         @media (max-width: 420px) {
             .hero-header {
-                flex-direction: column; /* Stack items vertically */
+                flex-direction: column;
                 align-items: center;
-                gap: 15px; /* Increase gap for vertical stacking */
+                gap: 15px;
             }
             .hero-header .blapu-logo-link {
-                order: 1; /* Logo in the middle of stacked items if desired, or adjust order */
+                order: 1;
             }
             .hero-header .hero-link {
-                order: 2; /* Links below logo */
-                flex-basis: auto; /* Allow full width */
+                order: 2;
+                flex-basis: auto;
                 text-align: center;
             }
-            /* Ensure the Pact.fi link is distinct if stacking causes reordering */
             .hero-header .hero-link.pact-link {
-                order: 0; /* Pact link first if stacked */
+                order: 0;
             }
              .hero-header .hero-link.powapp-link {
-                order: 2; /* PowApp link last if stacked */
+                order: 2;
+            }
+            .footer-nav {
+                flex-direction: column; /* Stack footer links vertically on very small screens */
+                align-items: center;
+                gap: 5px; /* Reduce gap for vertical stacking */
+            }
+            .footer-nav .separator {
+                display: none; /* Hide separators when stacked vertically */
             }
         }
 
@@ -252,7 +268,7 @@
     <div class="glass-panel">
         <div class="hero-header">
             <a href="https://app.pact.fi/pool/2966821814?chart=Volume&period=W" target="_blank" rel="noopener noreferrer" class="hero-link pact-link">Add ALGO/BLAPU LP on Pact.fi (Earn Rewards!)</a>
-            <a href="index.html" class="blapu-logo-link" aria-label="Blapu Main Site"> <!-- Optional: Link logo to main site or remove <a> if just image -->
+            <a href="index.html" class="blapu-logo-link" aria-label="Blapu Main Site">
                 <img src="assets/images/blapu-logo.png" alt="Blapu Logo">
             </a>
             <a href="https://powapp.xyz/" target="_blank" rel="noopener noreferrer" class="hero-link powapp-link">View LP Leaderboard on PowApp</a>
@@ -269,6 +285,7 @@
                 <iframe
                     id="vestige-chart-iframe"
                     title="Vestige Chart Widget"
+                    aria-label="Vestige Chart Widget for Blapu"
                     src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=true&currency=USD"
                 ></iframe>
             </div>
@@ -276,12 +293,19 @@
                 <iframe
                     id="vestige-swap-iframe"
                     title="Vestige Swap Widget"
+                    aria-label="Vestige Swap Widget for Blapu/ALGO"
                     src="https://vestige.fi/widget/swap?asset_in=0&asset_out=401752010"
                 ></iframe>
             </div>
         </div>
          <div class="footer-nav">
-            <a href="index.html" id="go-to-old-ui">Return to Full Site (Old UI)</a>
+            <a href="index.html" id="go-to-old-ui">Old UI</a>
+            <span class="separator">&bull;</span>
+            <a href="https://x.com/BlapuGANG" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+            <span class="separator">&bull;</span>
+            <a href="https://t.me/BlapuGANG2" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <span class="separator">&bull;</span>
+            <a href="https://dexscreener.com/algorand/amznifsqxyoicnkvqyzxqy5c3odqv7auanmgbjkv3guhhsblhwnl4ilfzm" target="_blank" rel="noopener noreferrer">DEX Screener</a>
         </div>
     </div>
 
