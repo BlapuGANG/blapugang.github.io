@@ -98,7 +98,7 @@
             z-index: -2; /* Same plane as blobs */
             animation: detailedCripWalk 15s infinite linear;
             transform-style: preserve-3d;
-            filter: blur(4px); /* Base blur, increased from 1px */
+            filter: blur(10px); /* Significantly increased blur */
         }
 
         .dancer-main-body { /* Combined head and torso into one main shape */
@@ -375,13 +375,13 @@
             .footer-nav .separator { display: none; }
             .blapu-dancer {
                 width: 180px; height: 240px;
-                filter: blur(5px); /* Increased from 2px */
+                filter: blur(12px); /* Significantly increased blur for smaller screens */
             }
         }
          @media (max-width: 380px) {
             .blapu-dancer {
                 width: 150px; height: 200px;
-                filter: blur(6px); /* Increased from 2.5px */
+                filter: blur(14px); /* Even more blur for very small screens */
             }
          }
 
