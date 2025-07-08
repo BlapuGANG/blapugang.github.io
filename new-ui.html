@@ -26,52 +26,22 @@
             }
         }
 
-        @keyframes detailedCripWalk { /* Rhythmic Hip-Hop Style */
-            /* Centered around X=0vw, Y=0px. Wider range: approx +/- 28vw for steps */
-            0%  { transform: translate(0vw, 0px) scale(1) rotate(0deg); } /* Start Center */
-
-            /* 2 steps left, wider */
-            6%  { transform: translate(-12vw, -10px) scale(1.02) rotate(-3deg); } /* Step L1 */
-            12% { transform: translate(-10vw, 0px) scale(1) rotate(0deg); }      /* Land L1 */
-            18% { transform: translate(-28vw, -12px) scale(1.03) rotate(-5deg); }/* Step L2 (far left) */
-            24% { transform: translate(-25vw, 0px) scale(1) rotate(0deg); }     /* Land L2 */
-
-            /* 1 step right, towards center */
-            30% { transform: translate(-10vw, -10px) scale(1.02) rotate(3deg); } /* Step R1 */
-            36% { transform: translate(-12vw, 0px) scale(1) rotate(0deg); }     /* Land R1 */
-
-            /* Pause/Groove near left-center */
-            36%, 49% { transform: translate(-12vw, 2px) scale(0.98) rotate(1deg); } /* Hold with slight dip/sway */
-
-            /* 2 steps right, wider */
-            50% { transform: translate(0vw, 0px) scale(1) rotate(0deg); }      /* Recenter */
-            56% { transform: translate(12vw, -10px) scale(1.02) rotate(3deg); }  /* Step R1 */
-            62% { transform: translate(10vw, 0px) scale(1) rotate(0deg); }       /* Land R1 */
-            68% { transform: translate(28vw, -12px) scale(1.03) rotate(5deg); } /* Step R2 (far right) */
-            74% { transform: translate(25vw, 0px) scale(1) rotate(0deg); }      /* Land R2 */
-
-            /* 1 step left, towards center */
-            80% { transform: translate(10vw, -10px) scale(1.02) rotate(-3deg); } /* Step L1 */
-            86% { transform: translate(12vw, 0px) scale(1) rotate(0deg); }      /* Land L1 */
-
-            /* Pause/Groove near right-center */
-            86%, 99% { transform: translate(12vw, 2px) scale(0.98) rotate(-1deg); } /* Hold with slight dip/sway */
-            100% { transform: translate(0vw, 0px) scale(1) rotate(0deg); }     /* End Center, loop */
+        @keyframes detailedCripWalk { /* Original Smooth Cripwalk Style */
+            0%   { transform: translateX(-40vw) translateY(0px) rotate(-5deg); }
+            25%  { transform: translateX(0vw) translateY(-15px) rotate(0deg); } /* Center point, slight bob */
+            50%  { transform: translateX(40vw) translateY(0px) rotate(5deg); }
+            75%  { transform: translateX(0vw) translateY(-10px) rotate(0deg); } /* Center point, slight bob */
+            100% { transform: translateX(-40vw) translateY(0px) rotate(-5deg); }
         }
 
-        @keyframes blapuArmSwing { /* Hip-Hop Style Arms - 1.5s duration for quicker feel */
-            0%, 100% { transform: rotate(15deg) translateY(0px) scaleY(1); }
-            20% { transform: rotate(-10deg) translateY(-3px) scaleY(0.95); }
-            40% { transform: rotate(25deg) translateY(2px) scaleY(1.05); }
-            60% { transform: rotate(-5deg) translateY(0px) scaleY(1); }
-            80% { transform: rotate(10deg) translateY(-2px) scaleY(0.9); }
+        @keyframes blapuArmSwing { /* Smooth, simple swing */
+            0%, 100% { transform: rotate(20deg); }
+            50% { transform: rotate(-20deg); }
         }
 
-        @keyframes blapuLegSwing { /* Hip-Hop Style Legs - 1s duration for quick steps */
-            0%, 100% { transform: rotate(-5deg) translateY(0px) scaleY(1) translateX(0px); }
-            25% { transform: rotate(5deg) translateY(-8px) scaleY(0.9) translateX(2px); }
-            50% { transform: rotate(0deg) translateY(0px) scaleY(1.02) translateX(0px); }
-            75% { transform: rotate(-8deg) translateY(-5px) scaleY(0.95) translateX(-2px); }
+        @keyframes blapuLegSwing { /* Smooth, simple stride */
+            0%, 100% { transform: rotate(-15deg) translateY(0px); }
+            50% { transform: rotate(15deg) translateY(-5px); } /* Slight lift during forward stride */
         }
 
         body {
@@ -122,8 +92,8 @@
             width: 250px;
             height: 325px;
             z-index: -2;
-            animation: detailedCripWalk 30s infinite ease-in-out; /* Halved speed */
-            filter: blur(7px); /* Slightly reduced blur */
+            animation: detailedCripWalk 25s infinite ease-in-out; /* Slow, smooth walk */
+            filter: blur(6px); /* Adjusted blur for smoother animation visibility */
         }
 
         /* Head relative to .blapu-dancer (250x325px) */
@@ -284,21 +254,18 @@
             background: #6d4c41;
             border: 2px solid #000;
             z-index: 2;
-            animation-name: blapuArmSwing;
-            animation-duration: 3s; /* Halved speed */
-            animation-iteration-count: infinite;
-            animation-timing-function: ease-in-out;
-            animation-direction: alternate;
-            transform-origin: center 8%; /* 2.5px / 30px arm width approx */
+            animation: blapuArmSwing 3s infinite ease-in-out alternate; /* Name, duration, timing, direction */
+            transform-origin: center 8%;
         }
         .blapu-dancer .arm.left {
-            left: 14%;    /* 35px / 250px dancer width */
+            left: 14%;
             border-radius: 15px 5px 5px 15px;
-            animation-delay: -0.2s;
+            animation-delay: -0.15s; /* Slightly adjusted delay for 3s duration */
         }
         .blapu-dancer .arm.right {
-            right: 14%;   /* 35px / 250px dancer width */
+            right: 14%;
             border-radius: 5px 15px 15px 5px;
+            /* No delay for one arm, or a positive delay if preferred */
         }
         /* Hand relative to .arm */
         .blapu-dancer .hand {
@@ -331,20 +298,18 @@
             height: 100%;  /* 60px / 60px legs-container height */
             background: #bdc3c7;
             border: 2px solid #000;
-            animation-name: blapuLegSwing;
-            animation-duration: 2s; /* Halved speed */
-            animation-iteration-count: infinite;
-            animation-timing-function: ease-in-out;
+            animation: blapuLegSwing 2s infinite ease-in-out; /* Name, duration, timing */
             transform-origin: center top;
         }
         .blapu-dancer .leg.left {
             left: 0;
             border-radius: 20px 5px 0 0;
-            animation-delay: -0.1s;
+            animation-delay: -0.1s; /* Staggered start for left leg */
         }
         .blapu-dancer .leg.right {
             right: 0;
             border-radius: 5px 20px 0 0;
+            /* Right leg starts without delay, creating alternating motion */
         }
 
         /* Shoe relative to .leg */
@@ -560,14 +525,14 @@
             .blapu-dancer {
                 width: 180px;
                 height: 234px;
-                filter: blur(8px);
+                filter: blur(7px); /* Adjusted responsive blur */
             }
         }
          @media (max-width: 380px) {
             .blapu-dancer {
                 width: 150px;
                 height: 195px;
-                filter: blur(9px);
+                filter: blur(8px); /* Adjusted responsive blur */
             }
          }
 
