@@ -27,27 +27,42 @@
         }
 
         @keyframes detailedCripWalk {
-            0% { transform: translateX(-48vw) translateY(0px) rotate(0deg); }
-            20% { transform: translateX(-28vw) translateY(-15px) rotate(-7deg) scaleX(0.98); }
-            25% { transform: translateX(-22vw) translateY(0px) rotate(0deg) scaleX(1); }
-            40% { transform: translateX(12vw) translateY(-15px) rotate(7deg) scaleX(0.98); }
-            45% { transform: translateX(18vw) translateY(0px) rotate(0deg) scaleX(1); }
-            60% { transform: translateX(38vw) translateY(-12px) rotate(-4deg) scaleX(0.98); }
-            65% { transform: translateX(42vw) translateY(0px) rotate(0deg) scaleX(1); }
-            80% { transform: translateX(8vw) translateY(-14px) rotate(5deg) scaleX(0.98); }
-            85% { transform: translateX(2vw) translateY(0px) rotate(0deg) scaleX(1); }
-            100% { transform: translateX(-48vw) translateY(0px) rotate(0deg); }
+            0% { transform: translateX(-48vw) translateY(0px) rotate(0deg) scaleX(1); } /* Start Left */
+
+            /* Phase 1: Move right with a dip */
+            15% { transform: translateX(-25vw) translateY(5px) rotate(-5deg) scaleX(0.98); } /* Dip down */
+            20% { transform: translateX(-20vw) translateY(0px) rotate(0deg) scaleX(1); } /* Smooth out */
+
+            /* Phase 2: Jump and Flip (Spin) */
+            30% { transform: translateX(0vw) translateY(-60px) rotate(0deg) scaleX(1); } /* Wind up for jump */
+            35% { transform: translateX(5vw) translateY(-120px) rotate(180deg) scaleX(1.05); } /* Apex of jump, mid-flip */
+            40% { transform: translateX(10vw) translateY(-60px) rotate(360deg) scaleX(1); } /* Coming down from flip */
+            45% { transform: translateX(15vw) translateY(0px) rotate(360deg) scaleX(1); } /* Land */
+
+            /* Phase 3: Move further right with style */
+            55% { transform: translateX(35vw) translateY(-20px) rotate(8deg) scaleX(0.97); } /* Stylish lean */
+            60% { transform: translateX(42vw) translateY(0px) rotate(0deg) scaleX(1); } /* Smooth out far right */
+
+            /* Phase 4: Move back left with a dip */
+            75% { transform: translateX(10vw) translateY(10px) rotate(-6deg) scaleX(0.98); } /* Dip down while moving left */
+            80% { transform: translateX(0vw) translateY(0px) rotate(0deg) scaleX(1); } /* Smooth out center */
+
+            95% { transform: translateX(-40vw) translateY(-10px) rotate(5deg) scaleX(1.02); } /* Nearing start */
+            100% { transform: translateX(-48vw) translateY(0px) rotate(0deg) scaleX(1); } /* End Left, loop */
         }
 
-        @keyframes blapuArmSwing {
-            0%, 100% { transform: rotate(25deg) translateY(-2px); } /* Adjusted for scaled size */
-            50% { transform: rotate(-20deg) translateY(0px); }
+        @keyframes blapuArmSwing { /* Applied to .arm elements - 3s duration */
+            0%, 100% { transform: rotate(20deg) translateY(-2px) scaleY(1); } /* Standard swing */
+            25% { transform: rotate(0deg) translateY(-10px) scaleY(0.8) scaleX(0.9); } /* Arms up/tuck for jump */
+            50% { transform: rotate(-15deg) translateY(0px) scaleY(1); } /* Standard swing */
+            75% { transform: rotate(10deg) translateY(-5px) scaleY(0.9) scaleX(0.95); } /* Another dynamic pose */
         }
-        @keyframes blapuLegSwing { /* Applied to .leg elements */
-            0%, 100% { transform: rotate(-15deg) translateY(0px) translateX(-2px); } /* Slight outward point */
-            25% { transform: rotate(5deg) translateY(-8px) translateX(0px); }   /* Lift and straighten */
-            50% { transform: rotate(20deg) translateY(3px) translateX(2px); }    /* Forward step, outward point */
-            75% { transform: rotate(-0deg) translateY(-5px) translateX(0px); }   /* Back, straighten */
+
+        @keyframes blapuLegSwing { /* Applied to .leg elements - 2s duration */
+            0%, 100% { transform: rotate(-10deg) translateY(0px) scaleY(1) translateX(-1px); } /* Standard step */
+            25% { transform: rotate(0deg) translateY(-15px) scaleY(0.7) translateX(0px); }  /* Legs tuck up for jump */
+            50% { transform: rotate(10deg) translateY(2px) scaleY(1) translateX(1px); }   /* Standard step */
+            75% { transform: rotate(5deg) translateY(-10px) scaleY(0.8) translateX(0px); }  /* Another dynamic pose */
         }
 
 
@@ -98,7 +113,7 @@
             height: 325px; /* 650px * 0.5 */
             z-index: -2;
             animation: detailedCripWalk 15s infinite linear;
-            filter: blur(6px); /* Lightened blur */
+            filter: blur(9px); /* Increased blur again */
         }
 
         .blapu-dancer .head {
@@ -513,14 +528,14 @@
             .blapu-dancer {
                 width: 180px;
                 height: 234px; /* Adjusted for 650px original height aspect ratio (180 * 650/500) */
-                filter: blur(7px); /* Lightened blur for medium screens */
+                filter: blur(10px); /* Increased blur for medium screens */
             }
         }
          @media (max-width: 380px) {
             .blapu-dancer {
                 width: 150px;
                 height: 195px; /* (150 * 650/500) */
-                filter: blur(8px); /* Lightened blur for small screens */
+                filter: blur(11px); /* Increased blur for small screens */
             }
          }
 
