@@ -26,7 +26,8 @@
             }
         }
 
-        @keyframes detailedCripWalk { /* Main body movement */
+        /* Animation for the new detailed Blapu dancer's main body traversal */
+        @keyframes detailedCripWalk {
             0% { transform: translateX(-48vw) translateY(0px) rotate(0deg); }
             20% { transform: translateX(-28vw) translateY(-15px) rotate(-7deg) scaleX(0.98); }
             25% { transform: translateX(-22vw) translateY(0px) rotate(0deg) scaleX(1); }
@@ -39,15 +40,21 @@
             100% { transform: translateX(-48vw) translateY(0px) rotate(0deg); }
         }
 
-        @keyframes simpleArmSwing {
-            0%, 100% { transform: rotate(25deg); }
-            50% { transform: rotate(-35deg); }
+        /* Limb animations for the detailed Blapu dancer */
+        @keyframes blapuArmSwing { /* Applied to .arm elements */
+            0%, 100% { transform: rotate(25deg) translateY(-5px); }
+            50% { transform: rotate(-20deg) translateY(0px); }
         }
-        @keyframes simpleLegSwing {
+        /* Legs are currently not separate animated elements in the HTML for simplicity with blur */
+        /* If they were, a blapuLegSwing animation would be defined here */
+        /* For example:
+        @keyframes blapuLegSwing {
             0%, 100% { transform: rotate(-15deg) translateY(0px); }
             25% { transform: rotate(5deg) translateY(-8px); }
-            50% { transform: rotate(25deg) translateY(3px); }
+            50% { transform: rotate(20deg) translateY(3px); }
             75% { transform: rotate(-0deg) translateY(-4px); }
+        }
+        */
         }
 
 
@@ -71,7 +78,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
+            z-index: -2; /* Blobs and dancer will share this z-index layer */
             overflow: hidden;
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
         }
@@ -83,129 +90,221 @@
             filter: blur(8px);
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
         }
-
         .blob-1 { top: 10%; left: 5%; width: 300px; height: 280px; animation: dance 22s infinite ease-in-out alternate; animation-delay: -2s; opacity: 0.4;}
         .blob-2 { top: 55%; left: 75%; width: 220px; height: 250px; animation: dance 15s infinite ease-in-out alternate; animation-delay: -7s; opacity: 0.35;}
         .blob-3 { top: 25%; left: 45%; width: 180px; height: 170px; animation: dance 25s infinite ease-in-out alternate; animation-delay: -12s; opacity: 0.45;}
 
-        /* --- Simplified Blapu Dancer --- */
-        .blapu-dancer {
+        /* --- New Detailed Blapu Dancer CSS --- */
+        .blapu-dancer { /* This is the main container, formerly .character-container */
             position: absolute;
-            bottom: 2%;
-            left: 50%;
-            width: 225px;
+            bottom: 1%; /* Slightly lower to accommodate larger size */
+            left: 50%; /* Animation will handle translateX */
+
+            /* Scaled down size for background animation. Original was 500x600. */
+            /* Let's try scaling to a height of ~300px, keeping aspect ratio. */
+            /* 600px height -> 300px (0.5 scale). 500px width -> 250px. */
+            width: 250px;
             height: 300px;
+            /* transform: scale(0.5); /* Alternative: use transform to scale all children */
+            /* transform-origin: bottom center; */
+
             z-index: -2; /* Same plane as blobs */
             animation: detailedCripWalk 15s infinite linear;
-            transform-style: preserve-3d;
-            filter: blur(10px); /* Significantly increased blur */
+            filter: blur(10px); /* Heavy blur as requested */
         }
 
-        .dancer-main-body { /* Combined head and torso into one main shape */
+        /* All child elements of .blapu-dancer will be positioned relative to it. */
+        /* We need to scale down the provided fixed pixel values or use percentages. */
+        /* Using a general scaling factor for child dimensions and positions: */
+        /* Example Scale Factor (approx 0.5 of original design for 250x300 container) */
+        /* This will require careful adjustment of all child properties. */
+
+        .blapu-dancer .head {
             position: absolute;
-            width: 130px;
-            height: 180px;
-            background-color: #2453d1; /* Deep blue */
-            border: 4px solid #000;
-            /* More of a pear or Blapu-like shape */
-            border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
-            top: 10px; /* Position within .blapu-dancer */
-            left: calc(50% - 65px); /* Centered */
+            top: 25px; /* 50px * 0.5 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px; /* 280px * 0.5 */
+            height: 125px; /* 250px * 0.5 */
+            background: #1e50ff;
+            border: 2px solid #000; /* Thinner border for scaled version */
+            border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%;
             z-index: 5;
         }
 
-        /* Simplified Ears - part of main body's ::before/::after */
-        .dancer-main-body::before, .dancer-main-body::after {
-            content: '';
+        .blapu-dancer .ear {
             position: absolute;
-            width: 50px;
-            height: 60px;
-            background-color: #2453d1;
-            border: 4px solid #000;
-            border-bottom: none; /* Ears are part of head, so no bottom border */
-            border-radius: 60% 60% 10px 10px / 100% 100% 10px 10px; /* Simpler ear shape */
-            top: -30px; /* Position on top of head */
-            z-index: -1; /* Behind main body's border */
-        }
-        .dancer-main-body::before { /* Left ear */
-            left: -5px;
-            transform: rotate(-25deg);
-        }
-        .dancer-main-body::after { /* Right ear */
-            right: -5px;
-            transform: rotate(25deg);
-        }
-
-        .dancer-eye-simple { /* Simplified eyes */
-            position: absolute;
-            width: 40px;
-            height: 50px;
-            background-color: #fff;
-            border: 3px solid #000;
-            border-radius: 50%;
-            top: 30px; /* On the main body */
-        }
-        .dancer-eye-simple.left { left: 20px; transform: rotate(-8deg); }
-        .dancer-eye-simple.right { right: 20px; transform: rotate(8deg); }
-
-        .dancer-pupil-simple { /* Simplified pupil */
-            width: 18px;
-            height: 18px;
-            background-color: #000;
-            border-radius: 50%;
-            position: absolute;
-            top: calc(50% - 9px); /* Centered or slightly off */
-            left: calc(50% - 9px);
-        }
-
-        .dancer-mouth-simple { /* Simplified mouth */
-            position: absolute;
-            width: 60px;
-            height: 25px;
-            border: 3px solid #000;
-            background-color: #e15ba7; /* Pink lips */
-            /* Simple curve, or a D shape for open mouth */
-            border-radius: 0 0 30px 30px / 0 0 100% 100%;
-            bottom: 25px; /* On the main body */
-            left: calc(50% - 30px);
-        }
-
-        /* Simplified Limbs */
-        .dancer-limb {
-            position: absolute;
-            background-color: #2453d1;
-            border: 3px solid #000;
-            border-radius: 25px; /* Tubular limbs */
+            top: 7.5px; /* 15px * 0.5 */
+            width: 35px; /* 70px * 0.5 */
+            height: 45px; /* 90px * 0.5 */
+            background: #1e50ff;
+            border: 2px solid #000;
             z-index: 4;
         }
-        .dancer-arm-simple {
-            width: 40px;
-            height: 100px;
-            transform-origin: center 20px; /* Shoulder */
-        }
-        .dancer-arm-simple.left {
-            top: 70px; left: 0px; /* Attach to side of main body */
-            animation: simpleArmSwing 3s infinite ease-in-out alternate -0.2s;
-        }
-        .dancer-arm-simple.right {
-            top: 70px; right: 0px;
-            animation: simpleArmSwing 3s infinite ease-in-out alternate;
+
+        .blapu-dancer .ear.left {
+            left: 50px; /* 100px * 0.5 */
+            border-radius: 80% 20% 5% 5% / 100% 20% 5% 5%;
+            transform: rotate(-15deg);
         }
 
-        .dancer-leg-simple {
-            width: 45px;
-            height: 110px;
-            transform-origin: center 20px; /* Hip */
+        .blapu-dancer .ear.right {
+            right: 50px; /* 100px * 0.5 */
+            border-radius: 20% 80% 5% 5% / 20% 100% 5% 5%;
+            transform: rotate(15deg);
         }
-        .dancer-leg-simple.left {
-            top: 160px; left: 30px; /* Attach below main body */
-            animation: simpleLegSwing 2s infinite ease-in-out -0.1s;
+
+        .blapu-dancer .ear::after { /* Inner ear */
+            content: '';
+            position: absolute;
+            top: 7.5px; /* 15px * 0.5 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px; /* 40px * 0.5 */
+            height: 25px; /* 50px * 0.5 */
+            background: #ff47b6;
+            border-radius: 50% / 60% 60% 40% 40%;
         }
-        .dancer-leg-simple.right {
-            top: 160px; right: 30px;
-            animation: simpleLegSwing 2s infinite ease-in-out;
+
+        .blapu-dancer .eyes { /* Container for eyes */
+            position: absolute;
+            top: 45px; /* 90px * 0.5 */
+            width: 100%; /* Relative to head */
+            display: flex;
+            justify-content: center;
+            gap: 2.5px; /* 5px * 0.5 */
         }
-        /* --- End Simplified Blapu Dancer --- */
+
+        .blapu-dancer .eye {
+            width: 55px; /* 110px * 0.5 */
+            height: 45px; /* 90px * 0.5 */
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blapu-dancer .eye::before { /* Eyelid */
+            content: '';
+            position: absolute;
+            top: -25px; /* -50px * 0.5 */
+            left: -5px; /* -10px * 0.5 */
+            width: 65px; /* 130px * 0.5 */
+            height: 50px; /* 100px * 0.5 */
+            background: #1e50ff;
+            border-bottom: 2px solid #000;
+            border-radius: 50%;
+        }
+
+        .blapu-dancer .pupil {
+            position: absolute;
+            bottom: 7.5px; /* 15px * 0.5 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 17.5px; /* 35px * 0.5 */
+            height: 20px; /* 40px * 0.5 */
+            background: #000;
+            border-radius: 50%;
+        }
+
+        .blapu-dancer .pupil::after { /* Sparkle */
+            content: '';
+            position: absolute;
+            top: 4px; /* 8px * 0.5 */
+            left: 4px; /* 8px * 0.5 */
+            width: 5px; /* 10px * 0.5 */
+            height: 5px; /* 10px * 0.5 */
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        .blapu-dancer .lips {
+            position: absolute;
+            top: 95px; /* 190px * 0.5 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px; /* 220px * 0.5 */
+            height: 25px; /* 50px * 0.5 */
+            background: #ff47b6;
+            border: 2px solid #000;
+            border-radius: 30% 30% 50% 50% / 30% 30% 100% 100%;
+        }
+
+        /* Neck area (simplified, might not be very visible with blur) */
+        .blapu-dancer .neck-line {
+            position: absolute;
+            top: 149px; /* 298px * 0.5 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px; /* 100px * 0.5 */
+            height: 2px; /* 3px * 0.5 */
+            background: #000;
+            z-index: 6; /* Above body if overlap */
+        }
+
+        .blapu-dancer .body-shirt { /* Combined body and shirt for simplicity */
+            position: absolute;
+            top: 149px; /* 298px * 0.5 (approx where shirt top starts) */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px; /* 240px * 0.5 */
+            height: 90px; /* 180px * 0.5 */
+            background: #6d4c41; /* Brown shirt color */
+            border: 2px solid #000;
+            /* border-top: none; Omitted as neck line handles this */
+            border-radius: 5% 5% 10px 10px; /* 10% 10% 20px 20px *0.5 */
+            z-index: 3;
+        }
+
+        .blapu-dancer .arm {
+            position: absolute;
+            top: 155px; /* 310px * 0.5 */
+            width: 30px; /* 60px * 0.5 */
+            height: 65px; /* 130px * 0.5 */
+            background: #6d4c41; /* Brown shirt color for arms */
+            border: 2px solid #000;
+            z-index: 2; /* Below body/shirt slightly if overlapping */
+            animation-name: blapuArmSwing;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+            animation-timing-function: ease-in-out;
+            animation-direction: alternate;
+            transform-origin: center 5px; /* Adjusted for smaller arm */
+        }
+
+        .blapu-dancer .arm.left {
+            left: 35px; /* 70px * 0.5 */
+            border-radius: 15px 5px 5px 15px; /* Scaled */
+            transform: rotate(20deg);
+            animation-delay: -0.2s;
+        }
+
+        .blapu-dancer .arm.right {
+            right: 35px; /* 70px * 0.5 */
+            border-radius: 5px 15px 15px 5px; /* Scaled */
+            transform: rotate(-20deg);
+        }
+
+        .blapu-dancer .hand {
+            position: absolute;
+            top: 55px; /* 110px * 0.5 */
+            width: 30px; /* 60px * 0.5 */
+            height: 30px; /* 60px * 0.5 */
+            background: #1e50ff; /* Blue hands */
+            border: 2px solid #000;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+
+        .blapu-dancer .arm.left .hand { left: -7.5px; /* -15px * 0.5 */ }
+        .blapu-dancer .arm.right .hand { right: -7.5px; /* -15px * 0.5 */ }
+
+        /* Legs are simplified to be part of the main dancer's movement, not individually styled from user HTML */
+        /* For simplicity with heavy blur, individual leg divs are omitted for now */
+        /* The main .blapu-dancer animation will imply leg movement */
+
+        /* End New Detailed Blapu Dancer CSS */
+
 
         .glass-panel {
             width: 90%;
@@ -374,14 +473,16 @@
             }
             .footer-nav .separator { display: none; }
             .blapu-dancer {
-                width: 180px; height: 240px;
-                filter: blur(12px); /* Significantly increased blur for smaller screens */
+                width: 180px; /* Approx 0.36 scale of original 500px */
+                height: 216px; /* Approx 0.36 scale of original 600px */
+                filter: blur(12px);
             }
         }
          @media (max-width: 380px) {
             .blapu-dancer {
-                width: 150px; height: 200px;
-                filter: blur(14px); /* Even more blur for very small screens */
+                width: 150px;
+                height: 180px;
+                filter: blur(14px);
             }
          }
 
@@ -392,22 +493,33 @@
         <div class="blapu-blob blob-1"></div>
         <div class="blapu-blob blob-2"></div>
         <div class="blapu-blob blob-3"></div>
+
         <div class="blapu-dancer">
-            <div class="dancer-main-body">
-                <!-- Simplified eyes directly on main body -->
-                <div class="dancer-eye-simple left">
-                    <div class="dancer-pupil-simple"></div>
+            <!-- Detailed Blapu Structure based on user's HTML example -->
+            <!-- All child elements are positioned relative to .blapu-dancer -->
+            <div class="ear left"></div>
+            <div class="ear right"></div>
+            <div class="head">
+                <div class="eyes">
+                    <div class="eye">
+                        <div class="pupil"></div>
+                    </div>
+                    <div class="eye">
+                        <div class="pupil"></div>
+                    </div>
                 </div>
-                <div class="dancer-eye-simple right">
-                    <div class="dancer-pupil-simple"></div>
-                </div>
-                <div class="dancer-mouth-simple"></div>
+                <div class="lips"></div>
             </div>
-            <!-- Simplified limbs directly attached to .blapu-dancer or .dancer-main-body -->
-            <div class="dancer-limb dancer-arm-simple left"></div>
-            <div class="dancer-limb dancer-arm-simple right"></div>
-            <div class="dancer-limb dancer-leg-simple left"></div>
-            <div class="dancer-limb dancer-leg-simple right"></div>
+            <div class="neck-line"></div>
+            <div class="arm left">
+                <div class="hand"></div>
+            </div>
+            <div class="arm right">
+                <div class="hand"></div>
+            </div>
+            <div class="body-shirt"></div> {/* Renamed from .body to reflect it's the shirt/body combo */}
+            {/* Legs are currently omitted from HTML for simplicity with heavy blur; animation implies them */}
+            {/* If legs are added back, they'd be here, styled and animated */}
         </div>
     </div>
 
