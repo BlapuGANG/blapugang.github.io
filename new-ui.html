@@ -26,6 +26,24 @@
             }
         }
 
+        @keyframes cripWalk {
+            0%, 100% {
+                transform: translate(0, 0) skewX(0deg);
+                opacity: 0.8;
+            }
+            10% { transform: translate(15px, -5px) skewX(-8deg) scaleY(0.95); } /* Lean right, dip */
+            20% { transform: translate(30px, 0px) skewX(0deg) scaleY(1); }   /* Step right */
+            30% { transform: translate(15px, -5px) skewX(8deg) scaleY(0.95); }  /* Lean left, dip */
+            40% { transform: translate(0px, 0px) skewX(0deg) scaleY(1); }    /* Step left (back to start) */
+
+            50% { transform: translate(-15px, -5px) skewX(8deg) scaleY(0.95); opacity: 0.9; } /* Lean left, dip */
+            60% { transform: translate(-30px, 0px) skewX(0deg) scaleY(1); }  /* Step left */
+            70% { transform: translate(-15px, -5px) skewX(-8deg) scaleY(0.95); }/* Lean right, dip */
+            80% { transform: translate(0px, 0px) skewX(0deg) scaleY(1); }   /* Step right (back to start) */
+            90% { opacity: 1; transform: scale(1.05) translate(0, -2px); } /* Little bounce/emphasis */
+        }
+
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -53,17 +71,28 @@
 
         .blapu-blob {
             position: absolute;
-            width: 200px;
-            height: 180px;
             background: radial-gradient(circle at center, rgba(0, 123, 255, 0.6), rgba(0, 80, 180, 0.8));
-            animation: dance 15s infinite ease-in-out;
             opacity: 0.7;
             filter: blur(5px);
         }
 
-        .blob-1 { top: 10%; left: 10%; width: 250px; height: 230px; animation-duration: 18s; opacity: 0.6;}
-        .blob-2 { top: 60%; left: 70%; width: 180px; height: 200px; animation-duration: 12s; animation-delay: -5s; opacity: 0.5;}
-        .blob-3 { top: 30%; left: 40%; width: 150px; height: 140px; animation-duration: 20s; animation-delay: -10s; opacity: 0.65;}
+        .blob-1 { top: 10%; left: 10%; width: 250px; height: 230px; animation: dance 18s infinite ease-in-out; animation-delay: -2s; opacity: 0.6;}
+        .blob-2 { top: 60%; left: 70%; width: 180px; height: 200px; animation: dance 12s infinite ease-in-out; animation-delay: -7s; opacity: 0.5;}
+        .blob-3 { top: 30%; left: 40%; width: 150px; height: 140px; animation: dance 20s infinite ease-in-out; animation-delay: -12s; opacity: 0.65;}
+
+        .flubber-cw { /* New Crip Walking Flubber */
+            position: absolute;
+            bottom: 20px; /* Position near the bottom */
+            left: 45%; /* Start roughly in the middle */
+            width: 100px;
+            height: 80px;
+            background: radial-gradient(ellipse at bottom, #007bff, #0056b3); /* Different blue, more solid */
+            border-radius: 60% 40% 30% 70% / 50% 50% 80% 40%; /* Flubber shape */
+            opacity: 0.85;
+            filter: blur(2px);
+            animation: cripWalk 4s infinite linear;
+            transform-origin: bottom center;
+        }
 
         .glass-panel {
             width: 90%;
@@ -186,32 +215,30 @@
 
         #vestige-chart-iframe {
             min-height: 330px;
-            /* aria-label added directly in HTML */
         }
         #vestige-swap-iframe {
             min-height: 380px;
-            /* aria-label added directly in HTML */
         }
 
         .footer-nav {
             margin-top: 30px;
-            padding: 10px 15px; /* Adjusted padding for more space */
+            padding: 10px 15px;
             background: rgba(0, 0, 0, 0.25);
             border-radius: 10px;
             width: auto;
-            display: flex; /* Use flexbox for footer links */
-            flex-wrap: wrap; /* Allow wrapping */
-            justify-content: center; /* Center links */
-            gap: 10px 15px; /* Row and column gap */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 15px;
         }
 
-        .footer-nav a, .footer-nav span { /* Include span for separator styling */
+        .footer-nav a, .footer-nav span {
             color: #fff;
             text-decoration: none;
-            padding: 8px 0; /* Adjusted padding, horizontal handled by gap */
+            padding: 8px 0;
             border-radius: 5px;
             transition: background-color 0.3s ease, color 0.3s ease;
-            font-size: clamp(0.85em, 2.5vw, 0.95em); /* Slightly smaller footer links */
+            font-size: clamp(0.85em, 2.5vw, 0.95em);
         }
 
         .footer-nav a:hover {
@@ -219,12 +246,11 @@
             color: #f0f0f0;
         }
 
-        .footer-nav .separator { /* Styling for separators */
+        .footer-nav .separator {
             color: rgba(255,255,255,0.5);
-            margin: 0 5px; /* Add some space around separators if not using gap effectively */
-            display: inline-block; /* Needed if not flex items themselves */
+            margin: 0 5px;
+            display: inline-block;
         }
-
 
         @media (max-width: 420px) {
             .hero-header {
@@ -247,12 +273,12 @@
                 order: 2;
             }
             .footer-nav {
-                flex-direction: column; /* Stack footer links vertically on very small screens */
+                flex-direction: column;
                 align-items: center;
-                gap: 5px; /* Reduce gap for vertical stacking */
+                gap: 5px;
             }
             .footer-nav .separator {
-                display: none; /* Hide separators when stacked vertically */
+                display: none;
             }
         }
 
@@ -263,6 +289,7 @@
         <div class="blapu-blob blob-1"></div>
         <div class="blapu-blob blob-2"></div>
         <div class="blapu-blob blob-3"></div>
+        <div class="flubber-cw"></div> <!-- Added Flubber element -->
     </div>
 
     <div class="glass-panel">
@@ -271,7 +298,7 @@
             <a href="index.html" class="blapu-logo-link" aria-label="Blapu Main Site">
                 <img src="assets/images/blapu-logo.png" alt="Blapu Logo">
             </a>
-            <a href="https://powapp.xyz/" target="_blank" rel="noopener noreferrer" class="hero-link powapp-link">View LP Leaderboard on PowApp</a>
+            <a href="https://powapp.xyz/" target="_blank" rel="noopener noreferrer" class="hero-link powapp-link">We want > TOP 35 LP by TVL on PowApp</a>
         </div>
 
         <h1>Welcome to the New Blapu Interface!</h1>
