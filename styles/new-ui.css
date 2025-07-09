@@ -626,6 +626,17 @@
         /* Vertical padding (padding-top, padding-bottom) remains as per the default .widget style (15px) unless specified otherwise. */
       }
 
+      /* Reduce height of swap widget on small screens for better layout. New height: 340px (15% reduction from 400px) */
+      .widget-swap { /* Target the container for the swap widget */
+        height: 340px;       /* Explicitly set height for mobile, reducing from desktop's 400px min-height. */
+        min-height: 340px;   /* Ensure min-height also respects this new, shorter height on mobile. */
+      }
+      .widget-swap iframe { /* Target the iframe directly within .widget-swap */
+        height: 100%;        /* Make iframe fill the new height of its .widget-swap parent. */
+        min-height: auto;    /* Override the iframe's own min-height (was 380px) to allow it to shrink. */
+      }
+
+
       /* Adjust Blapu character size for small screens */
       /* Character is hidden via display:none at 700px breakpoint, so these are fallback/reference if that changes. */
       .character-container {
