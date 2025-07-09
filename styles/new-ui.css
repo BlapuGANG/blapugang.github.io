@@ -81,12 +81,27 @@
     /* Keyframe for the main character's side-to-side "crip walk" animation. */
     /* Uses CSS variables (--crip-walk-*) to allow responsive adjustments of X-axis travel distance. */
     /* translateY values adjusted for symmetrical vertical movement to balance perceived time on left/right. */
+    /* New keyframes for extreme path with pauses and hops */
     @keyframes detailedCripWalk {
-      0%   { transform: translateX(var(--crip-walk-start)) translateY(0px) rotate(-5deg); } /* Start left */
-      25%  { transform: translateX(var(--crip-walk-mid-1)) translateY(-45px) rotate(0deg); } /* Mid-transition point, dips down MORE */
-      50%  { transform: translateX(var(--crip-walk-end)) translateY(0px) rotate(5deg); }   /* Furthest right, returns to base Y */
-      75%  { transform: translateX(var(--crip-walk-mid-2)) translateY(-45px) rotate(0deg); } /* Mid-transition point, dips down MORE (symmetrical with 25% mark) */
-      100% { transform: translateX(var(--crip-walk-start)) translateY(0px) rotate(-5deg); } /* Return to start */
+      0%   { transform: translateX(0vw) translateY(0px) rotate(-5deg); }
+
+      /* Go to Far Left and Pause/Hop */
+      18%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0px) rotate(-15deg); } /* Arrive Far Left */
+      20%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(-25px) rotate(-10deg); } /* Hop Up at Far Left */
+      22%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0px) rotate(-15deg); } /* Land at Far Left */
+
+      /* Travel to Mid-Screen from Left */
+      36%  { transform: translateX(var(--crip-walk-mid-1-extreme)) translateY(-45px) rotate(0deg); } /* Mid-travel 1, with main hop */
+      50%  { transform: translateX(0vw) translateY(0px) rotate(5deg); } /* Arrive near center */
+
+      /* Go to Far Right and Pause/Hop */
+      68%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0px) rotate(15deg); } /* Arrive Far Right */
+      70%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(-25px) rotate(10deg); } /* Hop Up at Far Right */
+      72%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0px) rotate(15deg); } /* Land at Far Right */
+
+      /* Travel to Mid-Screen from Right */
+      86%  { transform: translateX(var(--crip-walk-mid-2-extreme)) translateY(-45px) rotate(0deg); } /* Mid-travel 2, with main hop */
+      100% { transform: translateX(0vw) translateY(0px) rotate(-5deg); } /* Arrive near center, ready to loop */
     }
     /* Keyframes for arm and leg swing animations (decorative) */
     @keyframes blapuArmSwing {
@@ -680,11 +695,11 @@
       /* These vw values are relative to viewport and might not need direct scaling, */
       /* but are kept here for context. User requested size change, not animation path change. */
       :root {
-        /* CRAZIER PATH for 700px */
-        --crip-walk-start: -42vw;
-        --crip-walk-mid-1: -5vw;
-        --crip-walk-end: 24vw;
-        --crip-walk-mid-2: -15vw;
+        /* EXTREME HORIZONTAL PATH with pauses for 700px */
+        --crip-walk-start-extreme: -70vw;
+        --crip-walk-mid-1-extreme: -15vw;
+        --crip-walk-end-extreme: 70vw;
+        --crip-walk-mid-2-extreme: 15vw;
       }
     }
 
@@ -898,11 +913,11 @@
       /* Adjust crip walk for small screens: current center -9vw, radius 20vw. */
       /* VW units are relative, not directly scaling. */
       :root {
-        /* CRAZIER PATH for 520px */
-        --crip-walk-start: -35vw;
-        --crip-walk-mid-1: -2vw;
-        --crip-walk-end: 17vw;
-        --crip-walk-mid-2: -12vw;
+        /* EXTREME HORIZONTAL PATH with pauses for 520px */
+        --crip-walk-start-extreme: -70vw;
+        --crip-walk-mid-1-extreme: -15vw;
+        --crip-walk-end-extreme: 70vw;
+        --crip-walk-mid-2-extreme: 15vw;
       }
     }
 
@@ -1044,10 +1059,10 @@
       /* Adjust crip walk for very small screens: current center -9vw, radius 15vw. */
       /* VW units are relative, not directly scaling. */
       :root {
-        /* CRAZIER PATH for 380px */
-        --crip-walk-start: -29vw;
-        --crip-walk-mid-1: 0vw;
-        --crip-walk-end: 11vw;
-        --crip-walk-mid-2: -10vw;
+        /* EXTREME HORIZONTAL PATH with pauses for 380px */
+        --crip-walk-start-extreme: -70vw;
+        --crip-walk-mid-1-extreme: -15vw;
+        --crip-walk-end-extreme: 70vw;
+        --crip-walk-mid-2-extreme: 15vw;
       }
     }
