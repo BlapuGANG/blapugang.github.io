@@ -532,12 +532,137 @@
     /* For tablets and smaller desktops (max-width: 700px) */
     @media (max-width: 700px) {
       /* Adjust Blapu character size and animation for medium screens */
-      /* On mobile devices (screen width <= 700px), the character is hidden to improve performance and save space. */
       .character-container {
-        /* display: none; */ /* HIDE Blapu mascot on screens 700px wide or less for mobile optimization. - Commented out to re-enable */
-        width: 160px; /* Halved from 320px - Should now apply */
-        height: 208px; /* Halved from 416px - Should now apply */
-        filter: blur(7px); /* Should now apply */
+        /* display: none; */ /* Commented out to re-enable */
+        width: 160px;   /* Base: 250px. Scale: 0.64 */
+        height: 208px;  /* Base: 325px. Scale: 0.64 */
+        filter: blur(7px);
+      }
+      /* SCALED CHARACTER PARTS for max-width: 700px (Factor: 0.64) */
+      .character-container .head {
+        top: 16px; /* 25px * 0.64 */
+        width: 90px; /* 140px * 0.64 */
+        height: 80px; /* 125px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+      }
+      .character-container .ear {
+        top: 5px; /* 7.5px * 0.64 */
+        width: 22px; /* 35px * 0.64 */
+        height: 29px; /* 45px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+      }
+      .character-container .ear.left { left: 32px; /* 50px * 0.64 */ }
+      .character-container .ear.right { right: 32px; /* 50px * 0.64 */ }
+      .character-container .ear::after {
+        top: 5px; /* 7.5px * 0.64 */
+        width: 13px; /* 20px * 0.64 */
+        height: 16px; /* 25px * 0.64 */
+      }
+      .character-container .eyes {
+        top: 29px; /* 45px * 0.64 */
+        gap: 1.5px; /* 2.5px * 0.64 */
+      }
+      .character-container .eye {
+        width: 35px; /* 55px * 0.64 */
+        height: 29px; /* 45px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+      }
+      .character-container .eye::before {
+        top: -16px; /* -25px * 0.64 */
+        left: -3px; /* -5px * 0.64 */
+        width: 42px; /* 65px * 0.64 */
+        height: 32px; /* 50px * 0.64 */
+        border-bottom-width: 1px; /* 1.5px * 0.64 -> ~1px */
+      }
+      .character-container .pupil {
+        bottom: 5px; /* 7.5px * 0.64 */
+        width: 11px; /* 17.5px * 0.64 */
+        height: 13px; /* 20px * 0.64 */
+      }
+      .character-container .pupil::after {
+        top: 2.5px; /* 4px * 0.64 */
+        left: 2.5px; /* 4px * 0.64 */
+        width: 3px; /* 5px * 0.64 */
+        height: 3px; /* 5px * 0.64 */
+      }
+      .character-container .lips {
+        top: 61px; /* 95px * 0.64 */
+        width: 64px; /* 100px * 0.64 */
+        height: 14.5px; /* 22.5px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+      }
+      .character-container .body {
+        top: 95px; /* 149px * 0.64 */
+        width: 77px; /* 120px * 0.64 */
+        height: 58px; /* 90px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+        border-radius: 6px 6px 6px 6px; /* 10px * 0.64 -> ~6px for all corners */
+      }
+      .character-container .neck-line {
+        top: 95px; /* 149px * 0.64 */
+        width: 32px; /* 50px * 0.64 */
+        height: 1px; /* 1.5px * 0.64 -> min 1px */
+      }
+      .character-container .arm {
+        top: 99px; /* 155px * 0.64 */
+        width: 19px; /* 30px * 0.64 */
+        height: 42px; /* 65px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+      }
+      .character-container .arm.left {
+        left: 22px; /* 35px * 0.64 */
+        border-radius: 10px 3px 3px 10px; /* 15px*0.64, 5px*0.64, 5px*0.64, 15px*0.64 */
+      }
+      .character-container .arm.right {
+        right: 22px; /* 35px * 0.64 */
+        border-radius: 3px 10px 10px 3px; /* 5px*0.64, 15px*0.64, 15px*0.64, 5px*0.64 */
+      }
+      .character-container .hand {
+        top: 35px; /* 55px * 0.64 */
+        width: 19px; /* 30px * 0.64 */
+        height: 19px; /* 30px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+      }
+      .character-container .arm.left .hand { left: -5px; /* -7.5px * 0.64 */ }
+      .character-container .arm.right .hand { right: -5px; /* -7.5px * 0.64 */ }
+      .character-container .legs {
+        bottom: 22px; /* 35px * 0.64 */
+        width: 90px; /* 140px * 0.64 */
+        height: 38px; /* 60px * 0.64 */
+      }
+      .character-container .leg {
+        width: 38px; /* 60px * 0.64 */
+        height: 38px; /* 60px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+      }
+      .character-container .leg.left { border-radius: 13px 3px 0 0; /* 20px*0.64, 5px*0.64 */ }
+      .character-container .leg.right { border-radius: 3px 13px 0 0; /* 5px*0.64, 20px*0.64 */ }
+      .character-container .shoe {
+        bottom: -16px; /* -25px * 0.64 */
+        width: 42px; /* 65px * 0.64 */
+        height: 26px; /* 40px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+      }
+      .character-container .leg.left .shoe {
+        left: -1.5px; /* -2.5px * 0.64 */
+        border-radius: 10px 3px 5px 5px; /* 15px*0.64, 5px*0.64, 7.5px*0.64, 7.5px*0.64 */
+      }
+      .character-container .leg.right .shoe {
+        right: -1.5px; /* -2.5px * 0.64 */
+        border-radius: 3px 10px 5px 5px; /* 5px*0.64, 15px*0.64, 7.5px*0.64, 7.5px*0.64 */
+      }
+      .character-container .shoe::before {
+        height: 8px; /* 12.5px * 0.64 */
+        border-top-width: 1px; /* 1.5px * 0.64 -> ~1px */
+        border-radius: 0 0 4px 4px; /* 6px * 0.64 */
+      }
+      .character-container .shoe::after {
+        top: 5px; /* 7.5px * 0.64 */
+        left: 8px; /* 12.5px * 0.64 */
+        width: 11px; /* 17.5px * 0.64 */
+        height: 10px; /* 15px * 0.64 */
+        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
+        border-radius: 3px; /* 5px * 0.64 */
       }
       /* Adjust crip walk for medium screens: current center -9vw, radius 25vw. */
       /* These vw values are relative to viewport and might not need direct scaling, */
@@ -615,11 +740,136 @@
       }
 
       /* Adjust Blapu character size for small screens */
-      /* Character is hidden via display:none at 700px breakpoint, so these are fallback/reference if that changes. */
       .character-container {
-        width: 100px; /* Halved from 200px */
-        height: 130px; /* Halved from 260px */
+        width: 100px; /* Base: 250px. Scale: 0.4 */
+        height: 130px; /* Base: 325px. Scale: 0.4 */
         filter: blur(8px);
+      }
+      /* SCALED CHARACTER PARTS for max-width: 520px (Factor: 0.4) */
+      .character-container .head {
+        top: 10px; /* 25px * 0.4 */
+        width: 56px; /* 140px * 0.4 */
+        height: 50px; /* 125px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .ear {
+        top: 3px; /* 7.5px * 0.4 */
+        width: 14px; /* 35px * 0.4 */
+        height: 18px; /* 45px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .ear.left { left: 20px; /* 50px * 0.4 */ }
+      .character-container .ear.right { right: 20px; /* 50px * 0.4 */ }
+      .character-container .ear::after {
+        top: 3px; /* 7.5px * 0.4 */
+        width: 8px; /* 20px * 0.4 */
+        height: 10px; /* 25px * 0.4 */
+      }
+      .character-container .eyes {
+        top: 18px; /* 45px * 0.4 */
+        gap: 1px; /* 2.5px * 0.4 */
+      }
+      .character-container .eye {
+        width: 22px; /* 55px * 0.4 */
+        height: 18px; /* 45px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .eye::before {
+        top: -10px; /* -25px * 0.4 */
+        left: -2px; /* -5px * 0.4 */
+        width: 26px; /* 65px * 0.4 */
+        height: 20px; /* 50px * 0.4 */
+        border-bottom-width: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .pupil {
+        bottom: 3px; /* 7.5px * 0.4 */
+        width: 7px; /* 17.5px * 0.4 */
+        height: 8px; /* 20px * 0.4 */
+      }
+      .character-container .pupil::after {
+        top: 1.5px; /* 4px * 0.4 */
+        left: 1.5px; /* 4px * 0.4 */
+        width: 2px; /* 5px * 0.4 */
+        height: 2px; /* 5px * 0.4 */
+      }
+      .character-container .lips {
+        top: 38px; /* 95px * 0.4 */
+        width: 40px; /* 100px * 0.4 */
+        height: 9px; /* 22.5px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .body {
+        top: 59.5px; /* 149px * 0.4 (approx 59.6) */
+        width: 48px; /* 120px * 0.4 */
+        height: 36px; /* 90px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+        border-radius: 4px 4px 4px 4px; /* 10px * 0.4 */
+      }
+      .character-container .neck-line {
+        top: 59.5px; /* 149px * 0.4 */
+        width: 20px; /* 50px * 0.4 */
+        height: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .arm {
+        top: 62px; /* 155px * 0.4 */
+        width: 12px; /* 30px * 0.4 */
+        height: 26px; /* 65px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .arm.left {
+        left: 14px; /* 35px * 0.4 */
+        border-radius: 6px 2px 2px 6px; /* 15px*0.4, 5px*0.4 */
+      }
+      .character-container .arm.right {
+        right: 14px; /* 35px * 0.4 */
+        border-radius: 2px 6px 6px 2px; /* 5px*0.4, 15px*0.4 */
+      }
+      .character-container .hand {
+        top: 22px; /* 55px * 0.4 */
+        width: 12px; /* 30px * 0.4 */
+        height: 12px; /* 30px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .arm.left .hand { left: -3px; /* -7.5px * 0.4 */ }
+      .character-container .arm.right .hand { right: -3px; /* -7.5px * 0.4 */ }
+      .character-container .legs {
+        bottom: 14px; /* 35px * 0.4 */
+        width: 56px; /* 140px * 0.4 */
+        height: 24px; /* 60px * 0.4 */
+      }
+      .character-container .leg {
+        width: 24px; /* 60px * 0.4 */
+        height: 24px; /* 60px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .leg.left { border-radius: 8px 2px 0 0; /* 20px*0.4, 5px*0.4 */ }
+      .character-container .leg.right { border-radius: 2px 8px 0 0; /* 5px*0.4, 20px*0.4 */ }
+      .character-container .shoe {
+        bottom: -10px; /* -25px * 0.4 */
+        width: 26px; /* 65px * 0.4 */
+        height: 16px; /* 40px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+      }
+      .character-container .leg.left .shoe {
+        left: -1px; /* -2.5px * 0.4 */
+        border-radius: 6px 2px 3px 3px; /* 15px*0.4, 5px*0.4, 7.5px*0.4 */
+      }
+      .character-container .leg.right .shoe {
+        right: -1px; /* -2.5px * 0.4 */
+        border-radius: 2px 6px 3px 3px; /* 5px*0.4, 15px*0.4, 7.5px*0.4 */
+      }
+      .character-container .shoe::before {
+        height: 5px; /* 12.5px * 0.4 */
+        border-top-width: 0.5px; /* 1.5px * 0.4 */
+        border-radius: 0 0 2.5px 2.5px; /* 6px * 0.4 */
+      }
+      .character-container .shoe::after {
+        top: 3px; /* 7.5px * 0.4 */
+        left: 5px; /* 12.5px * 0.4 */
+        width: 7px; /* 17.5px * 0.4 */
+        height: 6px; /* 15px * 0.4 */
+        border-width: 0.5px; /* 1.5px * 0.4 */
+        border-radius: 2px; /* 5px * 0.4 */
       }
       /* Adjust crip walk for small screens: current center -9vw, radius 20vw. */
       /* VW units are relative, not directly scaling. */
@@ -635,9 +885,135 @@
     @media (max-width: 380px) {
       /* Adjust Blapu character size for very small screens */
       .character-container {
-        width: 75px; /* Halved from 150px */
-        height: 97.5px; /* Halved from 195px - using .5 for precision */
+        width: 75px;    /* Base: 250px. Scale: 0.3 */
+        height: 97.5px; /* Base: 325px. Scale: 0.3 */
         filter: blur(9px);
+      }
+      /* SCALED CHARACTER PARTS for max-width: 380px (Factor: 0.3) */
+      .character-container .head {
+        top: 7.5px; /* 25px * 0.3 */
+        width: 42px; /* 140px * 0.3 */
+        height: 37.5px; /* 125px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .ear {
+        top: 2.25px; /* 7.5px * 0.3 */
+        width: 10.5px; /* 35px * 0.3 */
+        height: 13.5px; /* 45px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .ear.left { left: 15px; /* 50px * 0.3 */ }
+      .character-container .ear.right { right: 15px; /* 50px * 0.3 */ }
+      .character-container .ear::after {
+        top: 2.25px; /* 7.5px * 0.3 */
+        width: 6px; /* 20px * 0.3 */
+        height: 7.5px; /* 25px * 0.3 */
+      }
+      .character-container .eyes {
+        top: 13.5px; /* 45px * 0.3 */
+        gap: 0.75px; /* 2.5px * 0.3 */
+      }
+      .character-container .eye {
+        width: 16.5px; /* 55px * 0.3 */
+        height: 13.5px; /* 45px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .eye::before {
+        top: -7.5px; /* -25px * 0.3 */
+        left: -1.5px; /* -5px * 0.3 */
+        width: 19.5px; /* 65px * 0.3 */
+        height: 15px; /* 50px * 0.3 */
+        border-bottom-width: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .pupil {
+        bottom: 2.25px; /* 7.5px * 0.3 */
+        width: 5.25px; /* 17.5px * 0.3 */
+        height: 6px; /* 20px * 0.3 */
+      }
+      .character-container .pupil::after {
+        top: 1.2px; /* 4px * 0.3 */
+        left: 1.2px; /* 4px * 0.3 */
+        width: 1.5px; /* 5px * 0.3 */
+        height: 1.5px; /* 5px * 0.3 */
+      }
+      .character-container .lips {
+        top: 28.5px; /* 95px * 0.3 */
+        width: 30px; /* 100px * 0.3 */
+        height: 6.75px; /* 22.5px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .body {
+        top: 44.7px; /* 149px * 0.3 */
+        width: 36px; /* 120px * 0.3 */
+        height: 27px; /* 90px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+        border-radius: 3px 3px 3px 3px; /* 10px * 0.3 */
+      }
+      .character-container .neck-line {
+        top: 44.7px; /* 149px * 0.3 */
+        width: 15px; /* 50px * 0.3 */
+        height: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .arm {
+        top: 46.5px; /* 155px * 0.3 */
+        width: 9px; /* 30px * 0.3 */
+        height: 19.5px; /* 65px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .arm.left {
+        left: 10.5px; /* 35px * 0.3 */
+        border-radius: 4.5px 1.5px 1.5px 4.5px; /* 15px*0.3, 5px*0.3 */
+      }
+      .character-container .arm.right {
+        right: 10.5px; /* 35px * 0.3 */
+        border-radius: 1.5px 4.5px 4.5px 1.5px; /* 5px*0.3, 15px*0.3 */
+      }
+      .character-container .hand {
+        top: 16.5px; /* 55px * 0.3 */
+        width: 9px; /* 30px * 0.3 */
+        height: 9px; /* 30px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .arm.left .hand { left: -2.25px; /* -7.5px * 0.3 */ }
+      .character-container .arm.right .hand { right: -2.25px; /* -7.5px * 0.3 */ }
+      .character-container .legs {
+        bottom: 10.5px; /* 35px * 0.3 */
+        width: 42px; /* 140px * 0.3 */
+        height: 18px; /* 60px * 0.3 */
+      }
+      .character-container .leg {
+        width: 18px; /* 60px * 0.3 */
+        height: 18px; /* 60px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .leg.left { border-radius: 6px 1.5px 0 0; /* 20px*0.3, 5px*0.3 */ }
+      .character-container .leg.right { border-radius: 1.5px 6px 0 0; /* 5px*0.3, 20px*0.3 */ }
+      .character-container .shoe {
+        bottom: -7.5px; /* -25px * 0.3 */
+        width: 19.5px; /* 65px * 0.3 */
+        height: 12px; /* 40px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+      }
+      .character-container .leg.left .shoe {
+        left: -0.75px; /* -2.5px * 0.3 */
+        border-radius: 4.5px 1.5px 2.25px 2.25px; /* 15px*0.3, 5px*0.3, 7.5px*0.3 */
+      }
+      .character-container .leg.right .shoe {
+        right: -0.75px; /* -2.5px * 0.3 */
+        border-radius: 1.5px 4.5px 2.25px 2.25px; /* 5px*0.3, 15px*0.3, 7.5px*0.3 */
+      }
+      .character-container .shoe::before {
+        height: 3.75px; /* 12.5px * 0.3 */
+        border-top-width: 0.5px; /* 1.5px * 0.3 */
+        border-radius: 0 0 2px 2px; /* 6px * 0.3, rounded */
+      }
+      .character-container .shoe::after {
+        top: 2.25px; /* 7.5px * 0.3 */
+        left: 3.75px; /* 12.5px * 0.3 */
+        width: 5.25px; /* 17.5px * 0.3 */
+        height: 4.5px; /* 15px * 0.3 */
+        border-width: 0.5px; /* 1.5px * 0.3 */
+        border-radius: 1.5px; /* 5px * 0.3 */
       }
       /* Most restricted crip walk animation range for very small screens */
       /* Adjust crip walk for very small screens: current center -9vw, radius 15vw. */
