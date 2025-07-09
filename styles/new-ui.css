@@ -499,10 +499,12 @@
     /* For tablets and smaller desktops (max-width: 700px) */
     @media (max-width: 700px) {
       /* Adjust Blapu character size and animation for medium screens */
+      /* On mobile devices (screen width <= 700px), the character is hidden to improve performance and save space. */
       .character-container {
-        width: 160px; /* Halved from 320px */
-        height: 208px; /* Halved from 416px */
-        filter: blur(7px);
+        display: none; /* HIDE Blapu mascot on screens 700px wide or less for mobile optimization. */
+        width: 160px; /* Halved from 320px - Kept for reference, but display:none overrides visibility */
+        height: 208px; /* Halved from 416px - Kept for reference */
+        filter: blur(7px); /* Kept for reference */
       }
       /* Adjust crip walk for medium screens: current center -9vw, radius 25vw. */
       /* These vw values are relative to viewport and might not need direct scaling, */
@@ -517,15 +519,16 @@
 
     /* For small tablets and large mobile phones (max-width: 520px) */
     @media (max-width: 520px) {
-      /* Reduce body padding for smaller screens */
+      /* Reduce body padding for smaller screens to maximize content visibility and space efficiency. */
       body {
-        padding: 10px 5px; /* Further reduce horizontal padding */
+        padding: 5px 3px; /* MINIMIZE body padding on small screens for tightest fit. */
       }
-      /* Adjust glass panel padding and margins for smaller screens */
+      /* Adjust glass panel padding and margins for smaller screens to create a compact layout. */
       .glass-panel {
-        padding: 10px; /* Further reduce inner padding */
-        margin-top: 0; /* Reduce top margin to 0; body padding-top (10px) creates the desired top space. */
-        margin-bottom: 20px; /* Reduce bottom margin */
+        padding: 8px; /* REDUCE inner padding of glass panel for compact content presentation. */
+        margin-top: 5px; /* MAINTAIN small top margin for separation from screen edge, ensuring body padding is primary spacer. */
+        margin-bottom: 10px; /* REDUCE bottom margin for tighter vertical stacking. */
+        width: 98%; /* Ensure panel uses almost full width effectively. */
       }
 
       /* --- Mobile Hero Section Adjustments --- */
