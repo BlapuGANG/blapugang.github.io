@@ -630,12 +630,10 @@
       .widget-swap { /* Target the container for the swap widget */
         height: 340px;       /* Explicitly set height for mobile, reducing from desktop's 400px min-height. */
         min-height: 340px;   /* Ensure min-height also respects this new, shorter height on mobile. */
-        max-height: 380px;   /* Max height constraint for mobile view, preventing widget from becoming too tall if content overflows. */
       }
       .widget-swap iframe { /* Target the iframe directly within .widget-swap */
         height: 100%;        /* Make iframe fill the new height of its .widget-swap parent. */
         min-height: auto;    /* Override the iframe's own min-height (was 380px) to allow it to shrink. */
-        max-height: 100%;    /* Ensure iframe respects parent's max-height, effectively capping it at 380px as well. */
       }
 
 
