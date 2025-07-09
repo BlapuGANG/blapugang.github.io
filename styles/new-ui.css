@@ -12,10 +12,10 @@
       /* Animation path is now centered around -9vw (9% to the left of screen center) */
       /* based on iterative user feedback to achieve desired visual centering. */
       /* Base travel radius is 35vw (total path width 70vw). */
-      --crip-walk-start: -50vw; /* -9vw (current_center) - 35vw (radius) */
-      --crip-walk-mid-1: -15vw;   /* Animation path's current center point */
-      --crip-walk-end: 20vw;    /* -9vw (current_center) + 35vw (radius) */
-      --crip-walk-mid-2: -15vw;   /* Animation path's current center point */
+      --crip-walk-start: -45vw; /* -9vw (current_center) - 35vw (radius) */
+      --crip-walk-mid-1: -10vw;   /* Animation path's current center point */
+      --crip-walk-end: 25vw;    /* -9vw (current_center) + 35vw (radius) */
+      --crip-walk-mid-2: -10vw;   /* Animation path's current center point */
     }
 
     /* General Page Setup */
