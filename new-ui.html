@@ -19,13 +19,13 @@
     :root {
       /* Variables for controlling Blapu character's crip walk animation extents. */
       /* These are adjusted in media queries for responsiveness. */
-      /* Animation path is now centered around -30vw (30% to the left of screen center) */
-      /* to make the character appear mostly on the left side. */
+      /* Animation path is now centered around +20vw (20% to the right of screen center) */
+      /* based on iterative user feedback to achieve desired visual centering. */
       /* Base travel radius is 35vw (total width 70vw). */
-      --crip-walk-start: -65vw; /* -30vw (center) - 35vw (radius) */
-      --crip-walk-mid-1: -30vw;  /* Animation path's new center point */
-      --crip-walk-end: 5vw;     /* -30vw (center) + 35vw (radius) */
-      --crip-walk-mid-2: -30vw;  /* Animation path's new center point */
+      --crip-walk-start: -15vw; /* +20vw (new_center) - 35vw (radius) */
+      --crip-walk-mid-1: 20vw;   /* Animation path's new center point */
+      --crip-walk-end: 55vw;    /* +20vw (new_center) + 35vw (radius) */
+      --crip-walk-mid-2: 20vw;   /* Animation path's new center point */
     }
 
     /* General Page Setup */
@@ -514,12 +514,12 @@
         height: 416px;
         filter: blur(7px);
       }
-      /* Adjust crip walk for medium screens: center -30vw, radius 25vw. */
+      /* Adjust crip walk for medium screens: new center +20vw, radius 25vw. */
       :root {
-        --crip-walk-start: -55vw; /* -30vw - 25vw */
-        --crip-walk-mid-1: -30vw;
-        --crip-walk-end: -5vw;    /* -30vw + 25vw */
-        --crip-walk-mid-2: -30vw;
+        --crip-walk-start: -5vw; /* +20vw (new_center) - 25vw (radius) */
+        --crip-walk-mid-1: 20vw;
+        --crip-walk-end: 45vw;   /* +20vw (new_center) + 25vw (radius) */
+        --crip-walk-mid-2: 20vw;
       }
     }
 
@@ -584,12 +584,12 @@
         height: 260px;
         filter: blur(8px);
       }
-      /* Adjust crip walk for small screens: center -30vw, radius 20vw. */
+      /* Adjust crip walk for small screens: new center +20vw, radius 20vw. */
       :root {
-        --crip-walk-start: -50vw; /* -30vw - 20vw */
-        --crip-walk-mid-1: -30vw;
-        --crip-walk-end: -10vw;   /* -30vw + 20vw */
-        --crip-walk-mid-2: -30vw;
+        --crip-walk-start: 0vw;  /* +20vw (new_center) - 20vw (radius) */
+        --crip-walk-mid-1: 20vw;
+        --crip-walk-end: 40vw;   /* +20vw (new_center) + 20vw (radius) */
+        --crip-walk-mid-2: 20vw;
       }
     }
 
@@ -602,12 +602,12 @@
         filter: blur(9px);
       }
       /* Most restricted crip walk animation range for very small screens */
-      /* Adjust crip walk for very small screens: center -30vw, radius 15vw. */
+      /* Adjust crip walk for very small screens: new center +20vw, radius 15vw. */
       :root {
-        --crip-walk-start: -45vw; /* -30vw - 15vw */
-        --crip-walk-mid-1: -30vw;
-        --crip-walk-end: -15vw;   /* -30vw + 15vw */
-        --crip-walk-mid-2: -30vw;
+        --crip-walk-start: 5vw;  /* +20vw (new_center) - 15vw (radius) */
+        --crip-walk-mid-1: 20vw;
+        --crip-walk-end: 35vw;   /* +20vw (new_center) + 15vw (radius) */
+        --crip-walk-mid-2: 20vw;
       }
     }
   </style>
