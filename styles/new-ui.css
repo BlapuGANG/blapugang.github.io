@@ -5,6 +5,15 @@
       Purpose: Styling for the new Blapu UI, including responsive adjustments for mobile.
     */
 
+    /* Universal Box Sizing */
+    /* Apply a more intuitive box model to all elements. Padding and border will not increase the element's specified width/height. */
+    html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit; /* Inherit box-sizing from html element, making it easy to override if needed. */
+    }
+
     /* CSS Variables Definition */
     :root {
       /* Variables for controlling Blapu character's crip walk animation extents. */
@@ -19,16 +28,19 @@
     }
 
     /* General Page Setup */
+    /* Ensures the html and body elements cover the full viewport without causing overflow, especially on sub-pixel rendering scenarios. */
     html, body {
-      width: 100%; /* Crucial for preventing horizontal overflow issues */
+      width: 100%; /* Fallback for older browsers or if vw units cause issues. */
+      max-width: 100vw; /* Constrains width strictly to viewport width to prevent horizontal scroll from vw unit miscalculations. */
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 0;
-      padding: 10px; /* Base padding for the page content area. Reduced from 10px 20px. Adjusted in media queries. */
-      color: #fff; /* Default text color */
-      min-height: 100vh; /* Ensure body takes at least full viewport height */
-      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Background gradient */
-      position: relative; /* For positioning of absolute children like blobs/character */
-      overflow-x: hidden; /* Prevents horizontal scrollbars if any content accidentally overflows. Applied to html and body. */
+      margin: 0; /* Resets default browser margins. */
+      padding: 10px; /* Base padding for the page content area. Adjusted in media queries. */
+      color: #fff; /* Default text color. */
+      min-height: 100vh; /* Ensures body takes at least full viewport height. */
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Background gradient. */
+      position: relative; /* For positioning of absolute children like blobs/character. */
+      overflow-x: hidden; /* PREVENTS horizontal scrollbars if any content accidentally overflows. Applied to html and body. */
+      /* box-sizing: border-box; /* This is now handled by the universal box-sizing rule above. */ */
     }
 
     /* Decorative Animated Blobs (Background) */
