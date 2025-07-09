@@ -480,10 +480,18 @@
                 <a href="#p123456852" class="quotelink">&gt;&gt;123456852</a><br>
                 There is no official site, just some community hosted shit. All you need is the Vestige swap widget.  Just connect your wallet and BLAP IN!<br>
                  <div style="width: auto; height: 650px; position: relative;">
+                    <!--
+                        Vestige Chart Widget for BLAPU (ASA ID: 401752010)
+                        Parameters:
+                         - interval=1W: Sets the default chart interval to 1 week.
+                         - tools=false: Hides drawing tools on the chart.
+                         - currency=USD: Displays price in USD.
+                         - noCookie=true: Disables Vestige cookies for this widget.
+                    -->
                     <iframe
                         id="vestige-iframe"
                         title="Vestige Widget"
-                        src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=false&currency=USD"
+                        src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=false&currency=USD&noCookie=true"
                         width="100%"
                         height="100%"
                         style="border: none;"
@@ -526,10 +534,17 @@
             <a href="#p123456854" class="quotelink">&gt;&gt;123456854</a><br>
             You forgot the swap, Greg. Looks like Bunsan broke the widget with v4 beta, you will need this https://beta.vestige.fi/asset/401752010 to buy...
             <div style="width: auto; height: 400px; position: relative;">
+              <!--
+                  Vestige Swap Widget for USDC (ASA ID: 31566704) to BLAPU (ASA ID: 401752010)
+                  Parameters:
+                   - assetIn=31566704: Sets the input asset to USDC.
+                   - assetOut=401752010: Sets the output asset to BLAPU.
+                   - noCookie=true: Disables Vestige cookies for this widget.
+              -->
               <iframe
                 id="vestige-swap-iframe"
                 title="Vestige Swap Widget"
-                src="https://vestige.fi/widget/swap?asset_in=0&asset_out=401752010"
+                src="https://vestige.fi/widget/swap?assetIn=31566704&assetOut=401752010&noCookie=true"
                 width="100%"
                 height="100%"
                 style="border:none;"

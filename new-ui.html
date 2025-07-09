@@ -57,19 +57,34 @@
     </p>
     <div class="widget-container">
       <div class="widget widget-chart">
+        <!--
+            Vestige Chart Widget for BLAPU (ASA ID: 401752010)
+            Parameters:
+             - interval=1W: Sets the default chart interval to 1 week.
+             - tools=true: Shows drawing tools on the chart.
+             - currency=USD: Displays price in USD.
+             - noCookie=true: Disables Vestige cookies for this widget.
+        -->
         <iframe
           id="vestige-chart-iframe"
           title="Vestige Chart Widget"
           aria-label="Vestige Chart Widget for Blapu"
-          src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=true&currency=USD"
+          src="https://vestige.fi/widget/401752010/chart?interval=1W&tools=true&currency=USD&noCookie=true"
         ></iframe>
       </div>
       <div class="widget widget-swap">
+        <!--
+            Vestige Swap Widget for USDC (ASA ID: 31566704) to BLAPU (ASA ID: 401752010)
+            Parameters:
+             - assetIn=31566704: Sets the input asset to USDC.
+             - assetOut=401752010: Sets the output asset to BLAPU.
+             - noCookie=true: Disables Vestige cookies for this widget.
+        -->
         <iframe
           id="vestige-swap-iframe"
           title="Vestige Swap Widget"
           aria-label="Vestige Swap Widget for Blapu/ALGO"
-          src="https://vestige.fi/widget/swap?asset_in=0&asset_out=401752010"
+          src="https://vestige.fi/widget/swap?assetIn=31566704&assetOut=401752010&noCookie=true"
         ></iframe>
       </div>
     </div>
