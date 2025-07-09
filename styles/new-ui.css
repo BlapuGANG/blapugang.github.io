@@ -376,33 +376,66 @@
     }
 
     /* Hero Header and Navigation Links within Glass Panel */
+    /* Establishes a flex container for hero elements. Items are vertically centered. */
+    /* Space is distributed such that logo is central and links are on either side. */
     .hero-header {
-      display: flex; /* Enables flexbox layout */
-      align-items: center; /* Vertically aligns items in the center */
-      justify-content: space-around; /* Distributes space around items */
-      flex-wrap: wrap; /* Allows items to wrap to the next line on smaller screens */
-      margin-bottom: 20px; /* Space below the header */
-      gap: 15px; /* Space between flex items */
+      display: flex; /* Enables flexbox layout for precise control over item alignment and spacing. */
+      align-items: center; /* Vertically aligns logo and side links to their center. */
+      justify-content: space-between; /* Positions logo centrally with links taking available space on sides. */
+      flex-wrap: wrap; /* Allows items to wrap on smaller screens, though overridden by more specific mobile styles. */
+      margin-bottom: 15px; /* Reduced bottom margin for tighter layout. */
+      gap: 10px; /* Default gap, adjusted by specific link styles or media queries if needed. */
     }
-    /* Styling for individual links in the hero header and footer navigation */
+
+    /* Base styling for all links in hero header and footer navigation. */
+    /* Provides consistent appearance (color, decoration, transitions). */
     .hero-header .hero-link, .footer-nav a {
-      color: #e0e0e0; /* Link text color */
-      text-decoration: none; /* Removes underline from links */
-      font-size: clamp(0.8em, 2.2vw, 0.9em); /* Responsive font size */
-      padding: 10px 15px; /* Padding inside links */
-      border-radius: 10px; /* Rounded corners for links */
-      background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-      border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2), /* Outer shadow */
-                  inset 1px 1px 1px rgba(255,255,255,0.2), /* Inner highlight */
-                  inset -1px -1px 1px rgba(0,0,0,0.1); /* Inner shadow */
-      transition: all 0.2s ease-out; /* Smooth transition for hover effects */
-      text-shadow: 0 1px 1px rgba(0,0,0,0.2); /* Text shadow for readability */
-      text-align: center; /* Center-aligns text within links */
-      flex-basis: 130px; /* Base width for flex items before growing/shrinking */
-      flex-grow: 1; /* Allows items to grow and fill available space */
+      color: #e0e0e0; /* Standard link text color. */
+      text-decoration: none; /* Removes default underline from links. */
+      font-size: clamp(0.8em, 2.2vw, 0.9em); /* Responsive font size for adaptability. */
+      padding: 8px 12px; /* Default padding, overridden for specific hero links. */
+      border-radius: 8px; /* Slightly smaller border radius for a more rectangular feel. */
+      background: rgba(255, 255, 255, 0.1); /* Subtle semi-transparent background. */
+      border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for definition. */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2), /* Standard shadow for depth. */
+                  inset 1px 1px 1px rgba(255,255,255,0.2),
+                  inset -1px -1px 1px rgba(0,0,0,0.1);
+      transition: all 0.2s ease-out; /* Smooth transition for hover and active states. */
+      text-shadow: 0 1px 1px rgba(0,0,0,0.2); /* Text shadow for improved readability. */
+      text-align: center; /* Ensures text within links is centered. */
     }
-    /* Hover effect for links */
+
+    /* Specific styling for the side hero links (LP & PowApp). */
+    /* These links are designed to be smaller, rectangular, and flank the central logo. */
+    .hero-header .hero-link-left,
+    .hero-header .hero-link-right {
+      flex-basis: 30%; /* Allows links to take a portion of the width, leaving space for the logo. */
+      flex-grow: 1; /* Allows them to grow if space is available but respects flex-basis. */
+      padding: 6px 10px; /* REDUCED padding for smaller, rectangular button appearance. */
+      font-size: clamp(0.7em, 1.8vw, 0.8em); /* SMALLER font size for these specific buttons. */
+      /* Height will be determined by content (font-size, padding). Ensure it's less than logo. */
+      min-height: auto; /* Override any potential min-height from general .hero-link styles if any were added. */
+      display: flex; /* Use flex to center text vertically if it wraps. */
+      align-items: center; /* Center text vertically. */
+      justify-content: center; /* Center text horizontally. */
+    }
+
+    /* Styling for the Blapu logo image link in the hero header. */
+    /* Ensures the logo is displayed correctly and maintains its aspect ratio. */
+    .hero-header .blapu-logo-link {
+      flex-shrink: 0; /* Prevents the logo from shrinking if space is tight. */
+      padding: 0; /* Remove padding from the logo link container. */
+      background: transparent; /* Ensure no background color is applied to the logo container. */
+      border: none; /* Remove border from the logo link container. */
+      box-shadow: none; /* Remove box-shadow from the logo link container. */
+    }
+    .hero-header .blapu-logo-link img {
+      width: clamp(60px, 15vw, 80px); /* SLIGHTLY SMALLER logo for better balance with new buttons. */
+      height: clamp(60px, 15vw, 80px); /* SLIGHTLY SMALLER logo for better balance. */
+      display: block;
+    }
+
+    /* Hover effect for hero and footer links. Enhances interactivity. */
     .hero-header .hero-link:hover, .footer-nav a:hover {
       background: rgba(255, 255, 255, 0.15); /* Slightly less transparent on hover */
       box-shadow: 0 6px 12px rgba(0,0,0,0.3),
@@ -563,17 +596,26 @@
         font-size: clamp(0.75em, 2vw, 0.85em);
       }
       /* Make hero buttons (LP & TOP 35) snug: significantly reduce vertical padding for a tighter fit to text. */
-      .hero-header .hero-link {
-        padding-top: 4px;    /* Minimal top padding for hero links for snug fit. */
-        padding-bottom: 4px; /* Minimal bottom padding for hero links for snug fit. */
-      }
+      /* This was part of a previous iteration; specific hero link sizing is now handled by .hero-link-left/right */
+      /* and the general .hero-header .hero-link styles. */
+      /* Removing these more generic overrides to rely on the new specific styles. */
+
       /* Standard reduced padding for footer nav links (keeps them slightly taller than hero links for differentiation if needed) */
       .footer-nav a {
         padding-top: 8px;    /* Default reduced top padding for footer links */
         padding-bottom: 8px; /* Default reduced bottom padding for footer links */
       }
 
+      /* --- Mobile Widget Adjustments --- */
+      /* Reduce horizontal padding within widgets on small screens to decrease their perceived width and mitigate side-scrolling. */
+      .widget {
+        padding-left: 8px; /* REDUCE left padding by approx 50% (was 15px). */
+        padding-right: 8px; /* REDUCE right padding by approx 50% (was 15px). */
+        /* Vertical padding (padding-top, padding-bottom) remains as per the default .widget style (15px) unless specified otherwise. */
+      }
+
       /* Adjust Blapu character size for small screens */
+      /* Character is hidden via display:none at 700px breakpoint, so these are fallback/reference if that changes. */
       .character-container {
         width: 100px; /* Halved from 200px */
         height: 130px; /* Halved from 260px */
