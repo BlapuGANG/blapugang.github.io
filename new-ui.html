@@ -21,11 +21,11 @@
       /* These are adjusted in media queries for responsiveness. */
       /* Animation path is now centered around -9vw (9% to the left of screen center) */
       /* based on iterative user feedback to achieve desired visual centering. */
-      /* Base travel radius is 35vw (total width 70vw). */
-      --crip-walk-start: -44vw; /* -9vw (new_center) - 35vw (radius) */
-      --crip-walk-mid-1: -9vw;   /* Animation path's new center point */
-      --crip-walk-end: 26vw;    /* -9vw (new_center) + 35vw (radius) */
-      --crip-walk-mid-2: -9vw;   /* Animation path's new center point */
+      /* Base travel radius is 35vw (total path width 70vw). */
+      --crip-walk-start: -44vw; /* -9vw (current_center) - 35vw (radius) */
+      --crip-walk-mid-1: -9vw;   /* Animation path's current center point */
+      --crip-walk-end: 26vw;    /* -9vw (current_center) + 35vw (radius) */
+      --crip-walk-mid-2: -9vw;   /* Animation path's current center point */
     }
 
     /* General Page Setup */
@@ -514,11 +514,11 @@
         height: 416px;
         filter: blur(7px);
       }
-      /* Adjust crip walk for medium screens: new center -9vw, radius 25vw. */
+      /* Adjust crip walk for medium screens: current center -9vw, radius 25vw. */
       :root {
-        --crip-walk-start: -34vw; /* -9vw (new_center) - 25vw (radius) */
+        --crip-walk-start: -34vw; /* -9vw (current_center) - 25vw (radius) */
         --crip-walk-mid-1: -9vw;
-        --crip-walk-end: 16vw;    /* -9vw (new_center) + 25vw (radius) */
+        --crip-walk-end: 16vw;    /* -9vw (current_center) + 25vw (radius) */
         --crip-walk-mid-2: -9vw;
       }
     }
@@ -532,7 +532,7 @@
       /* Adjust glass panel padding and margins for smaller screens */
       .glass-panel {
         padding: 10px; /* Further reduce inner padding */
-        margin-top: 20px; /* Reduce top margin */
+        margin-top: 0; /* Reduce top margin to 0; body padding-top (10px) creates the desired top space. */
         margin-bottom: 20px; /* Reduce bottom margin */
       }
 
@@ -567,10 +567,10 @@
       .hero-header .hero-link, .footer-nav a {
         font-size: clamp(0.75em, 2vw, 0.85em);
       }
-      /* Make hero buttons (LP & TOP 35) snug: further reduce vertical padding for a tighter fit to text. */
+      /* Make hero buttons (LP & TOP 35) snug: significantly reduce vertical padding for a tighter fit to text. */
       .hero-header .hero-link {
-        padding-top: 6px;    /* Snug top padding for hero links */
-        padding-bottom: 6px; /* Snug bottom padding for hero links */
+        padding-top: 4px;    /* Minimal top padding for hero links for snug fit. */
+        padding-bottom: 4px; /* Minimal bottom padding for hero links for snug fit. */
       }
       /* Standard reduced padding for footer nav links (keeps them slightly taller than hero links for differentiation if needed) */
       .footer-nav a {
@@ -584,11 +584,11 @@
         height: 260px;
         filter: blur(8px);
       }
-      /* Adjust crip walk for small screens: new center -9vw, radius 20vw. */
+      /* Adjust crip walk for small screens: current center -9vw, radius 20vw. */
       :root {
-        --crip-walk-start: -29vw; /* -9vw (new_center) - 20vw (radius) */
+        --crip-walk-start: -29vw; /* -9vw (current_center) - 20vw (radius) */
         --crip-walk-mid-1: -9vw;
-        --crip-walk-end: 11vw;    /* -9vw (new_center) + 20vw (radius) */
+        --crip-walk-end: 11vw;    /* -9vw (current_center) + 20vw (radius) */
         --crip-walk-mid-2: -9vw;
       }
     }
@@ -602,11 +602,11 @@
         filter: blur(9px);
       }
       /* Most restricted crip walk animation range for very small screens */
-      /* Adjust crip walk for very small screens: new center -9vw, radius 15vw. */
+      /* Adjust crip walk for very small screens: current center -9vw, radius 15vw. */
       :root {
-        --crip-walk-start: -24vw; /* -9vw (new_center) - 15vw (radius) */
+        --crip-walk-start: -24vw; /* -9vw (current_center) - 15vw (radius) */
         --crip-walk-mid-1: -9vw;
-        --crip-walk-end: 6vw;     /* -9vw (new_center) + 15vw (radius) */
+        --crip-walk-end: 6vw;     /* -9vw (current_center) + 15vw (radius) */
         --crip-walk-mid-2: -9vw;
       }
     }
