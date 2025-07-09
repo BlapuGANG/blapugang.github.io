@@ -19,10 +19,12 @@
     :root {
       /* Variables for controlling Blapu character's crip walk animation extents. */
       /* These are adjusted in media queries for responsiveness. */
-      --crip-walk-start: -40vw; /* Default starting/ending X position (relative to center) */
-      --crip-walk-mid-1: 0vw;   /* Default first mid-point X position */
-      --crip-walk-end: 40vw;    /* Default main travel X position (relative to center) */
-      --crip-walk-mid-2: 0vw;   /* Default second mid-point X position */
+      /* Magnitudes initially set to +/-40vw, then reduced to +/-35vw (and further in MQs) */
+      /* to prevent character from going too far off-screen and ensure more balanced visual centering. */
+      --crip-walk-start: -35vw; /* Default starting/ending X position (relative to center) */
+      --crip-walk-mid-1: 0vw;   /* Mid-point of travel (center screen) */
+      --crip-walk-end: 35vw;    /* Default main travel X position (relative to center) */
+      --crip-walk-mid-2: 0vw;   /* Mid-point of travel (center screen) */
     }
 
     /* General Page Setup */
@@ -511,11 +513,11 @@
         height: 416px;
         filter: blur(7px);
       }
-      /* Reduce crip walk animation range for medium screens */
+      /* Reduce crip walk animation range for medium screens (previously +/-30vw, now +/-25vw) */
       :root {
-        --crip-walk-start: -30vw;
+        --crip-walk-start: -25vw;
         --crip-walk-mid-1: 0vw;
-        --crip-walk-end: 30vw;
+        --crip-walk-end: 25vw;
         --crip-walk-mid-2: 0vw;
       }
     }
@@ -581,11 +583,11 @@
         height: 260px;
         filter: blur(8px);
       }
-      /* Further reduce crip walk animation range for small screens */
+      /* Further reduce crip walk animation range for small screens (previously +/-25vw, now +/-20vw) */
       :root {
-        --crip-walk-start: -25vw;
+        --crip-walk-start: -20vw;
         --crip-walk-mid-1: 0vw;
-        --crip-walk-end: 25vw;
+        --crip-walk-end: 20vw;
         --crip-walk-mid-2: 0vw;
       }
     }
@@ -599,11 +601,11 @@
         filter: blur(9px);
       }
       /* Most restricted crip walk animation range for very small screens */
-      /* This helps prevent the character from causing layout overflow issues. */
+      /* This helps prevent the character from causing layout overflow issues. (previously +/-20vw, now +/-15vw) */
       :root {
-        --crip-walk-start: -20vw;
+        --crip-walk-start: -15vw;
         --crip-walk-mid-1: 0vw;
-        --crip-walk-end: 20vw;
+        --crip-walk-end: 15vw;
         --crip-walk-mid-2: 0vw;
       }
     }
