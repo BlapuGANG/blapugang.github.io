@@ -83,9 +83,9 @@
     /* translateY values adjusted for symmetrical vertical movement to balance perceived time on left/right. */
     @keyframes detailedCripWalk {
       0%   { transform: translateX(var(--crip-walk-start)) translateY(0px) rotate(-5deg); } /* Start left */
-      25%  { transform: translateX(var(--crip-walk-mid-1)) translateY(-15px) rotate(0deg); } /* Mid-transition point, dips down */
+      25%  { transform: translateX(var(--crip-walk-mid-1)) translateY(-45px) rotate(0deg); } /* Mid-transition point, dips down MORE */
       50%  { transform: translateX(var(--crip-walk-end)) translateY(0px) rotate(5deg); }   /* Furthest right, returns to base Y */
-      75%  { transform: translateX(var(--crip-walk-mid-2)) translateY(-15px) rotate(0deg); } /* Mid-transition point, dips down (symmetrical with 25% mark) */
+      75%  { transform: translateX(var(--crip-walk-mid-2)) translateY(-45px) rotate(0deg); } /* Mid-transition point, dips down MORE (symmetrical with 25% mark) */
       100% { transform: translateX(var(--crip-walk-start)) translateY(0px) rotate(-5deg); } /* Return to start */
     }
     /* Keyframes for arm and leg swing animations (decorative) */
@@ -680,10 +680,11 @@
       /* These vw values are relative to viewport and might not need direct scaling, */
       /* but are kept here for context. User requested size change, not animation path change. */
       :root {
-        --crip-walk-start: -34vw; /* -9vw (current_center) - 25vw (radius) */
-        --crip-walk-mid-1: -9vw;
-        --crip-walk-end: 16vw;    /* -9vw (current_center) + 25vw (radius) */
-        --crip-walk-mid-2: -9vw;
+        /* CRAZIER PATH for 700px */
+        --crip-walk-start: -42vw;
+        --crip-walk-mid-1: -5vw;
+        --crip-walk-end: 24vw;
+        --crip-walk-mid-2: -15vw;
       }
     }
 
@@ -897,10 +898,11 @@
       /* Adjust crip walk for small screens: current center -9vw, radius 20vw. */
       /* VW units are relative, not directly scaling. */
       :root {
-        --crip-walk-start: -29vw; /* -9vw (current_center) - 20vw (radius) */
-        --crip-walk-mid-1: -9vw;
-        --crip-walk-end: 11vw;    /* -9vw (current_center) + 20vw (radius) */
-        --crip-walk-mid-2: -9vw;
+        /* CRAZIER PATH for 520px */
+        --crip-walk-start: -35vw;
+        --crip-walk-mid-1: -2vw;
+        --crip-walk-end: 17vw;
+        --crip-walk-mid-2: -12vw;
       }
     }
 
@@ -1042,9 +1044,10 @@
       /* Adjust crip walk for very small screens: current center -9vw, radius 15vw. */
       /* VW units are relative, not directly scaling. */
       :root {
-        --crip-walk-start: -24vw; /* -9vw (current_center) - 15vw (radius) */
-        --crip-walk-mid-1: -9vw;
-        --crip-walk-end: 6vw;     /* -9vw (current_center) + 15vw (radius) */
-        --crip-walk-mid-2: -9vw;
+        /* CRAZIER PATH for 380px */
+        --crip-walk-start: -29vw;
+        --crip-walk-mid-1: 0vw;
+        --crip-walk-end: 11vw;
+        --crip-walk-mid-2: -10vw;
       }
     }
