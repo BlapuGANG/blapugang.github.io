@@ -445,6 +445,10 @@
       margin-bottom: 25px; /* Space below paragraphs */
       color: #e0e0e0; /* Slightly darker text color for paragraphs */
     }
+    /* Class for paragraphs that will be randomly selected for display */
+    .rotating-quote {
+      display: none; /* Hide all quotes by default; JS will show one */
+    }
 
     /* Embedded Widgets (Vestige Charts/Swap) */
     .widget-container {
@@ -527,19 +531,40 @@
         margin-top: 20px; /* Reduce top margin */
         margin-bottom: 20px; /* Reduce bottom margin */
       }
-      /* Stack hero header items vertically */
+
+      /* --- Mobile Hero Section Adjustments --- */
+      /* Stack hero header items vertically and make them more compact */
       .hero-header {
         flex-direction: column; /* Stack items vertically */
         align-items: center; /* Center items horizontally */
-        gap: 15px;
+        gap: 10px; /* Reduced gap between items for tighter layout */
+        margin-bottom: 10px; /* Reduced bottom margin for tighter layout */
       }
-      /* Stack footer navigation items vertically */
+
+      /* --- Mobile Footer Navigation Adjustments --- */
+      /* Allow footer links to sit side-by-side and wrap, instead of strict stacking */
       .footer-nav {
-        flex-direction: column; /* Stack items vertically */
-        align-items: center; /* Center items horizontally */
-        gap: 8px;
+        flex-direction: row; /* Allow items to flow in a row */
+        flex-wrap: wrap;     /* Allow footer links to wrap if they don't all fit */
+        justify-content: center; /* Center the wrapped lines of links */
+        align-items: center; /* Align items nicely if they wrap to multiple lines */
+        gap: 8px; /* Gap between footer links */
       }
-      .footer-nav .separator { display: none; } /* Hide separators in vertical layout */
+      /* Fine-tune footer link behavior on mobile for better wrapping */
+      .footer-nav a {
+        flex-grow: 0; /* Prevent individual links from growing disproportionately */
+        flex-basis: auto; /* Let links size based on their content and padding */
+      }
+      /* Separators are hidden as they might look odd with centered, wrapped links */
+      .footer-nav .separator { display: none; }
+
+      /* --- Mobile Button Height and Font Size Adjustments --- */
+      /* Make all hero and footer buttons less tall and use a slightly smaller font on mobile */
+      .hero-header .hero-link, .footer-nav a {
+        padding-top: 8px;    /* Reduced top padding */
+        padding-bottom: 8px; /* Reduced bottom padding */
+        font-size: clamp(0.75em, 2vw, 0.85em); /* Slightly smaller, responsive font */
+      }
 
       /* Adjust Blapu character size for small screens */
       .character-container {
@@ -612,13 +637,13 @@
       </a>
       <a href="https://powapp.xyz/" target="_blank" rel="noopener noreferrer" class="hero-link powapp-link">We want &gt; TOP 35 LP by TVL on PowApp</a>
     </div>
-    <p>
+    <p class="rotating-quote">
       So how do you guys see things play out? I imagine it can reach the 10-15 cents area if it gets traction. Then the only way we can profit without blowing it up is by deploying our now expensive blapu. - Capt. Blapbeard.
     </p>
-    <p>
+    <p class="rotating-quote">
       Kinda crazy that the project has been around that long, and yet I feel like a solid amount of work has been done and traction gained for a shitcoin like Blapu.<br>Here's to the next 100. - Shantar (Blapu 🐋).
     </p>
-    <p>
+    <p class="rotating-quote">
       Buy, LP, Farm, Hodl and collect cans for more blaps. Simple as. /blap
     </p>
     <div class="widget-container">
@@ -681,6 +706,20 @@
         window.location.href = 'index.html';
       });
     }
+
+    // JavaScript for displaying a random quote
+    document.addEventListener('DOMContentLoaded', function() {
+      // Select all paragraphs with the class 'rotating-quote' that are children of .glass-panel
+      const quotes = document.querySelectorAll('.glass-panel > p.rotating-quote');
+
+      if (quotes.length > 0) {
+        // CSS already hides these by default (.rotating-quote { display: none; }),
+        // so no need to hide via JS. This prevents a Flash Of Unstyled Content (FOUC).
+
+        const randomIndex = Math.floor(Math.random() * quotes.length); // Get a random index
+        quotes[randomIndex].style.display = 'block'; // Show the randomly selected quote by setting its display style to 'block'
+      }
+    });
   </script>
 </body>
 </html>
