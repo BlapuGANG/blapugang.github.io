@@ -96,14 +96,13 @@
 
     /* Blapu Character Blueprint Styles */
     /* Container for the animated Blapu character. */
-    /* Base container dimensions for percentage calculations: width: 250px, height: 325px (from previous 50% scaling) */
     .character-container {
       position: absolute; /* Positioned relative to #animated-blapu-bg */
       bottom: 1%; /* Sits near the bottom of the viewport */
       left: 50%; /* Horizontally centered */
       transform: translateX(-50%); /* Fine-tunes centering */
-      width: 18vw; /* Base width, converted to vw. Original 250px on ~1440px viewport. (18 * 1440/100 = 259.2) */
-      height: 23.4vw; /* Base height, converted to vw to maintain 10:13 aspect ratio (18 * 1.3 = 23.4) */
+      width: 250px; /* Base width, adjusted by media queries - halved from 500px */
+      height: 325px; /* Base height, adjusted by media queries - halved from 650px */
       z-index: 1; /* Above blobs, below main content panel */
       filter: blur(5px); /* Applies a blur effect, adjusted in media queries */
       animation: detailedCripWalk 25s infinite ease-in-out; /* Applies the walking animation */
@@ -115,243 +114,234 @@
     /* Head */
     .head {
       position: absolute;
-      top: 7.6923%; /* 25px / 325px */
+      top: 25px; /* Halved from 50px */
       left: 50%;
       transform: translateX(-50%);
-      width: 56%; /* 140px / 250px */
-      height: 38.4615%; /* 125px / 325px */
+      width: 140px; /* Halved from 280px */
+      height: 125px; /* Halved from 250px */
       background: #1e50ff;
-      border: 1px solid #000; /* Was 1.5px */
-      border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%;
+      border: 1.5px solid #000; /* Halved from 3px */
+      border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%; /* Percentages remain, border thickness adjusted if it was px */
       z-index: 5;
     }
     /* Ears */
     .ear {
       position: absolute;
-      top: 2.3077%; /* 7.5px / 325px */
-      width: 14%; /* 35px / 250px */
-      height: 13.8462%; /* 45px / 325px */
+      top: 7.5px; /* Halved from 15px */
+      width: 35px; /* Halved from 70px */
+      height: 45px; /* Halved from 90px */
       background: #1e50ff;
-      border: 1px solid #000; /* Was 1.5px */
+      border: 1.5px solid #000; /* Halved from 3px */
       z-index: 4;
     }
     .ear.left {
-      left: 20%; /* 50px / 250px */
+      left: 50px; /* Halved from 100px */
       border-radius: 80% 20% 5% 5% / 100% 20% 5% 5%;
       transform: rotate(-15deg);
     }
     .ear.right {
-      right: 20%; /* 50px / 250px */
+      right: 50px; /* Halved from 100px */
       border-radius: 20% 80% 5% 5% / 20% 100% 5% 5%;
       transform: rotate(15deg);
     }
-    .ear::after { /* Relative to .ear (W:14%, H:13.8462% of container -> W:35px, H:45px) */
+    .ear::after {
       content: '';
       position: absolute;
-      top: 16.6667%; /* 7.5px / 45px */
+      top: 7.5px; /* Halved from 15px */
       left: 50%;
       transform: translateX(-50%);
-      width: 57.1429%; /* 20px / 35px */
-      height: 55.5556%; /* 25px / 45px */
+      width: 20px; /* Halved from 40px */
+      height: 25px; /* Halved from 50px */
       background: #ff47b6;
       border-radius: 50% / 60% 60% 40% 40%;
     }
     /* Eyes */
-    .eyes { /* Relative to .head */
+    .eyes {
       position: absolute;
-      top: 36%; /* 45px / 125px (height of head) */
-      width: 100%; /* of .head */
+      top: 45px; /* Halved from 90px */
+      width: 100%;
       display: flex;
       justify-content: center;
-      gap: 1.7857%; /* 2.5px / 140px (width of head) */
+      gap: 2.5px; /* Halved from 5px */
     }
-    .eye { /* Relative to .head (W:56%, H:38.4615% of container -> W:140px, H:125px) */
-      width: 39.2857%; /* 55px / 140px */
-      height: 36%;    /* 45px / 125px */
+    .eye {
+      width: 55px; /* Halved from 110px */
+      height: 45px; /* Halved from 90px */
       background: #fff;
-      border: 1px solid #000; /* Was 1.5px */
+      border: 1.5px solid #000; /* Halved from 3px */
       border-radius: 50%;
       position: relative;
       overflow: hidden;
     }
-    .eye::before { /* Relative to .eye (W:39.2857% of head, H:36% of head -> W:55px, H:45px) */
+    .eye::before {
       content: '';
       position: absolute;
-      top: -55.5556%; /* -25px / 45px */
-      left: -9.0909%; /* -5px / 55px */
-      width: 118.1818%; /* 65px / 55px */
-      height: 111.1111%; /* 50px / 45px */
+      top: -25px; /* Halved from -50px */
+      left: -5px; /* Halved from -10px */
+      width: 65px; /* Halved from 130px */
+      height: 50px; /* Halved from 100px */
       background: #1e50ff;
-      border-bottom: 1px solid #000; /* Was 1.5px */
+      border-bottom: 1.5px solid #000; /* Halved from 3px */
       border-radius: 50%;
     }
-    .pupil { /* Relative to .eye (W:55px, H:45px) */
+    .pupil {
       position: absolute;
-      bottom: 16.6667%; /* 7.5px / 45px */
+      bottom: 7.5px; /* Halved from 15px */
       left: 50%;
       transform: translateX(-50%);
-      width: 31.8182%; /* 17.5px / 55px */
-      height: 44.4444%; /* 20px / 45px */
+      width: 17.5px; /* Halved from 35px */
+      height: 20px; /* Halved from 40px */
       background: #000;
       border-radius: 50%;
     }
-    .pupil::after { /* Relative to .pupil (W:17.5px, H:20px) */
+    .pupil::after {
       content: '';
       position: absolute;
-      top: 20%; /* 4px / 20px */
-      left: 22.8571%; /* 4px / 17.5px */
-      width: 28.5714%; /* 5px / 17.5px */
-      height: 25%; /* 5px / 20px */
+      top: 4px; /* Halved from 8px */
+      left: 4px; /* Halved from 8px */
+      width: 5px; /* Halved from 10px */
+      height: 5px; /* Halved from 10px */
       background: #fff;
       border-radius: 50%;
     }
     /* Lips */
     .lips {
       position: absolute;
-      top: 29.2308%; /* 95px / 325px */
+      top: 95px; /* Halved from 190px */
       left: 50%;
       transform: translateX(-50%);
-      width: 40%; /* 100px / 250px */
-      height: 6.9231%; /* 22.5px / 325px */
+      width: 100px; /* Halved from 200px */
+      height: 22.5px; /* Halved from 45px */
       background: #ff47b6;
-      border: 1px solid #000; /* Was 1.5px */
+      border: 1.5px solid #000; /* Halved from 3px */
       border-radius: 30% 30% 50% 50% / 30% 30% 100% 100%;
     }
     /* Body */
     .body {
       position: absolute;
-      top: 45.8462%; /* 149px / 325px */
+      top: 149px; /* Halved from 298px (approx) */
       left: 50%;
       transform: translateX(-50%);
-      width: 48%; /* 120px / 250px */
-      height: 27.6923%; /* 90px / 325px */
+      width: 120px; /* Halved from 240px */
+      height: 90px; /* Halved from 180px */
       background: #6d4c41;
-      border: 1px solid #000; /* Was 1.5px */
+      border: 1.5px solid #000; /* Halved from 3px */
       border-top: none;
-      border-radius: 10% 10% 8.3333% 8.3333%; /* 10px is 8.3333% of 120px body width */
+      border-radius: 10% 10% 10px 10px; /* Halved from 20px */
       z-index: 3;
     }
     /* Neck */
     .neck-line {
       position: absolute;
-      top: 45.8462%; /* 149px / 325px */
+      top: 149px; /* Halved from 298px (approx) */
       left: 50%;
       transform: translateX(-50%);
-      width: 20%; /* 50px / 250px */
-      height: 1px; /* Was 1.5px, min thickness */
+      width: 50px; /* Halved from 100px */
+      height: 1.5px; /* Halved from 3px */
       background: #000;
       z-index: 6;
     }
     /* Arms */
     .arm {
       position: absolute;
-      top: 47.6923%; /* 155px / 325px */
-      width: 12%; /* 30px / 250px */
-      height: 20%; /* 65px / 325px */
+      top: 155px; /* Halved from 310px */
+      width: 30px; /* Halved from 60px */
+      height: 65px; /* Halved from 130px */
       background: #6d4c41;
-      border: 1px solid #000; /* Was 1.5px */
+      border: 1.5px solid #000; /* Halved from 3px */
       z-index: 2;
       transform-origin: top center;
     }
     .arm.left {
-      left: 14%; /* 35px / 250px */
-      /* border-radius: 15px 5px 5px 15px; W:30 H:65 */
-      border-radius: 50% 16.6667% 16.6667% 50% / 23.0769% 7.6923% 7.6923% 23.0769%;
+      left: 35px; /* Halved from 70px */
+      border-radius: 15px 5px 5px 15px; /* Halved from 30px 10px 10px 30px */
       animation: blapuArmSwing 3s infinite ease-in-out alternate;
     }
     .arm.right {
-      right: 14%; /* 35px / 250px */
-      /* border-radius: 5px 15px 15px 5px; W:30 H:65 */
-      border-radius: 16.6667% 50% 50% 16.6667% / 7.6923% 23.0769% 23.0769% 7.6923%;
+      right: 35px; /* Halved from 70px */
+      border-radius: 5px 15px 15px 5px; /* Halved from 10px 30px 30px 10px */
       animation: blapuArmSwingR 3s infinite ease-in-out alternate;
     }
     /* Hands */
-    .hand { /* Relative to .arm (W:12% of container -> 30px, H:20% of container -> 65px) */
+    .hand {
       position: absolute;
-      top: 84.6154%; /* 55px / 65px */
-      width: 100%; /* 30px / 30px */
-      height: 46.1538%; /* 30px / 65px */
+      top: 55px; /* Halved from 110px */
+      width: 30px; /* Halved from 60px */
+      height: 30px; /* Halved from 60px */
       background: #1e50ff;
-      border: 1px solid #000; /* Was 1.5px */
+      border: 1.5px solid #000; /* Halved from 3px */
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     }
-    .arm.left .hand { left: -25%; /* -7.5px / 30px */ }
-    .arm.right .hand { right: -25%; /* -7.5px / 30px */ }
+    .arm.left .hand { left: -7.5px; /* Halved from -15px */ }
+    .arm.right .hand { right: -7.5px; /* Halved from -15px */ }
     /* Legs */
     .legs {
       position: absolute;
-      bottom: 10.7692%; /* 35px / 325px */
+      bottom: 35px; /* Halved from 70px */
       left: 50%;
       transform: translateX(-50%);
-      width: 56%; /* 140px / 250px */
-      height: 18.4615%; /* 60px / 325px */
+      width: 140px; /* Halved from 280px */
+      height: 60px; /* Halved from 120px */
       z-index: 1;
     }
-    .leg { /* Relative to .legs (W:56% of cont. -> 140px, H:18.4615% of cont. -> 60px) */
+    .leg {
       position: absolute;
       bottom: 0;
-      width: 42.8571%; /* 60px / 140px */
-      height: 100%; /* 60px / 60px */
+      width: 60px; /* Halved from 120px */
+      height: 60px; /* Halved from 120px */
       background: #bdc3c7;
-      border: 1px solid #000; /* Was 1.5px */
+      border: 1.5px solid #000; /* Halved from 3px */
       transform-origin: top center;
     }
     .leg.left {
       left: 0;
-      /* border-radius: 20px 5px 0 0; W:60 H:60 */
-      border-radius: 33.3333% 8.3333% 0 0 / 33.3333% 8.3333% 0 0;
+      border-radius: 20px 5px 0 0; /* Halved from 40px 10px 0 0 */
       animation: blapuLegSwing 2s infinite ease-in-out;
     }
     .leg.right {
       right: 0;
-      /* border-radius: 5px 20px 0 0; W:60 H:60 */
-      border-radius: 8.3333% 33.3333% 0 0 / 8.3333% 33.3333% 0 0;
+      border-radius: 5px 20px 0 0; /* Halved from 10px 40px 0 0 */
       animation: blapuLegSwingR 2s infinite ease-in-out;
     }
     /* Shoes */
-    .shoe { /* Relative to .leg (W:42.8571% of legs -> 60px, H:100% of legs -> 60px) */
+    .shoe {
       position: absolute;
-      bottom: -41.6667%; /* -25px / 60px */
-      width: 108.3333%; /* 65px / 60px */
-      height: 66.6667%; /* 40px / 60px */
+      bottom: -25px; /* Halved from -50px */
+      width: 65px; /* Halved from 130px */
+      height: 40px; /* Halved from 80px */
       background-color: #e74c3c;
-      border: 1px solid #000; /* Was 1.5px */
+      border: 1.5px solid #000; /* Halved from 3px */
       z-index: 2;
     }
     .leg.left .shoe {
-      left: -4.1667%; /* -2.5px / 60px */
-      /* border-radius: 15px 5px 7.5px 7.5px; Shoe W:65 H:40 */
-      border-radius: 23.0769% 7.6923% 11.5385% 11.5385% / 37.5% 12.5% 18.75% 18.75%;
+      left: -2.5px; /* Halved from -5px */
+      border-radius: 15px 5px 7.5px 7.5px; /* Halved from 30px 10px 15px 15px */
     }
     .leg.right .shoe {
-      right: -4.1667%; /* -2.5px / 60px */
-      /* border-radius: 10px 30px 15px 15px; Shoe W:65 H:40 - Error in prev comment, should be 5px 15px... */
-      /* Correcting from .leg.right .shoe original: 5px 15px 7.5px 7.5px */
-      border-radius: 7.6923% 23.0769% 11.5385% 11.5385% / 12.5% 37.5% 18.75% 18.75%;
+      right: -2.5px; /* Halved from -5px */
+      border-radius: 5px 15px 7.5px 7.5px; /* Halved from 10px 30px 15px 15px */
     }
-    .shoe::before { /* Relative to .shoe (W:108.3333% of leg -> 65px, H:66.6667% of leg -> 40px) */
+    .shoe::before {
       content: '';
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 31.25%; /* 12.5px / 40px */
+      height: 12.5px; /* Halved from 25px */
       background: #fff;
-      border-top: 1px solid #000; /* Was 1.5px */
-      /* border-radius: 0 0 6px 6px; self H:12.5px, self W:65px */
-      border-radius: 0 0 9.2308% 9.2308%; /* 6px/65px for H-radius, assuming V-radius scales similarly or is small */
+      border-top: 1.5px solid #000; /* Halved from 3px */
+      border-radius: 0 0 6px 6px; /* Halved from 12px */
     }
-    .shoe::after { /* Relative to .shoe (W:65px, H:40px) */
+    .shoe::after {
       content: '';
       position: absolute;
-      top: 18.75%; /* 7.5px / 40px */
-      left: 19.2308%; /* 12.5px / 65px */
-      width: 26.9231%; /* 17.5px / 65px */
-      height: 37.5%; /* 15px / 40px */
+      top: 7.5px; /* Halved from 15px */
+      left: 12.5px; /* Halved from 25px */
+      width: 17.5px; /* Halved from 35px */
+      height: 15px; /* Halved from 30px */
       background: #fff;
-      border: 1px solid #000; /* Was 1.5px */
-      /* border-radius: 5px; self W:17.5px, H:15px */
-      border-radius: 28.5714%; /* 5px/17.5px for H-radius, can use same for V or calculate (5/15=33.3%) */
+      border: 1.5px solid #000; /* Halved from 3px */
+      border-radius: 5px; /* Halved from 10px */
     }
 
     /* Main Content Glass Panel Styles */
@@ -510,8 +500,8 @@
     @media (max-width: 700px) {
       /* Adjust Blapu character size and animation for medium screens */
       .character-container {
-        width: 22vw; /* Approx 154px on 700px screen, was 160px */
-        height: 28.6vw; /* 22vw * 1.3 to maintain aspect ratio */
+        width: 160px; /* Halved from 320px */
+        height: 208px; /* Halved from 416px */
         filter: blur(7px);
       }
       /* Adjust crip walk for medium screens: current center -9vw, radius 25vw. */
@@ -582,8 +572,8 @@
 
       /* Adjust Blapu character size for small screens */
       .character-container {
-        width: 25vw; /* Approx 130px on 520px screen, was 100px */
-        height: 32.5vw; /* 25vw * 1.3 */
+        width: 100px; /* Halved from 200px */
+        height: 130px; /* Halved from 260px */
         filter: blur(8px);
       }
       /* Adjust crip walk for small screens: current center -9vw, radius 20vw. */
@@ -600,8 +590,8 @@
     @media (max-width: 380px) {
       /* Adjust Blapu character size for very small screens */
       .character-container {
-        width: 28vw; /* Approx 106.4px on 380px screen, was 75px */
-        height: 36.4vw; /* 28vw * 1.3 */
+        width: 75px; /* Halved from 150px */
+        height: 97.5px; /* Halved from 195px - using .5 for precision */
         filter: blur(9px);
       }
       /* Most restricted crip walk animation range for very small screens */
