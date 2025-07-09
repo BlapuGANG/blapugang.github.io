@@ -74,12 +74,13 @@
 
     /* Blapu Character Animation Keyframes */
     /* Keyframe for the main character's side-to-side "crip walk" animation. */
-    /* Uses CSS variables (--crip-walk-*) to allow responsive adjustments of travel distance. */
+    /* Uses CSS variables (--crip-walk-*) to allow responsive adjustments of X-axis travel distance. */
+    /* translateY values adjusted for symmetrical vertical movement to balance perceived time on left/right. */
     @keyframes detailedCripWalk {
       0%   { transform: translateX(var(--crip-walk-start)) translateY(0px) rotate(-5deg); } /* Start left */
-      25%  { transform: translateX(var(--crip-walk-mid-1)) translateY(-15px) rotate(0deg); } /* Mid-transition point */
-      50%  { transform: translateX(var(--crip-walk-end)) translateY(0px) rotate(5deg); }   /* Furthest right */
-      75%  { transform: translateX(var(--crip-walk-mid-2)) translateY(-10px) rotate(0deg); } /* Mid-transition point */
+      25%  { transform: translateX(var(--crip-walk-mid-1)) translateY(-15px) rotate(0deg); } /* Mid-transition point, dips down */
+      50%  { transform: translateX(var(--crip-walk-end)) translateY(0px) rotate(5deg); }   /* Furthest right, returns to base Y */
+      75%  { transform: translateX(var(--crip-walk-mid-2)) translateY(-15px) rotate(0deg); } /* Mid-transition point, dips down (symmetrical with 25% mark) */
       100% { transform: translateX(var(--crip-walk-start)) translateY(0px) rotate(-5deg); } /* Return to start */
     }
     /* Keyframes for arm and leg swing animations (decorative) */
@@ -559,11 +560,19 @@
       .footer-nav .separator { display: none; }
 
       /* --- Mobile Button Height and Font Size Adjustments --- */
-      /* Make all hero and footer buttons less tall and use a slightly smaller font on mobile */
+      /* Slightly smaller, responsive font for all hero and footer buttons on mobile */
       .hero-header .hero-link, .footer-nav a {
-        padding-top: 8px;    /* Reduced top padding */
-        padding-bottom: 8px; /* Reduced bottom padding */
-        font-size: clamp(0.75em, 2vw, 0.85em); /* Slightly smaller, responsive font */
+        font-size: clamp(0.75em, 2vw, 0.85em);
+      }
+      /* Make hero buttons (LP & TOP 35) snug: further reduce vertical padding for a tighter fit to text. */
+      .hero-header .hero-link {
+        padding-top: 6px;    /* Snug top padding for hero links */
+        padding-bottom: 6px; /* Snug bottom padding for hero links */
+      }
+      /* Standard reduced padding for footer nav links (keeps them slightly taller than hero links for differentiation if needed) */
+      .footer-nav a {
+        padding-top: 8px;    /* Default reduced top padding for footer links */
+        padding-bottom: 8px; /* Default reduced bottom padding for footer links */
       }
 
       /* Adjust Blapu character size for small screens */
