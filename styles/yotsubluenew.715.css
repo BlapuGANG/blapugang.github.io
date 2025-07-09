@@ -1738,7 +1738,8 @@ table.flashListing .subject {
   /* New height: 320px (20% reduction from 400px). */
   /* !important is used to override the inline style 'height: 400px;' in index.html. */
   .chan-swap-widget-container {
-    height: 320px !important;
+    height: 320px !important; /* Sets the primary height for the container on mobile. */
+    max-height: 380px !important; /* Caps the container height at 380px on mobile, preventing excessive tallness. */
   }
-  /* The iframe inside .chan-swap-widget-container has height="100%", so it will adapt. */
+  /* The iframe inside .chan-swap-widget-container has height="100%", so it will adapt to both height and max-height of parent. */
 }
