@@ -8,19 +8,38 @@
   <link rel="icon" href="assets/images/blapu-logo.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* General Styles */
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 0;
-      padding: 10px 20px;
-      color: #fff;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-      position: relative;
-      overflow-x: hidden;
+    /*
+      Main Stylesheet for Blapu New UI
+      Author: Jules (AI Assistant)
+      Date: [Current Date will be filled by system if possible, otherwise manually update]
+      Purpose: Styling for the new Blapu UI, including responsive adjustments for mobile.
+    */
+
+    /* CSS Variables Definition */
+    :root {
+      /* Variables for controlling Blapu character's crip walk animation extents. */
+      /* These are adjusted in media queries for responsiveness. */
+      --crip-walk-start: -40vw; /* Default starting/ending X position (relative to center) */
+      --crip-walk-mid-1: 0vw;   /* Default first mid-point X position */
+      --crip-walk-end: 40vw;    /* Default main travel X position (relative to center) */
+      --crip-walk-mid-2: 0vw;   /* Default second mid-point X position */
     }
 
-    /* Animated Blobs */
+    /* General Page Setup */
+    html, body {
+      width: 100%; /* Crucial for preventing horizontal overflow issues */
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 10px; /* Base padding for the page content area. Reduced from 10px 20px. Adjusted in media queries. */
+      color: #fff; /* Default text color */
+      min-height: 100vh; /* Ensure body takes at least full viewport height */
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Background gradient */
+      position: relative; /* For positioning of absolute children like blobs/character */
+      overflow-x: hidden; /* Prevents horizontal scrollbars if any content accidentally overflows. Applied to html and body. */
+    }
+
+    /* Decorative Animated Blobs (Background) */
+    /* Keyframes for blob animation */
     @keyframes dance {
       0%, 100% {
         transform: translate(0, 0) rotate(0deg) scale(1);
@@ -39,26 +58,31 @@
         border-radius: 60% 40% 70% 30% / 50% 50% 40% 60%;
       }
     }
+    /* Individual blob styling */
     .blapu-blob {
-      position: absolute;
+      position: absolute; /* Positioned relative to the body or nearest positioned ancestor */
       background: radial-gradient(circle at center, rgba(0, 123, 255, 0.4), rgba(0, 80, 180, 0.6));
       opacity: 0.5;
-      filter: blur(8px);
-      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-      z-index: 0;
+      filter: blur(8px); /* Softens the edges of the blobs */
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; /* Creates organic blob shape */
+      z-index: 0; /* Places blobs behind main content */
     }
+    /* Specific blob positions, sizes, and animation timings */
     .blob-1 { top: 10%; left: 5%; width: 300px; height: 280px; animation: dance 22s infinite ease-in-out alternate; animation-delay: -2s; opacity: 0.4;}
     .blob-2 { top: 55%; left: 75%; width: 220px; height: 250px; animation: dance 15s infinite ease-in-out alternate; animation-delay: -7s; opacity: 0.35;}
     .blob-3 { top: 25%; left: 45%; width: 180px; height: 170px; animation: dance 25s infinite ease-in-out alternate; animation-delay: -12s; opacity: 0.45;}
 
-    /* Blapu Animation Keyframes */
+    /* Blapu Character Animation Keyframes */
+    /* Keyframe for the main character's side-to-side "crip walk" animation. */
+    /* Uses CSS variables (--crip-walk-*) to allow responsive adjustments of travel distance. */
     @keyframes detailedCripWalk {
-      0%   { transform: translateX(-40vw) translateY(0px) rotate(-5deg); }
-      25%  { transform: translateX(0vw) translateY(-15px) rotate(0deg); }
-      50%  { transform: translateX(40vw) translateY(0px) rotate(5deg); }
-      75%  { transform: translateX(0vw) translateY(-10px) rotate(0deg); }
-      100% { transform: translateX(-40vw) translateY(0px) rotate(-5deg); }
+      0%   { transform: translateX(var(--crip-walk-start)) translateY(0px) rotate(-5deg); } /* Start left */
+      25%  { transform: translateX(var(--crip-walk-mid-1)) translateY(-15px) rotate(0deg); } /* Mid-transition point */
+      50%  { transform: translateX(var(--crip-walk-end)) translateY(0px) rotate(5deg); }   /* Furthest right */
+      75%  { transform: translateX(var(--crip-walk-mid-2)) translateY(-10px) rotate(0deg); } /* Mid-transition point */
+      100% { transform: translateX(var(--crip-walk-start)) translateY(0px) rotate(-5deg); } /* Return to start */
     }
+    /* Keyframes for arm and leg swing animations (decorative) */
     @keyframes blapuArmSwing {
       0%, 100% { transform: rotate(20deg);}
       50% { transform: rotate(-20deg);}
@@ -77,19 +101,22 @@
     }
 
     /* Blapu Character Blueprint Styles */
+    /* Container for the animated Blapu character. */
     .character-container {
-      position: absolute;
-      bottom: 1%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 500px;
-      height: 650px;
-      z-index: 1;
-      filter: blur(5px);
-      animation: detailedCripWalk 25s infinite ease-in-out;
-      pointer-events: none;
-      user-select: none;
+      position: absolute; /* Positioned relative to #animated-blapu-bg */
+      bottom: 1%; /* Sits near the bottom of the viewport */
+      left: 50%; /* Horizontally centered */
+      transform: translateX(-50%); /* Fine-tunes centering */
+      width: 500px; /* Base width, adjusted by media queries */
+      height: 650px; /* Base height, adjusted by media queries */
+      z-index: 1; /* Above blobs, below main content panel */
+      filter: blur(5px); /* Applies a blur effect, adjusted in media queries */
+      animation: detailedCripWalk 25s infinite ease-in-out; /* Applies the walking animation */
+      pointer-events: none; /* Character does not intercept mouse events */
+      user-select: none; /* Character cannot be selected */
     }
+    /* Individual parts of the Blapu character (Head, Ears, Eyes, etc.) */
+    /* These are mostly decorative and use absolute positioning within .character-container. */
     /* Head */
     .head {
       position: absolute;
@@ -323,14 +350,15 @@
       border-radius: 10px;
     }
 
-    /* Glass Panel Styles */
+    /* Main Content Glass Panel Styles */
+    /* Styles for the primary content container with a frosted glass effect. */
     .glass-panel {
-      width: 90%;
-      max-width: 800px;
-      margin: 40px auto 30px auto;
-      padding: 20px;
-      text-align: center;
-      z-index: 10;
+      width: 90%; /* Responsive width relative to parent */
+      max-width: 800px; /* Maximum width to maintain readability on large screens */
+      margin: 40px auto 30px auto; /* Top/bottom margin, auto for horizontal centering. Adjusted in media queries. */
+      padding: 15px; /* Inner spacing. Base padding reduced from 20px. Adjusted in media queries. */
+      text-align: center; /* Center-aligns inline content */
+      z-index: 10; /* Ensures panel is above background elements */
       position: relative;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px) saturate(140%);
@@ -353,67 +381,72 @@
                   inset 4px 4px 12px rgba(0, 0, 0, 0.08);
     }
 
-    /* Hero Header and Links */
+    /* Hero Header and Navigation Links within Glass Panel */
     .hero-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-      gap: 15px;
+      display: flex; /* Enables flexbox layout */
+      align-items: center; /* Vertically aligns items in the center */
+      justify-content: space-around; /* Distributes space around items */
+      flex-wrap: wrap; /* Allows items to wrap to the next line on smaller screens */
+      margin-bottom: 20px; /* Space below the header */
+      gap: 15px; /* Space between flex items */
     }
+    /* Styling for individual links in the hero header and footer navigation */
     .hero-header .hero-link, .footer-nav a {
-      color: #e0e0e0;
-      text-decoration: none;
-      font-size: clamp(0.8em, 2.2vw, 0.9em);
-      padding: 10px 15px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2),
-                  inset 1px 1px 1px rgba(255,255,255,0.2),
-                  inset -1px -1px 1px rgba(0,0,0,0.1);
-      transition: all 0.2s ease-out;
-      text-shadow: 0 1px 1px rgba(0,0,0,0.2);
-      text-align: center;
-      flex-basis: 130px;
-      flex-grow: 1;
+      color: #e0e0e0; /* Link text color */
+      text-decoration: none; /* Removes underline from links */
+      font-size: clamp(0.8em, 2.2vw, 0.9em); /* Responsive font size */
+      padding: 10px 15px; /* Padding inside links */
+      border-radius: 10px; /* Rounded corners for links */
+      background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+      border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2), /* Outer shadow */
+                  inset 1px 1px 1px rgba(255,255,255,0.2), /* Inner highlight */
+                  inset -1px -1px 1px rgba(0,0,0,0.1); /* Inner shadow */
+      transition: all 0.2s ease-out; /* Smooth transition for hover effects */
+      text-shadow: 0 1px 1px rgba(0,0,0,0.2); /* Text shadow for readability */
+      text-align: center; /* Center-aligns text within links */
+      flex-basis: 130px; /* Base width for flex items before growing/shrinking */
+      flex-grow: 1; /* Allows items to grow and fill available space */
     }
+    /* Hover effect for links */
     .hero-header .hero-link:hover, .footer-nav a:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.15); /* Slightly less transparent on hover */
       box-shadow: 0 6px 12px rgba(0,0,0,0.3),
                   inset 1px 1px 1px rgba(255,255,255,0.3),
                   inset -1px -1px 1px rgba(0,0,0,0.15);
-      transform: translateY(-2px);
-      color: #fff;
+      transform: translateY(-2px); /* Slight upward movement on hover */
+      color: #fff; /* Brighter text color on hover */
     }
+    /* Active (pressed) state for links */
     .hero-header .hero-link:active, .footer-nav a:active {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.05); /* Darker background when pressed */
       box-shadow: 0 2px 4px rgba(0,0,0,0.2),
                   inset 1px 1px 2px rgba(0,0,0,0.2);
-      transform: translateY(1px);
+      transform: translateY(1px); /* Slight downward movement when pressed */
     }
+    /* Styling for the Blapu logo image link */
     .hero-header .blapu-logo-link img {
-      width: clamp(70px, 18vw, 90px);
-      height: clamp(70px, 18vw, 90px);
-      display: block;
+      width: clamp(70px, 18vw, 90px); /* Responsive logo size */
+      height: clamp(70px, 18vw, 90px); /* Responsive logo size */
+      display: block; /* Ensures proper layout */
     }
 
+    /* Typography within Glass Panel */
     h1 {
-      font-size: clamp(1.8em, 5vw, 2.5em);
+      font-size: clamp(1.8em, 5vw, 2.5em); /* Responsive heading font size */
       margin-top: 10px;
       margin-bottom: 15px;
-      color: #f0f0f0;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      color: #f0f0f0; /* Light text color for heading */
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Text shadow for depth */
     }
     p {
-      font-size: clamp(1em, 3vw, 1.1em);
-      line-height: 1.6;
-      margin-bottom: 25px;
-      color: #e0e0e0;
+      font-size: clamp(1em, 3vw, 1.1em); /* Responsive paragraph font size */
+      line-height: 1.6; /* Spacing between lines of text */
+      margin-bottom: 25px; /* Space below paragraphs */
+      color: #e0e0e0; /* Slightly darker text color for paragraphs */
     }
 
-    /* Widgets */
+    /* Embedded Widgets (Vestige Charts/Swap) */
     .widget-container {
       display: flex;
       flex-direction: column;
@@ -445,54 +478,99 @@
     }
     .widget-swap iframe { min-height: 380px; }
 
-    /* Footer Nav */
+    /* Footer Navigation within Glass Panel */
     .footer-nav {
-      margin-top: 30px;
-      padding: 10px 15px;
-      background: rgba(0, 0, 0, 0.15);
-      border-radius: 10px;
-      width: auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px 15px;
+      margin-top: 30px; /* Space above the footer navigation */
+      padding: 10px 15px; /* Padding inside the footer navigation bar */
+      background: rgba(0, 0, 0, 0.15); /* Darker semi-transparent background */
+      border-radius: 10px; /* Rounded corners */
+      width: auto; /* Auto width based on content */
+      display: flex; /* Enables flexbox layout */
+      flex-wrap: wrap; /* Allows items to wrap */
+      justify-content: center; /* Centers items */
+      gap: 10px 15px; /* Gap between links (row and column) */
     }
+    /* Separator dots in footer navigation */
     .footer-nav .separator {
-      color: rgba(255,255,255,0.4);
-      align-self: center;
+      color: rgba(255,255,255,0.4); /* Color of the separator */
+      align-self: center; /* Vertically aligns separator with links */
     }
 
-    /* Responsive */
+    /* Responsive Design Adjustments using Media Queries */
+
+    /* For tablets and smaller desktops (max-width: 700px) */
     @media (max-width: 700px) {
+      /* Adjust Blapu character size and animation for medium screens */
       .character-container {
         width: 320px;
         height: 416px;
         filter: blur(7px);
       }
+      /* Reduce crip walk animation range for medium screens */
+      :root {
+        --crip-walk-start: -30vw;
+        --crip-walk-mid-1: 0vw;
+        --crip-walk-end: 30vw;
+        --crip-walk-mid-2: 0vw;
+      }
     }
+
+    /* For small tablets and large mobile phones (max-width: 520px) */
     @media (max-width: 520px) {
+      /* Reduce body padding for smaller screens */
+      body {
+        padding: 10px 5px; /* Further reduce horizontal padding */
+      }
+      /* Adjust glass panel padding and margins for smaller screens */
+      .glass-panel {
+        padding: 10px; /* Further reduce inner padding */
+        margin-top: 20px; /* Reduce top margin */
+        margin-bottom: 20px; /* Reduce bottom margin */
+      }
+      /* Stack hero header items vertically */
       .hero-header {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items horizontally */
         gap: 15px;
       }
+      /* Stack footer navigation items vertically */
       .footer-nav {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items horizontally */
         gap: 8px;
       }
-      .footer-nav .separator { display: none; }
+      .footer-nav .separator { display: none; } /* Hide separators in vertical layout */
+
+      /* Adjust Blapu character size for small screens */
       .character-container {
         width: 200px;
         height: 260px;
         filter: blur(8px);
       }
+      /* Further reduce crip walk animation range for small screens */
+      :root {
+        --crip-walk-start: -25vw;
+        --crip-walk-mid-1: 0vw;
+        --crip-walk-end: 25vw;
+        --crip-walk-mid-2: 0vw;
+      }
     }
+
+    /* For very small mobile screens (max-width: 380px) */
     @media (max-width: 380px) {
+      /* Adjust Blapu character size for very small screens */
       .character-container {
         width: 150px;
         height: 195px;
         filter: blur(9px);
+      }
+      /* Most restricted crip walk animation range for very small screens */
+      /* This helps prevent the character from causing layout overflow issues. */
+      :root {
+        --crip-walk-start: -20vw;
+        --crip-walk-mid-1: 0vw;
+        --crip-walk-end: 20vw;
+        --crip-walk-mid-2: 0vw;
       }
     }
   </style>
@@ -572,20 +650,34 @@
     </div>
   </div>
   <script>
-    const goToOldUiButton = document.getElementById('go-to-old-ui');
+    // Script to handle the functionality of the "Go to Old UI" button.
+    // It sets a cookie to remember the user's choice and redirects to index.html.
+
+    const goToOldUiButton = document.getElementById('go-to-old-ui'); // Get the button element
+
+    // Function to set a cookie
+    // name: Name of the cookie
+    // value: Value of the cookie
+    // days: Number of days until the cookie expires
     function setCookie(name, value, days) {
-      let expires = "";
-      if (days) {
+      let expires = ""; // Initialize expires string
+      if (days) { // If 'days' is provided, calculate expiration date
         const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
+        expires = "; expires=" + date.toUTCString(); // Format expires string for cookie
       }
+      // Set the cookie with the provided name, value, expiration, and root path
       document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
+
+    // Check if the "Go to Old UI" button exists on the page
     if (goToOldUiButton) {
+      // Add a click event listener to the button
       goToOldUiButton.addEventListener('click', (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Prevent the default link navigation behavior
+        // Set a cookie named 'siteChoice' with value 'old', expiring in 30 days
         setCookie('siteChoice', 'old', 30);
+        // Redirect the user to the old UI (index.html)
         window.location.href = 'index.html';
       });
     }
