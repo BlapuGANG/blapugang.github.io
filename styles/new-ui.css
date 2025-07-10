@@ -18,13 +18,19 @@
     :root {
       /* Variables for controlling Blapu character's crip walk animation extents. */
       /* These are adjusted in media queries for responsiveness. */
-      /* Animation path is now centered around -9vw (9% to the left of screen center) */
-      /* based on iterative user feedback to achieve desired visual centering. */
-      /* Base travel radius is 35vw (total path width 70vw). */
-      --crip-walk-start: -45vw; /* -9vw (current_center) - 35vw (radius) */
-      --crip-walk-mid-1: -10vw;   /* Animation path's current center point */
-      --crip-walk-end: 25vw;    /* -9vw (current_center) + 35vw (radius) */
-      --crip-walk-mid-2: -10vw;   /* Animation path's current center point */
+      /* Using 'extreme' names to match the updated detailedCripWalk keyframes. */
+      /* Desktop path values: */
+      --crip-walk-start-extreme: -45vw; /* Desktop's 'far left' */
+      --crip-walk-mid-1-extreme: -20vw; /* Desktop's re-entry path from left */
+      --crip-walk-end-extreme: 25vw;    /* Desktop's 'far right' */
+      --crip-walk-mid-2-extreme: 5vw;  /* Desktop's re-entry path from right */
+
+      /* Original desktop values (commented out as they are replaced by the above for the new keyframes)
+      --crip-walk-start: -45vw;
+      --crip-walk-mid-1: -10vw;
+      --crip-walk-end: 25vw;
+      --crip-walk-mid-2: -10vw;
+      */
     }
 
     /* General Page Setup */
@@ -377,6 +383,7 @@
       width: 90%; /* Responsive width relative to parent */
       max-width: 800px; /* Maximum width to maintain readability on large screens */
       margin: 40px auto 30px auto; /* Top/bottom margin, auto for horizontal centering. Adjusted in media queries. */
+      overflow: hidden; /* Added globally for aurora effect */
       padding: 15px; /* Inner spacing. Base padding reduced from 20px. Adjusted in media queries. */
       text-align: center; /* Center-aligns inline content */
       z-index: 10; /* Ensures panel is above background elements */
@@ -702,36 +709,39 @@
         --crip-walk-mid-2-extreme: 15vw;
       }
 
-      /* Aurora Glass Effect for Mobile */
-      .glass-panel {
-        overflow: hidden; /* To contain the ::after pseudo-element's blur */
-      }
+      /* Aurora Glass Effect for Mobile - STYLES MOVED TO GLOBAL SCOPE */
+      /* .glass-panel { */
+        /* overflow: hidden; */ /* MOVED TO GLOBAL .glass-panel */
+      /* } */
 
-      .glass-panel::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -2; /* Behind existing ::before (inner shadow) and content */
-        background-image:
-          radial-gradient(circle at 20% 30%, rgba(74, 144, 226, 0.2) 0%, transparent 35%),
-          radial-gradient(circle at 80% 70%, rgba(182, 31, 177, 0.15) 0%, transparent 40%),
-          radial-gradient(circle at 50% 50%, rgba(253, 187, 45, 0.15) 0%, transparent 30%);
-        background-size: 250% 250%;
-        animation: aurora-flow 20s ease-in-out infinite;
-        filter: blur(25px);
-        /* Ensure this pseudo-element does not interfere with pointer events on the panel itself */
-        pointer-events: none;
-      }
-
-      @keyframes aurora-flow {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
+      /* .glass-panel::after { ... } MOVED TO GLOBAL SCOPE */
+      /* @keyframes aurora-flow { ... } MOVED TO GLOBAL SCOPE */
     }
+
+/* Global Aurora Glass Effect Styles (moved from mobile media query) */
+.glass-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2; /* Behind existing ::before (inner shadow) and content */
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(74, 144, 226, 0.2) 0%, transparent 35%),
+    radial-gradient(circle at 80% 70%, rgba(182, 31, 177, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(253, 187, 45, 0.15) 0%, transparent 30%);
+  background-size: 250% 250%;
+  animation: aurora-flow 20s ease-in-out infinite;
+  filter: blur(25px);
+  pointer-events: none;
+}
+
+@keyframes aurora-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
     /* For small tablets and large mobile phones (max-width: 520px) */
     @media (max-width: 520px) {
