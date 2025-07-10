@@ -5,15 +5,6 @@
       Purpose: Styling for the new Blapu UI, including responsive adjustments for mobile.
     */
 
-    /* Universal Box Sizing */
-    /* Apply a more intuitive box model to all elements. Padding and border will not increase the element's specified width/height. */
-    html {
-      box-sizing: border-box;
-    }
-    *, *:before, *:after {
-      box-sizing: inherit; /* Inherit box-sizing from html element, making it easy to override if needed. */
-    }
-
     /* CSS Variables Definition */
     :root {
       /* Variables for controlling Blapu character's crip walk animation extents. */
@@ -31,10 +22,12 @@
       --crip-walk-end: 25vw;
       --crip-walk-mid-2: -10vw;
       */
+
+      /* Character Scaling Factor */
+      --scale-factor: 1; /* Default scale for desktop */
     }
 
     /* General Page Setup */
-
     html {
       width: 100%;
       min-height: 100vh;
@@ -42,6 +35,7 @@
       padding: 0; /* Remove padding from html */
       overflow-x: hidden; /* Apply to html to prevent scrollbars from body content */
       /* position: relative; -- Not strictly necessary on html if body is used for positioning context */
+      font-size: 100%; /* Establish base for rem units, respecting user's browser settings */
     }
 
     body {
@@ -49,12 +43,13 @@
       min-height: 100vh;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       margin: 0;
-      padding: 10px; /* Base padding for the page content area. Adjusted in media queries. */
+      padding: 0.625rem; /* 10px -> 0.625rem. Base padding for the page content area. Adjusted in media queries. */
       color: #fff; /* Default text color for light mode */
       background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Light mode background on BODY */
       position: relative; /* For positioning of absolute children like blobs/character */
       /* overflow-x: hidden; -- Moved to HTML */
     }
+
     /* Decorative Animated Blobs (Background) */
     /* Keyframes for blob animation */
     @keyframes dance {
@@ -75,6 +70,14 @@
         border-radius: 60% 40% 70% 30% / 50% 50% 40% 60%;
       }
     }
+
+/* Animation Toggle Feature */
+body.no-animations .character-container,
+body.no-animations .blapu-blob,
+body.no-animations .arm, /* Stop arm swing */
+body.no-animations .leg { /* Stop leg swing */
+  animation: none !important;
+}
 
 /* Dark Mode Styles */
 body.dark-mode {
@@ -104,47 +107,98 @@ body.dark-mode .blob-2 {
 }
 body.dark-mode .blob-3 {
   background: radial-gradient(circle at center, rgba(160, 120, 255, 0.55), rgba(100, 80, 190, 0.75));
+  /* Opacity for dark mode blobs is handled by body.dark-mode .blapu-blob { --blob-opacity: 0.6; } */
 }
 
-    /* Individual blob styling */
+    /* Individual blob styling using CSS Custom Properties */
     .blapu-blob {
-      position: absolute; /* Positioned relative to the body or nearest positioned ancestor */
+      position: absolute;
+      filter: blur(0.5rem); /* 8px -> 0.5rem */
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      z-index: 0;
+
+      /* Default custom property values */
+      --blob-top: 0%;
+      --blob-left: 0%;
+      --blob-width: 20vmin;
+      --blob-height: 20vmin;
+      --blob-anim-duration: 20s;
+      --blob-anim-delay: 0s;
+      --blob-opacity: 0.5; /* Default light mode opacity */
+
+      top: var(--blob-top);
+      left: var(--blob-left);
+      width: var(--blob-width);
+      height: var(--blob-height);
+      animation-name: dance; /* Common animation name */
+      animation-duration: var(--blob-anim-duration);
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      animation-delay: var(--blob-anim-delay);
+      opacity: var(--blob-opacity);
+
+      /* Base light-mode background, overridden by specific blobs if they have a different light mode bg */
       background: radial-gradient(circle at center, rgba(0, 123, 255, 0.4), rgba(0, 80, 180, 0.6));
-      opacity: 0.5;
-      filter: blur(8px); /* Softens the edges of the blobs */
-      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; /* Creates organic blob shape */
-      z-index: 0; /* Places blobs behind main content */
     }
-    /* Specific blob positions, sizes, and animation timings */
-    .blob-1 { top: 10%; left: 5%; width: 300px; height: 280px; animation: dance 22s infinite ease-in-out alternate; animation-delay: -2s; opacity: 0.4;}
-    .blob-2 { top: 55%; left: 75%; width: 220px; height: 250px; animation: dance 15s infinite ease-in-out alternate; animation-delay: -7s; opacity: 0.35;}
-    .blob-3 { top: 25%; left: 45%; width: 180px; height: 170px; animation: dance 25s infinite ease-in-out alternate; animation-delay: -12s; opacity: 0.45;}
+
+    .blob-1 {
+      --blob-top: 10%;
+      --blob-left: 5%;
+      --blob-width: 30vmin;
+      --blob-height: 28vmin;
+      --blob-anim-duration: 22s;
+      --blob-anim-delay: -2s;
+      --blob-opacity: 0.4; /* Specific light mode opacity for blob-1 */
+       /* Retains default .blapu-blob background for light mode unless overridden here */
+    }
+
+    .blob-2 {
+      --blob-top: 55%;
+      --blob-left: 75%;
+      --blob-width: 22vmin;
+      --blob-height: 25vmin;
+      --blob-anim-duration: 15s;
+      --blob-anim-delay: -7s;
+      --blob-opacity: 0.35; /* Specific light mode opacity for blob-2 */
+    }
+
+    .blob-3 {
+      --blob-top: 25%;
+      --blob-left: 45%;
+      --blob-width: 18vmin;
+      --blob-height: 17vmin;
+      --blob-anim-duration: 25s;
+      --blob-anim-delay: -12s;
+      --blob-opacity: 0.45; /* Specific light mode opacity for blob-3 */
+    }
+    /* Note: .blob-3 is display: none; in @media (max-width: 43.75rem) further down */
 
     /* Blapu Character Animation Keyframes */
     /* Keyframe for the main character's side-to-side "crip walk" animation. */
     /* Uses CSS variables (--crip-walk-*) to allow responsive adjustments of X-axis travel distance. */
     /* translateY values adjusted for symmetrical vertical movement to balance perceived time on left/right. */
-    /* New keyframes for extreme path with pauses and hops */
+    /* New keyframes for extreme path with pauses and hops, using vmin for translateY */
     @keyframes detailedCripWalk {
-      0%   { transform: translateX(0vw) translateY(0px) rotate(-5deg); }
+      0%   { transform: translateX(0vw) translateY(0vmin) rotate(-5deg); }
 
       /* Go to Far Left and Pause/Hop */
-      18%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0px) rotate(-15deg); } /* Arrive Far Left */
-      20%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(-25px) rotate(-10deg); } /* Hop Up at Far Left */
-      22%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0px) rotate(-15deg); } /* Land at Far Left */
+      18%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0vmin) rotate(-15deg); } /* Arrive Far Left */
+      20%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(-3vmin) rotate(-10deg); } /* Hop Up at Far Left (-25px -> -3vmin) */
+      22%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0vmin) rotate(-15deg); } /* Land at Far Left */
 
       /* Travel to Mid-Screen from Left */
-      36%  { transform: translateX(var(--crip-walk-mid-1-extreme)) translateY(-45px) rotate(0deg); } /* Mid-travel 1, with main hop */
-      50%  { transform: translateX(0vw) translateY(0px) rotate(5deg); } /* Arrive near center */
+      36%  { transform: translateX(var(--crip-walk-mid-1-extreme)) translateY(-5.5vmin) rotate(0deg); } /* Mid-travel 1, with main hop (-45px -> -5.5vmin) */
+      50%  { transform: translateX(0vw) translateY(0vmin) rotate(5deg); } /* Arrive near center */
 
       /* Go to Far Right and Pause/Hop */
-      68%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0px) rotate(15deg); } /* Arrive Far Right */
-      70%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(-25px) rotate(10deg); } /* Hop Up at Far Right */
-      72%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0px) rotate(15deg); } /* Land at Far Right */
+      68%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0vmin) rotate(15deg); } /* Arrive Far Right */
+      70%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(-3vmin) rotate(10deg); } /* Hop Up at Far Right (-25px -> -3vmin) */
+      72%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0vmin) rotate(15deg); } /* Land at Far Right */
 
       /* Travel to Mid-Screen from Right */
-      86%  { transform: translateX(var(--crip-walk-mid-2-extreme)) translateY(-45px) rotate(0deg); } /* Mid-travel 2, with main hop */
-      100% { transform: translateX(0vw) translateY(0px) rotate(-5deg); } /* Arrive near center, ready to loop */
+      86%  { transform: translateX(var(--crip-walk-mid-2-extreme)) translateY(-5.5vmin) rotate(0deg); } /* Mid-travel 2, with main hop (-45px -> -5.5vmin) */
+      100% { transform: translateX(0vw) translateY(0vmin) rotate(-5deg); } /* Arrive near center, ready to loop */
     }
     /* Keyframes for arm and leg swing animations (decorative) */
     @keyframes blapuArmSwing {
@@ -171,74 +225,84 @@ body.dark-mode .blob-3 {
       bottom: 1%; /* Sits near the bottom of the viewport */
       left: 50%; /* Horizontally centered */
       transform: translateX(-50%); /* Fine-tunes centering */
-      width: 250px; /* Base width, adjusted by media queries - halved from 500px */
-      height: 325px; /* Base height, adjusted by media queries - halved from 650px */
+      width: calc(15.625rem * var(--scale-factor)); /* 250px */
+      height: calc(20.3125rem * var(--scale-factor)); /* 325px */
       z-index: 1; /* Above blobs, below main content panel */
-      filter: blur(5px); /* Applies a blur effect, adjusted in media queries */
-      animation: detailedCripWalk 25s infinite ease-in-out; /* Applies the walking animation */
+      filter: blur(0.3125rem); /* 5px -> 0.3125rem. Applies a blur effect, adjusted in media queries */
+      animation: detailedCripWalk 20s infinite ease-in-out; /* Duration shortened to 20s */
       pointer-events: none; /* Character does not intercept mouse events */
       user-select: none; /* Character cannot be selected */
+      will-change: transform; /* Performance hint */
+      pointer-events: auto; /* Make character interactive */
+      cursor: pointer; /* Show pointer on hover */
+    }
+    .character-container:hover {
+      animation-play-state: paused; /* Pause animation on hover */
     }
     /* Individual parts of the Blapu character (Head, Ears, Eyes, etc.) */
     /* These are mostly decorative and use absolute positioning within .character-container. */
-    /* Head */
+    /* Base values converted to rem, scaled by --scale-factor */
     .head {
       position: absolute;
-      top: 25px; /* Halved from 50px */
+      top: calc(1.5625rem * var(--scale-factor)); /* 25px */
       left: 50%;
       transform: translateX(-50%);
-      width: 140px; /* Halved from 280px */
-      height: 125px; /* Halved from 250px */
+      width: calc(8.75rem * var(--scale-factor)); /* 140px */
+      height: calc(7.8125rem * var(--scale-factor)); /* 125px */
       background: #1e50ff;
-      border: 1.5px solid #000; /* Halved from 3px */
-      border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%; /* Percentages remain, border thickness adjusted if it was px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
+      border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%;
       z-index: 5;
     }
-    /* Ears */
     .ear {
       position: absolute;
-      top: 7.5px; /* Halved from 15px */
-      width: 35px; /* Halved from 70px */
-      height: 45px; /* Halved from 90px */
+      top: calc(0.46875rem * var(--scale-factor)); /* 7.5px */
+      width: calc(2.1875rem * var(--scale-factor)); /* 35px */
+      height: calc(2.8125rem * var(--scale-factor)); /* 45px */
       background: #1e50ff;
-      border: 1.5px solid #000; /* Halved from 3px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
       z-index: 4;
     }
     .ear.left {
-      left: 50px; /* Halved from 100px */
+      left: calc(3.125rem * var(--scale-factor)); /* 50px */
       border-radius: 80% 20% 5% 5% / 100% 20% 5% 5%;
       transform: rotate(-15deg);
     }
     .ear.right {
-      right: 50px; /* Halved from 100px */
+      right: calc(3.125rem * var(--scale-factor)); /* 50px */
       border-radius: 20% 80% 5% 5% / 20% 100% 5% 5%;
       transform: rotate(15deg);
     }
     .ear::after {
       content: '';
       position: absolute;
-      top: 7.5px; /* Halved from 15px */
+      top: calc(0.46875rem * var(--scale-factor)); /* 7.5px */
       left: 50%;
       transform: translateX(-50%);
-      width: 20px; /* Halved from 40px */
-      height: 25px; /* Halved from 50px */
+      width: calc(1.25rem * var(--scale-factor)); /* 20px */
+      height: calc(1.5625rem * var(--scale-factor)); /* 25px */
       background: #ff47b6;
       border-radius: 50% / 60% 60% 40% 40%;
     }
-    /* Eyes */
     .eyes {
       position: absolute;
-      top: 45px; /* Halved from 90px */
+      top: calc(2.8125rem * var(--scale-factor)); /* 45px */
       width: 100%;
       display: flex;
       justify-content: center;
-      gap: 2.5px; /* Halved from 5px */
+      gap: calc(0.15625rem * var(--scale-factor)); /* 2.5px */
     }
     .eye {
-      width: 55px; /* Halved from 110px */
-      height: 45px; /* Halved from 90px */
+      width: calc(3.4375rem * var(--scale-factor)); /* 55px */
+      height: calc(2.8125rem * var(--scale-factor)); /* 45px */
       background: #fff;
-      border: 1.5px solid #000; /* Halved from 3px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
       border-radius: 50%;
       position: relative;
       overflow: hidden;
@@ -246,150 +310,157 @@ body.dark-mode .blob-3 {
     .eye::before {
       content: '';
       position: absolute;
-      top: -25px; /* Halved from -50px */
-      left: -5px; /* Halved from -10px */
-      width: 65px; /* Halved from 130px */
-      height: 50px; /* Halved from 100px */
+      top: calc(-1.5625rem * var(--scale-factor)); /* -25px */
+      left: calc(-0.3125rem * var(--scale-factor)); /* -5px */
+      width: calc(4.0625rem * var(--scale-factor)); /* 65px */
+      height: calc(3.125rem * var(--scale-factor)); /* 50px */
       background: #1e50ff;
-      border-bottom: 1.5px solid #000; /* Halved from 3px */
+      border-bottom-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-bottom-style: solid;
+      border-bottom-color: #000;
       border-radius: 50%;
     }
     .pupil {
       position: absolute;
-      bottom: 7.5px; /* Halved from 15px */
+      bottom: calc(0.46875rem * var(--scale-factor)); /* 7.5px */
       left: 50%;
       transform: translateX(-50%);
-      width: 17.5px; /* Halved from 35px */
-      height: 20px; /* Halved from 40px */
+      width: calc(1.09375rem * var(--scale-factor)); /* 17.5px */
+      height: calc(1.25rem * var(--scale-factor)); /* 20px */
       background: #000;
       border-radius: 50%;
     }
     .pupil::after {
       content: '';
       position: absolute;
-      top: 4px; /* Halved from 8px */
-      left: 4px; /* Halved from 8px */
-      width: 5px; /* Halved from 10px */
-      height: 5px; /* Halved from 10px */
+      top: calc(0.25rem * var(--scale-factor)); /* 4px */
+      left: calc(0.25rem * var(--scale-factor)); /* 4px */
+      width: calc(0.3125rem * var(--scale-factor)); /* 5px */
+      height: calc(0.3125rem * var(--scale-factor)); /* 5px */
       background: #fff;
       border-radius: 50%;
     }
-    /* Lips */
     .lips {
       position: absolute;
-      top: 95px; /* Halved from 190px */
+      top: calc(5.9375rem * var(--scale-factor)); /* 95px */
       left: 50%;
       transform: translateX(-50%);
-      width: 100px; /* Halved from 200px */
-      height: 22.5px; /* Halved from 45px */
+      width: calc(6.25rem * var(--scale-factor)); /* 100px */
+      height: calc(1.40625rem * var(--scale-factor)); /* 22.5px */
       background: #ff47b6;
-      border: 1.5px solid #000; /* Halved from 3px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
       border-radius: 30% 30% 50% 50% / 30% 30% 100% 100%;
     }
-    /* Body */
     .body {
       position: absolute;
-      top: 149px; /* Halved from 298px (approx) */
+      top: calc(9.3125rem * var(--scale-factor)); /* 149px */
       left: 50%;
       transform: translateX(-50%);
-      width: 120px; /* Halved from 240px */
-      height: 90px; /* Halved from 180px */
+      width: calc(7.5rem * var(--scale-factor)); /* 120px */
+      height: calc(5.625rem * var(--scale-factor)); /* 90px */
       background: #6d4c41;
-      border: 1.5px solid #000; /* Halved from 3px */
-      border-top: none;
-      border-radius: 10% 10% 10px 10px; /* Halved from 20px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
+      border-top-style: none;
+      border-radius: 10% 10% calc(0.625rem * var(--scale-factor)) calc(0.625rem * var(--scale-factor)); /* 10px */
       z-index: 3;
     }
-    /* Neck */
     .neck-line {
       position: absolute;
-      top: 149px; /* Halved from 298px (approx) */
+      top: calc(9.3125rem * var(--scale-factor)); /* 149px */
       left: 50%;
       transform: translateX(-50%);
-      width: 50px; /* Halved from 100px */
-      height: 1.5px; /* Halved from 3px */
+      width: calc(3.125rem * var(--scale-factor)); /* 50px */
+      height: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
       background: #000;
       z-index: 6;
     }
-    /* Arms */
     .arm {
       position: absolute;
-      top: 155px; /* Halved from 310px */
-      width: 30px; /* Halved from 60px */
-      height: 65px; /* Halved from 130px */
+      top: calc(9.6875rem * var(--scale-factor)); /* 155px */
+      width: calc(1.875rem * var(--scale-factor)); /* 30px */
+      height: calc(4.0625rem * var(--scale-factor)); /* 65px */
       background: #6d4c41;
-      border: 1.5px solid #000; /* Halved from 3px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
       z-index: 2;
       transform-origin: top center;
     }
     .arm.left {
-      left: 35px; /* Halved from 70px */
-      border-radius: 15px 5px 5px 15px; /* Halved from 30px 10px 10px 30px */
+      left: calc(2.1875rem * var(--scale-factor)); /* 35px */
+      border-radius: calc(0.9375rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)); /* 15px 5px 5px 15px */
       animation: blapuArmSwing 3s infinite ease-in-out alternate;
     }
     .arm.right {
-      right: 35px; /* Halved from 70px */
-      border-radius: 5px 15px 15px 5px; /* Halved from 10px 30px 30px 10px */
+      right: calc(2.1875rem * var(--scale-factor)); /* 35px */
+      border-radius: calc(0.3125rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)); /* 5px 15px 15px 5px */
       animation: blapuArmSwingR 3s infinite ease-in-out alternate;
     }
-    /* Hands */
     .hand {
       position: absolute;
-      top: 55px; /* Halved from 110px */
-      width: 30px; /* Halved from 60px */
-      height: 30px; /* Halved from 60px */
+      top: calc(3.4375rem * var(--scale-factor)); /* 55px */
+      width: calc(1.875rem * var(--scale-factor)); /* 30px */
+      height: calc(1.875rem * var(--scale-factor)); /* 30px */
       background: #1e50ff;
-      border: 1.5px solid #000; /* Halved from 3px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     }
-    .arm.left .hand { left: -7.5px; /* Halved from -15px */ }
-    .arm.right .hand { right: -7.5px; /* Halved from -15px */ }
-    /* Legs */
+    .arm.left .hand { left: calc(-0.46875rem * var(--scale-factor)); /* -7.5px */ }
+    .arm.right .hand { right: calc(-0.46875rem * var(--scale-factor)); /* -7.5px */ }
     .legs {
       position: absolute;
-      bottom: 35px; /* Halved from 70px */
+      bottom: calc(2.1875rem * var(--scale-factor)); /* 35px */
       left: 50%;
       transform: translateX(-50%);
-      width: 140px; /* Halved from 280px */
-      height: 60px; /* Halved from 120px */
+      width: calc(8.75rem * var(--scale-factor)); /* 140px */
+      height: calc(3.75rem * var(--scale-factor)); /* 60px */
       z-index: 1;
     }
     .leg {
       position: absolute;
       bottom: 0;
-      width: 60px; /* Halved from 120px */
-      height: 60px; /* Halved from 120px */
+      width: calc(3.75rem * var(--scale-factor)); /* 60px */
+      height: calc(3.75rem * var(--scale-factor)); /* 60px */
       background: #bdc3c7;
-      border: 1.5px solid #000; /* Halved from 3px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
       transform-origin: top center;
     }
     .leg.left {
       left: 0;
-      border-radius: 20px 5px 0 0; /* Halved from 40px 10px 0 0 */
+      border-radius: calc(1.25rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) 0 0; /* 20px 5px */
       animation: blapuLegSwing 2s infinite ease-in-out;
     }
     .leg.right {
       right: 0;
-      border-radius: 5px 20px 0 0; /* Halved from 10px 40px 0 0 */
+      border-radius: calc(0.3125rem * var(--scale-factor)) calc(1.25rem * var(--scale-factor)) 0 0; /* 5px 20px */
       animation: blapuLegSwingR 2s infinite ease-in-out;
     }
-    /* Shoes */
     .shoe {
       position: absolute;
-      bottom: -25px; /* Halved from -50px */
-      width: 65px; /* Halved from 130px */
-      height: 40px; /* Halved from 80px */
+      bottom: calc(-1.5625rem * var(--scale-factor)); /* -25px */
+      width: calc(4.0625rem * var(--scale-factor)); /* 65px */
+      height: calc(2.5rem * var(--scale-factor)); /* 40px */
       background-color: #e74c3c;
-      border: 1.5px solid #000; /* Halved from 3px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
       z-index: 2;
     }
     .leg.left .shoe {
-      left: -2.5px; /* Halved from -5px */
-      border-radius: 15px 5px 7.5px 7.5px; /* Halved from 30px 10px 15px 15px */
+      left: calc(-0.15625rem * var(--scale-factor)); /* -2.5px */
+      border-radius: calc(0.9375rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)); /* 15px 5px 7.5px 7.5px */
     }
     .leg.right .shoe {
-      right: -2.5px; /* Halved from -5px */
-      border-radius: 5px 15px 7.5px 7.5px; /* Halved from 10px 30px 15px 15px */
+      right: calc(-0.15625rem * var(--scale-factor)); /* -2.5px */
+      border-radius: calc(0.3125rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)); /* 5px 15px 7.5px 7.5px */
     }
     .shoe::before {
       content: '';
@@ -397,41 +468,45 @@ body.dark-mode .blob-3 {
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 12.5px; /* Halved from 25px */
+      height: calc(0.78125rem * var(--scale-factor)); /* 12.5px */
       background: #fff;
-      border-top: 1.5px solid #000; /* Halved from 3px */
-      border-radius: 0 0 6px 6px; /* Halved from 12px */
+      border-top-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-top-style: solid;
+      border-top-color: #000;
+      border-radius: 0 0 calc(0.375rem * var(--scale-factor)) calc(0.375rem * var(--scale-factor)); /* 6px */
     }
     .shoe::after {
       content: '';
       position: absolute;
-      top: 7.5px; /* Halved from 15px */
-      left: 12.5px; /* Halved from 25px */
-      width: 17.5px; /* Halved from 35px */
-      height: 15px; /* Halved from 30px */
+      top: calc(0.46875rem * var(--scale-factor)); /* 7.5px */
+      left: calc(0.78125rem * var(--scale-factor)); /* 12.5px */
+      width: calc(1.09375rem * var(--scale-factor)); /* 17.5px */
+      height: calc(0.9375rem * var(--scale-factor)); /* 15px */
       background: #fff;
-      border: 1.5px solid #000; /* Halved from 3px */
-      border-radius: 5px; /* Halved from 10px */
+      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
+      border-style: solid;
+      border-color: #000;
+      border-radius: calc(0.3125rem * var(--scale-factor)); /* 5px */
     }
 
     /* Main Content Glass Panel Styles */
     /* Styles for the primary content container with a frosted glass effect. */
     .glass-panel {
       width: 90%; /* Responsive width relative to parent */
-      max-width: 800px; /* Maximum width to maintain readability on large screens */
-      margin: 40px auto 30px auto; /* Top/bottom margin, auto for horizontal centering. Adjusted in media queries. */
+      max-width: 50rem; /* 800px -> 50rem. Maximum width to maintain readability on large screens */
+      margin: 2.5rem auto 1.875rem auto; /* 40px auto 30px auto -> 2.5rem auto 1.875rem auto. Adjusted in media queries. */
       overflow: hidden; /* Added globally for aurora effect */
-      padding: 15px; /* Inner spacing. Base padding reduced from 20px. Adjusted in media queries. */
+      padding: 0.9375rem; /* 15px -> 0.9375rem. Inner spacing. Adjusted in media queries. */
       text-align: center; /* Center-aligns inline content */
       z-index: 10; /* Ensures panel is above background elements */
       position: relative;
       background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px) saturate(140%);
-      -webkit-backdrop-filter: blur(10px) saturate(140%);
+      backdrop-filter: blur(0.625rem) saturate(140%); /* 10px -> 0.625rem */
+      -webkit-backdrop-filter: blur(0.625rem) saturate(140%); /* 10px -> 0.625rem */
       border-radius: 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25),
-                  inset 0 2px 8px rgba(255, 255, 255, 0.1);
+      border: 0.0625rem solid rgba(255, 255, 255, 0.2); /* Already converted: 1px -> 0.0625rem */
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25), /* Already converted: 0 8px 24px */
+                  inset 0 0.125rem 0.5rem rgba(255, 255, 255, 0.1); /* Already converted: inset 0 2px 8px */
     }
     .glass-panel::before {
       content: '';
@@ -454,8 +529,8 @@ body.dark-mode .blob-3 {
       align-items: center; /* Vertically aligns logo and side links to their center. */
       justify-content: space-between; /* Positions logo centrally with links taking available space on sides. */
       flex-wrap: wrap; /* Allows items to wrap on smaller screens, though overridden by more specific mobile styles. */
-      margin-bottom: 15px; /* Reduced bottom margin for tighter layout. */
-      gap: 10px; /* Default gap, adjusted by specific link styles or media queries if needed. */
+      margin-bottom: 0.9375rem; /* 15px -> 0.9375rem. Reduced bottom margin for tighter layout. */
+      gap: 0.625rem; /* 10px -> 0.625rem. Default gap, adjusted by specific link styles or media queries if needed. */
     }
 
     /* Base styling for all links in hero header and footer navigation. */
@@ -464,25 +539,30 @@ body.dark-mode .blob-3 {
       color: #e0e0e0; /* Standard link text color. */
       text-decoration: none; /* Removes default underline from links. */
       font-size: clamp(0.8em, 2.2vw, 0.9em); /* Responsive font size for adaptability. */
-      padding: 8px 12px; /* Default padding, overridden for specific hero links. */
-      border-radius: 8px; /* Slightly smaller border radius for a more rectangular feel. */
+      padding: 0.5rem 0.75rem; /* 8px 12px -> 0.5rem 0.75rem. Default padding, overridden for specific hero links. */
+      border-radius: 0.5rem; /* 8px -> 0.5rem. Slightly smaller border radius for a more rectangular feel. */
       background: rgba(255, 255, 255, 0.1); /* Subtle semi-transparent background. */
-      border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for definition. */
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2), /* Standard shadow for depth. */
-                  inset 1px 1px 1px rgba(255,255,255,0.2),
-                  inset -1px -1px 1px rgba(0,0,0,0.1);
+      border: 0.0625rem solid rgba(255, 255, 255, 0.3); /* 1px -> 0.0625rem. Light border for definition. */
+      box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.2), /* 0 4px 8px -> 0 0.25rem 0.5rem. Standard shadow for depth. */
+                  inset 0.0625rem 0.0625rem 0.0625rem rgba(255,255,255,0.2), /* inset 1px 1px 1px */
+                  inset -0.0625rem -0.0625rem 0.0625rem rgba(0,0,0,0.1); /* inset -1px -1px 1px */
       transition: all 0.2s ease-out; /* Smooth transition for hover and active states. */
-      text-shadow: 0 1px 1px rgba(0,0,0,0.2); /* Text shadow for improved readability. */
+      text-shadow: 0 0.0625rem 0.0625rem rgba(0,0,0,0.2); /* 0 1px 1px -> 0 0.0625rem 0.0625rem. Text shadow for improved readability. */
       text-align: center; /* Ensures text within links is centered. */
+    }
+    .hero-header .hero-link:focus, .footer-nav a:focus {
+      outline: 0.125rem solid #fff; /* 2px -> 0.125rem */
+      outline-offset: 0.125rem; /* 2px -> 0.125rem */
+      background: rgba(255, 255, 255, 0.2); /* Slightly more prominent background on focus */
     }
 
     /* Specific styling for the side hero links (LP & PowApp). */
     /* These links are designed to be smaller, rectangular, and flank the central logo. */
     .hero-header .hero-link-left,
     .hero-header .hero-link-right {
-      flex-basis: 30%; /* Allows links to take a portion of the width, leaving space for the logo. */
-      flex-grow: 1; /* Allows them to grow if space is available but respects flex-basis. */
-      padding: 6px 10px; /* REDUCED padding for smaller, rectangular button appearance. */
+      flex: 1; /* Replaces flex-basis and flex-grow for equal distribution of space */
+      min-width: 15vw; /* Suggested min-width */
+      padding: 0.375rem 0.625rem; /* 6px 10px -> 0.375rem 0.625rem. REDUCED padding for smaller, rectangular button appearance. */
       font-size: clamp(0.7em, 1.8vw, 0.8em); /* SMALLER font size for these specific buttons. */
       /* Height will be determined by content (font-size, padding). Ensure it's less than logo. */
       min-height: auto; /* Override any potential min-height from general .hero-link styles if any were added. */
@@ -500,47 +580,47 @@ body.dark-mode .blob-3 {
       border: none; /* Remove border from the logo link container. */
       box-shadow: none; /* Remove box-shadow from the logo link container. */
     }
-    .hero-header .blapu-logo-link img {
-      width: clamp(60px, 15vw, 80px); /* SLIGHTLY SMALLER logo for better balance with new buttons. */
-      height: clamp(60px, 15vw, 80px); /* SLIGHTLY SMALLER logo for better balance. */
+    .hero-header .blapu-logo-link img { /* This rule seems to be overridden by a later one, converting both for now */
+      width: clamp(3.75rem, 15vw, 5rem); /* 60px, 80px -> 3.75rem, 5rem. SLIGHTLY SMALLER logo for better balance with new buttons. */
+      height: clamp(3.75rem, 15vw, 5rem); /* 60px, 80px -> 3.75rem, 5rem. SLIGHTLY SMALLER logo for better balance. */
       display: block;
     }
 
     /* Hover effect for hero and footer links. Enhances interactivity. */
     .hero-header .hero-link:hover, .footer-nav a:hover {
       background: rgba(255, 255, 255, 0.15); /* Slightly less transparent on hover */
-      box-shadow: 0 6px 12px rgba(0,0,0,0.3),
-                  inset 1px 1px 1px rgba(255,255,255,0.3),
-                  inset -1px -1px 1px rgba(0,0,0,0.15);
-      transform: translateY(-2px); /* Slight upward movement on hover */
+      box-shadow: 0 0.375rem 0.75rem rgba(0,0,0,0.3), /* 0 6px 12px -> 0 0.375rem 0.75rem */
+                  inset 0.0625rem 0.0625rem 0.0625rem rgba(255,255,255,0.3), /* inset 1px 1px 1px */
+                  inset -0.0625rem -0.0625rem 0.0625rem rgba(0,0,0,0.15); /* inset -1px -1px 1px */
+      transform: translateY(-0.125rem); /* -2px -> -0.125rem */
       color: #fff; /* Brighter text color on hover */
     }
     /* Active (pressed) state for links */
     .hero-header .hero-link:active, .footer-nav a:active {
       background: rgba(255, 255, 255, 0.05); /* Darker background when pressed */
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2),
-                  inset 1px 1px 2px rgba(0,0,0,0.2);
-      transform: translateY(1px); /* Slight downward movement when pressed */
+      box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.2), /* 0 2px 4px -> 0 0.125rem 0.25rem */
+                  inset 0.0625rem 0.0625rem 0.125rem rgba(0,0,0,0.2); /* inset 1px 1px 2px */
+      transform: translateY(0.0625rem); /* 1px -> 0.0625rem */
     }
     /* Styling for the Blapu logo image link */
-    .hero-header .blapu-logo-link img {
-      width: clamp(70px, 18vw, 90px); /* Responsive logo size */
-      height: clamp(70px, 18vw, 90px); /* Responsive logo size */
+    .hero-header .blapu-logo-link img { /* This is likely the active rule for the logo img */
+      width: clamp(4.375rem, 18vw, 5.625rem); /* 70px, 90px -> 4.375rem, 5.625rem. Responsive logo size */
+      height: clamp(4.375rem, 18vw, 5.625rem); /* 70px, 90px -> 4.375rem, 5.625rem. Responsive logo size */
       display: block; /* Ensures proper layout */
     }
 
     /* Typography within Glass Panel */
     h1 {
       font-size: clamp(1.8em, 5vw, 2.5em); /* Responsive heading font size */
-      margin-top: 10px;
-      margin-bottom: 15px;
+      margin-top: 0.625rem; /* 10px -> 0.625rem */
+      margin-bottom: 0.9375rem; /* 15px -> 0.9375rem */
       color: #f0f0f0; /* Light text color for heading */
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Text shadow for depth */
+      text-shadow: 0.0625rem 0.0625rem 0.1875rem rgba(0,0,0,0.3); /* 1px 1px 3px -> rem */
     }
     p {
       font-size: clamp(1em, 3vw, 1.1em); /* Responsive paragraph font size */
       line-height: 1.6; /* Spacing between lines of text */
-      margin-bottom: 25px; /* Space below paragraphs */
+      margin-bottom: 1.5625rem; /* 25px -> 1.5625rem. Space below paragraphs */
       color: #e0e0e0; /* Slightly darker text color for paragraphs */
     }
     /* Class for paragraphs that will be randomly selected for display */
@@ -552,45 +632,71 @@ body.dark-mode .blob-3 {
     .widget-container {
       display: flex;
       flex-direction: column;
-      gap: 25px;
-      margin-top: 20px;
+      gap: 1.5625rem; /* 25px -> 1.5625rem */
+      margin-top: 1.25rem; /* 20px -> 1.25rem */
       width: 100%;
     }
     .widget {
+      /* ... existing styles ... */
+      position: relative; /* Ensure ::before is positioned relative to this */
+      /* ... existing styles ... */
       background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(6px) saturate(100%);
-      -webkit-backdrop-filter: blur(6px) saturate(100%);
+      backdrop-filter: blur(0.375rem) saturate(140%); /* 6px -> 0.375rem */
+      -webkit-backdrop-filter: blur(0.375rem) saturate(140%); /* 6px -> 0.375rem */
       border-radius: 1rem;
-      padding: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
-                  inset 0 1px 3px rgba(255, 255, 255, 0.08);
+      padding: 0.9375rem; /* 15px -> 0.9375rem */
+      border: 0.0625rem solid rgba(255, 255, 255, 0.15); /* 1px -> 0.0625rem */
+      box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.2), /* 0 4px 15px -> 0 0.25rem 0.9375rem */
+                  inset 0 0.0625rem 0.1875rem rgba(255, 255, 255, 0.08); /* inset 0 1px 3px */
       width: 100%;
       box-sizing: border-box;
       position: relative;
-      min-height: 350px;
+      min-height: 45vh; /* Changed from rem to vh */
     }
-    .widget-swap { min-height: 400px; }
+    .widget::before {
+      content: 'Loading...';
+      display: none; /* Hidden by default */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff; /* Or a color that fits the theme */
+      font-size: 1.25rem; /* Approx 20px */
+      z-index: 1; /* Ensure it's above the iframe if iframe is also z-indexed or content */
+      padding: 1rem 1.5rem;
+      background: rgba(0,0,0,0.5); /* Semi-transparent background for the text */
+      border-radius: 0.5rem;
+    }
+    .widget.loading iframe {
+      filter: blur(0.25rem); /* Optionally blur iframe when loading text is shown */
+    }
+    .widget.loading::before {
+      display: block; /* Show when .loading class is present */
+    }
+    .widget-swap { min-height: 50vh; /* Changed from rem to vh */ }
     .widget iframe {
       width: 100%;
       height: 100%;
       border: none;
       border-radius: 0.75rem;
-      min-height: 330px;
+      min-height: 20.625rem; /* 330px (keeps a rem based min as fallback) */
     }
-    .widget-swap iframe { min-height: 380px; }
+    .widget-swap iframe {
+      height: 100%; /* Ensure it fills parent */
+      min-height: 23.75rem; /* 380px (keeps a rem based min as fallback) */
+    }
 
     /* Footer Navigation within Glass Panel */
     .footer-nav {
-      margin-top: 30px; /* Space above the footer navigation */
-      padding: 10px 15px; /* Padding inside the footer navigation bar */
+      margin-top: 1.875rem; /* 30px -> 1.875rem. Space above the footer navigation */
+      padding: 0.625rem 0.9375rem; /* 10px 15px -> 0.625rem 0.9375rem. Padding inside the footer navigation bar */
       background: rgba(0, 0, 0, 0.15); /* Darker semi-transparent background */
-      border-radius: 10px; /* Rounded corners */
+      border-radius: 0.625rem; /* 10px -> 0.625rem. Rounded corners */
       width: auto; /* Auto width based on content */
       display: flex; /* Enables flexbox layout */
       flex-wrap: wrap; /* Allows items to wrap */
       justify-content: center; /* Centers items */
-      gap: 10px 15px; /* Gap between links (row and column) */
+      gap: 0.625rem 0.9375rem; /* 10px 15px -> 0.625rem 0.9375rem. Gap between links (row and column) */
     }
     /* Separator dots in footer navigation */
     .footer-nav .separator {
@@ -600,159 +706,27 @@ body.dark-mode .blob-3 {
 
     /* Responsive Design Adjustments using Media Queries */
 
-    /* For tablets and smaller desktops (max-width: 700px) */
-    @media (max-width: 700px) {
+    /* For tablets and smaller desktops (max-width: 43.75rem) */
+    @media (max-width: 43.75rem) { /* 700px -> 43.75rem */
+      .blob-3 {
+        display: none; /* Hide blob-3 on smaller screens */
+      }
       /* Adjust Blapu character size and animation for medium screens */
+      /* .character-container direct width/height removed, now scaled by --scale-factor */
       .character-container {
-        /* display: none; */ /* Commented out to re-enable */
-        width: 160px;   /* Base: 250px. Scale: 0.64 */
-        height: 208px;  /* Base: 325px. Scale: 0.64 */
-        filter: blur(3px); /* Reduced blur */
+        filter: blur(0.1875rem); /* 3px -> 0.1875rem. Reduced blur, specific to this breakpoint */
       }
-      /* SCALED CHARACTER PARTS for max-width: 700px (Factor: 0.64) */
-      .character-container .head {
-        top: 16px; /* 25px * 0.64 */
-        width: 90px; /* 140px * 0.64 */
-        height: 80px; /* 125px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-      }
-      .character-container .ear {
-        top: 5px; /* 7.5px * 0.64 */
-        width: 22px; /* 35px * 0.64 */
-        height: 29px; /* 45px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-      }
-      .character-container .ear.left { left: 32px; /* 50px * 0.64 */ }
-      .character-container .ear.right { right: 32px; /* 50px * 0.64 */ }
-      .character-container .ear::after {
-        top: 5px; /* 7.5px * 0.64 */
-        width: 13px; /* 20px * 0.64 */
-        height: 16px; /* 25px * 0.64 */
-      }
-      .character-container .eyes {
-        top: 29px; /* 45px * 0.64 */
-        gap: 1.5px; /* 2.5px * 0.64 */
-      }
-      .character-container .eye {
-        width: 35px; /* 55px * 0.64 */
-        height: 29px; /* 45px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-      }
-      .character-container .eye::before {
-        top: -16px; /* -25px * 0.64 */
-        left: -3px; /* -5px * 0.64 */
-        width: 42px; /* 65px * 0.64 */
-        height: 32px; /* 50px * 0.64 */
-        border-bottom-width: 1px; /* 1.5px * 0.64 -> ~1px */
-      }
-      .character-container .pupil {
-        bottom: 5px; /* 7.5px * 0.64 */
-        width: 11px; /* 17.5px * 0.64 */
-        height: 13px; /* 20px * 0.64 */
-      }
-      .character-container .pupil::after {
-        top: 2.5px; /* 4px * 0.64 */
-        left: 2.5px; /* 4px * 0.64 */
-        width: 3px; /* 5px * 0.64 */
-        height: 3px; /* 5px * 0.64 */
-      }
-      .character-container .lips {
-        top: 61px; /* 95px * 0.64 */
-        width: 64px; /* 100px * 0.64 */
-        height: 14.5px; /* 22.5px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-      }
-      .character-container .body {
-        top: 95px; /* 149px * 0.64 */
-        width: 77px; /* 120px * 0.64 */
-        height: 58px; /* 90px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-        border-radius: 6px 6px 6px 6px; /* 10px * 0.64 -> ~6px for all corners */
-      }
-      .character-container .neck-line {
-        top: 95px; /* 149px * 0.64 */
-        width: 32px; /* 50px * 0.64 */
-        height: 1px; /* 1.5px * 0.64 -> min 1px */
-      }
-      .character-container .arm {
-        top: 99px; /* 155px * 0.64 */
-        width: 19px; /* 30px * 0.64 */
-        height: 42px; /* 65px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-      }
-      .character-container .arm.left {
-        left: 22px; /* 35px * 0.64 */
-        border-radius: 10px 3px 3px 10px; /* 15px*0.64, 5px*0.64, 5px*0.64, 15px*0.64 */
-      }
-      .character-container .arm.right {
-        right: 22px; /* 35px * 0.64 */
-        border-radius: 3px 10px 10px 3px; /* 5px*0.64, 15px*0.64, 15px*0.64, 5px*0.64 */
-      }
-      .character-container .hand {
-        top: 35px; /* 55px * 0.64 */
-        width: 19px; /* 30px * 0.64 */
-        height: 19px; /* 30px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-      }
-      .character-container .arm.left .hand { left: -5px; /* -7.5px * 0.64 */ }
-      .character-container .arm.right .hand { right: -5px; /* -7.5px * 0.64 */ }
-      .character-container .legs {
-        bottom: 22px; /* 35px * 0.64 */
-        width: 90px; /* 140px * 0.64 */
-        height: 38px; /* 60px * 0.64 */
-      }
-      .character-container .leg {
-        width: 38px; /* 60px * 0.64 */
-        height: 38px; /* 60px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-      }
-      .character-container .leg.left { border-radius: 13px 3px 0 0; /* 20px*0.64, 5px*0.64 */ }
-      .character-container .leg.right { border-radius: 3px 13px 0 0; /* 5px*0.64, 20px*0.64 */ }
-      .character-container .shoe {
-        bottom: -16px; /* -25px * 0.64 */
-        width: 42px; /* 65px * 0.64 */
-        height: 26px; /* 40px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-      }
-      .character-container .leg.left .shoe {
-        left: -1.5px; /* -2.5px * 0.64 */
-        border-radius: 10px 3px 5px 5px; /* 15px*0.64, 5px*0.64, 7.5px*0.64, 7.5px*0.64 */
-      }
-      .character-container .leg.right .shoe {
-        right: -1.5px; /* -2.5px * 0.64 */
-        border-radius: 3px 10px 5px 5px; /* 5px*0.64, 15px*0.64, 7.5px*0.64, 7.5px*0.64 */
-      }
-      .character-container .shoe::before {
-        height: 8px; /* 12.5px * 0.64 */
-        border-top-width: 1px; /* 1.5px * 0.64 -> ~1px */
-        border-radius: 0 0 4px 4px; /* 6px * 0.64 */
-      }
-      .character-container .shoe::after {
-        top: 5px; /* 7.5px * 0.64 */
-        left: 8px; /* 12.5px * 0.64 */
-        width: 11px; /* 17.5px * 0.64 */
-        height: 10px; /* 15px * 0.64 */
-        border-width: 1px; /* 1.5px * 0.64 -> ~1px */
-        border-radius: 3px; /* 5px * 0.64 */
-      }
-      /* Adjust crip walk for medium screens: current center -9vw, radius 25vw. */
-      /* These vw values are relative to viewport and might not need direct scaling, */
-      /* but are kept here for context. User requested size change, not animation path change. */
+      /* SCALED CHARACTER PARTS for max-width: 700px (Factor: 0.64) - REMOVED, now handled by global --scale-factor */
+
+      /* Update scale factor and crip walk variables for this breakpoint */
       :root {
-        /* EXTREME HORIZONTAL PATH with pauses for 700px */
-        --crip-walk-start-extreme: -70vw;
-        --crip-walk-mid-1-extreme: -15vw;
-        --crip-walk-end-extreme: 70vw;
-        --crip-walk-mid-2-extreme: 15vw;
+        --scale-factor: 0.64; /* New scale factor for this breakpoint */
+        /* Adjusted HORIZONTAL PATH for 700px (43.75rem) */
+        --crip-walk-start-extreme: -60vw;
+        --crip-walk-mid-1-extreme: -12vw;
+        --crip-walk-end-extreme: 60vw;
+        --crip-walk-mid-2-extreme: 12vw;
       }
-
-      /* Aurora Glass Effect for Mobile - STYLES MOVED TO GLOBAL SCOPE */
-      /* .glass-panel { */
-        /* overflow: hidden; */ /* MOVED TO GLOBAL .glass-panel */
-      /* } */
-
-      /* .glass-panel::after { ... } MOVED TO GLOBAL SCOPE */
-      /* @keyframes aurora-flow { ... } MOVED TO GLOBAL SCOPE */
     }
 
 /* Global Aurora Glass Effect Styles (moved from mobile media query) */
@@ -770,7 +744,7 @@ body.dark-mode .blob-3 {
     radial-gradient(circle at 50% 50%, rgba(253, 187, 45, 0.15) 0%, transparent 30%);
   background-size: 250% 250%;
   animation: aurora-flow 20s ease-in-out infinite;
-  filter: blur(25px);
+  filter: blur(1.5625rem); /* 25px -> 1.5625rem */
   pointer-events: none;
 }
 
@@ -781,16 +755,22 @@ body.dark-mode .blob-3 {
 }
 
     /* For small tablets and large mobile phones (max-width: 520px) */
-    @media (max-width: 520px) {
+    @media (max-width: 32.5rem) { /* 520px -> 32.5rem */
+      .widget {
+        min-height: 40vh; /* Adjusted for smaller screens */
+      }
+      .widget-swap {
+        min-height: 45vh; /* Adjusted for smaller screens */
+      }
       /* Reduce body padding for smaller screens to maximize content visibility and space efficiency. */
       body {
-        padding: 5px 3px; /* MINIMIZE body padding on small screens for tightest fit. */
+        padding: 0.3125rem 0.1875rem; /* 5px 3px -> 0.3125rem 0.1875rem. MINIMIZE body padding on small screens for tightest fit. */
       }
       /* Adjust glass panel padding and margins for smaller screens to create a compact layout. */
       .glass-panel {
-        padding: 8px; /* REDUCE inner padding of glass panel for compact content presentation. */
-        margin-top: 5px; /* MAINTAIN small top margin for separation from screen edge, ensuring body padding is primary spacer. */
-        margin-bottom: 10px; /* REDUCE bottom margin for tighter vertical stacking. */
+        padding: 0.5rem; /* 8px -> 0.5rem. REDUCE inner padding of glass panel for compact content presentation. */
+        margin-top: 0.3125rem; /* 5px -> 0.3125rem. MAINTAIN small top margin for separation from screen edge, ensuring body padding is primary spacer. */
+        margin-bottom: 0.625rem; /* 10px -> 0.625rem. REDUCE bottom margin for tighter vertical stacking. */
         width: 98%; /* Ensure panel uses almost full width effectively. */
       }
 
@@ -799,8 +779,8 @@ body.dark-mode .blob-3 {
       .hero-header {
         flex-direction: column; /* Stack items vertically */
         align-items: center; /* Center items horizontally */
-        gap: 10px; /* Reduced gap between items for tighter layout */
-        margin-bottom: 10px; /* Reduced bottom margin for tighter layout */
+        gap: 0.625rem; /* 10px -> 0.625rem. Reduced gap between items for tighter layout */
+        margin-bottom: 0.625rem; /* 10px -> 0.625rem. Reduced bottom margin for tighter layout */
       }
 
       /* --- Mobile Footer Navigation Adjustments --- */
@@ -810,20 +790,24 @@ body.dark-mode .blob-3 {
         flex-wrap: wrap;     /* Allow footer links to wrap if they don't all fit */
         justify-content: center; /* Center the wrapped lines of links */
         align-items: center; /* Align items nicely if they wrap to multiple lines */
-        gap: 8px; /* Gap between footer links */
+        gap: 0.5rem; /* 8px -> 0.5rem. Gap between footer links */
       }
       /* Fine-tune footer link behavior on mobile for better wrapping */
       .footer-nav a {
         flex-grow: 0; /* Prevent individual links from growing disproportionately */
         flex-basis: auto; /* Let links size based on their content and padding */
       }
-      /* Separators are hidden as they might look odd with centered, wrapped links */
-      .footer-nav .separator { display: none; }
+      /* Separators are hidden as they might look odd with centered, wrapped links - User wants them visible */
+      .footer-nav .separator {
+        display: inline;
+        color: rgba(255, 255, 255, 0.6); /* Slightly more opaque */
+        font-size: 0.8rem; /* Explicit font size for mobile separator */
+      }
 
       /* --- Mobile Button Height and Font Size Adjustments --- */
       /* Slightly smaller, responsive font for all hero and footer buttons on mobile */
       .hero-header .hero-link, .footer-nav a {
-        font-size: clamp(0.75em, 2vw, 0.85em);
+        font-size: clamp(0.75em, 2vw, 0.85em); /* This is already relative, good. */
       }
       /* Make hero buttons (LP & TOP 35) snug: significantly reduce vertical padding for a tighter fit to text. */
       /* This was part of a previous iteration; specific hero link sizing is now handled by .hero-link-left/right */
@@ -838,163 +822,26 @@ body.dark-mode .blob-3 {
 
       /* --- Mobile Widget Adjustments --- */
       /* Reduce horizontal padding within widgets on small screens to decrease their perceived width and mitigate side-scrolling. */
-      .widget {
-        padding-left: 8px; /* REDUCE left padding by approx 50% (was 15px). */
-        padding-right: 8px; /* REDUCE right padding by approx 50% (was 15px). */
-        /* Vertical padding (padding-top, padding-bottom) remains as per the default .widget style (15px) unless specified otherwise. */
+      /* .widget padding already converted in global rule, this specific media query rule for padding can be removed if not different */
+      .widget { /* This rule for padding-left/right at 520px is more specific than global, so keep if different */
+         padding-left: 0.5rem; /* 8px -> 0.5rem */
+         padding-right: 0.5rem; /* 8px -> 0.5rem */
       }
-
-      /* Reduce height of swap widget on small screens for better layout. New height: 340px (15% reduction from 400px) */
-      .widget-swap { /* Target the container for the swap widget */
-        height: 340px;       /* Explicitly set height for mobile, reducing from desktop's 400px min-height. */
-        min-height: 340px;   /* Ensure min-height also respects this new, shorter height on mobile. */
-      }
-      .widget-swap iframe { /* Target the iframe directly within .widget-swap */
-        height: 100%;        /* Make iframe fill the new height of its .widget-swap parent. */
-        min-height: auto;    /* Override the iframe's own min-height (was 380px) to allow it to shrink. */
-      }
-
-
       /* Adjust Blapu character size for small screens */
+      /* .character-container direct width/height removed, now scaled by --scale-factor */
       .character-container {
-        width: 100px; /* Base: 250px. Scale: 0.4 */
-        height: 130px; /* Base: 325px. Scale: 0.4 */
-        filter: blur(4px); /* Reduced blur */
+        filter: blur(0.25rem); /* 4px -> 0.25rem. Reduced blur, specific to this breakpoint */
       }
-      /* SCALED CHARACTER PARTS for max-width: 520px (Factor: 0.4) */
-      .character-container .head {
-        top: 10px; /* 25px * 0.4 */
-        width: 56px; /* 140px * 0.4 */
-        height: 50px; /* 125px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .ear {
-        top: 3px; /* 7.5px * 0.4 */
-        width: 14px; /* 35px * 0.4 */
-        height: 18px; /* 45px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .ear.left { left: 20px; /* 50px * 0.4 */ }
-      .character-container .ear.right { right: 20px; /* 50px * 0.4 */ }
-      .character-container .ear::after {
-        top: 3px; /* 7.5px * 0.4 */
-        width: 8px; /* 20px * 0.4 */
-        height: 10px; /* 25px * 0.4 */
-      }
-      .character-container .eyes {
-        top: 18px; /* 45px * 0.4 */
-        gap: 1px; /* 2.5px * 0.4 */
-      }
-      .character-container .eye {
-        width: 22px; /* 55px * 0.4 */
-        height: 18px; /* 45px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .eye::before {
-        top: -10px; /* -25px * 0.4 */
-        left: -2px; /* -5px * 0.4 */
-        width: 26px; /* 65px * 0.4 */
-        height: 20px; /* 50px * 0.4 */
-        border-bottom-width: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .pupil {
-        bottom: 3px; /* 7.5px * 0.4 */
-        width: 7px; /* 17.5px * 0.4 */
-        height: 8px; /* 20px * 0.4 */
-      }
-      .character-container .pupil::after {
-        top: 1.5px; /* 4px * 0.4 */
-        left: 1.5px; /* 4px * 0.4 */
-        width: 2px; /* 5px * 0.4 */
-        height: 2px; /* 5px * 0.4 */
-      }
-      .character-container .lips {
-        top: 38px; /* 95px * 0.4 */
-        width: 40px; /* 100px * 0.4 */
-        height: 9px; /* 22.5px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .body {
-        top: 59.5px; /* 149px * 0.4 (approx 59.6) */
-        width: 48px; /* 120px * 0.4 */
-        height: 36px; /* 90px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-        border-radius: 4px 4px 4px 4px; /* 10px * 0.4 */
-      }
-      .character-container .neck-line {
-        top: 59.5px; /* 149px * 0.4 */
-        width: 20px; /* 50px * 0.4 */
-        height: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .arm {
-        top: 62px; /* 155px * 0.4 */
-        width: 12px; /* 30px * 0.4 */
-        height: 26px; /* 65px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .arm.left {
-        left: 14px; /* 35px * 0.4 */
-        border-radius: 6px 2px 2px 6px; /* 15px*0.4, 5px*0.4 */
-      }
-      .character-container .arm.right {
-        right: 14px; /* 35px * 0.4 */
-        border-radius: 2px 6px 6px 2px; /* 5px*0.4, 15px*0.4 */
-      }
-      .character-container .hand {
-        top: 22px; /* 55px * 0.4 */
-        width: 12px; /* 30px * 0.4 */
-        height: 12px; /* 30px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .arm.left .hand { left: -3px; /* -7.5px * 0.4 */ }
-      .character-container .arm.right .hand { right: -3px; /* -7.5px * 0.4 */ }
-      .character-container .legs {
-        bottom: 14px; /* 35px * 0.4 */
-        width: 56px; /* 140px * 0.4 */
-        height: 24px; /* 60px * 0.4 */
-      }
-      .character-container .leg {
-        width: 24px; /* 60px * 0.4 */
-        height: 24px; /* 60px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .leg.left { border-radius: 8px 2px 0 0; /* 20px*0.4, 5px*0.4 */ }
-      .character-container .leg.right { border-radius: 2px 8px 0 0; /* 5px*0.4, 20px*0.4 */ }
-      .character-container .shoe {
-        bottom: -10px; /* -25px * 0.4 */
-        width: 26px; /* 65px * 0.4 */
-        height: 16px; /* 40px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-      }
-      .character-container .leg.left .shoe {
-        left: -1px; /* -2.5px * 0.4 */
-        border-radius: 6px 2px 3px 3px; /* 15px*0.4, 5px*0.4, 7.5px*0.4 */
-      }
-      .character-container .leg.right .shoe {
-        right: -1px; /* -2.5px * 0.4 */
-        border-radius: 2px 6px 3px 3px; /* 5px*0.4, 15px*0.4, 7.5px*0.4 */
-      }
-      .character-container .shoe::before {
-        height: 5px; /* 12.5px * 0.4 */
-        border-top-width: 0.5px; /* 1.5px * 0.4 */
-        border-radius: 0 0 2.5px 2.5px; /* 6px * 0.4 */
-      }
-      .character-container .shoe::after {
-        top: 3px; /* 7.5px * 0.4 */
-        left: 5px; /* 12.5px * 0.4 */
-        width: 7px; /* 17.5px * 0.4 */
-        height: 6px; /* 15px * 0.4 */
-        border-width: 0.5px; /* 1.5px * 0.4 */
-        border-radius: 2px; /* 5px * 0.4 */
-      }
-      /* Adjust crip walk for small screens: current center -9vw, radius 20vw. */
-      /* VW units are relative, not directly scaling. */
+      /* SCALED CHARACTER PARTS for max-width: 520px (Factor: 0.4) - REMOVED */
+
+      /* Update scale factor and crip walk variables for this breakpoint */
       :root {
-        /* EXTREME HORIZONTAL PATH with pauses for 520px */
-        --crip-walk-start-extreme: -70vw;
-        --crip-walk-mid-1-extreme: -15vw;
-        --crip-walk-end-extreme: 70vw;
-        --crip-walk-mid-2-extreme: 15vw;
+        --scale-factor: 0.4; /* New scale factor for this breakpoint */
+        /* Adjusted HORIZONTAL PATH for 520px (32.5rem) - user example values */
+        --crip-walk-start-extreme: -50vw;
+        --crip-walk-mid-1-extreme: -10vw;
+        --crip-walk-end-extreme: 50vw;
+        --crip-walk-mid-2-extreme: 10vw;
       }
     }
 
