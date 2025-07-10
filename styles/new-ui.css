@@ -34,21 +34,27 @@
     }
 
     /* General Page Setup */
-    /* Ensures the html and body elements cover the full viewport without causing overflow, especially on sub-pixel rendering scenarios. */
-    html, body {
-      width: 100%; /* Fallback for older browsers or if vw units cause issues. */
-      max-width: 100vw; /* Constrains width strictly to viewport width to prevent horizontal scroll from vw unit miscalculations. */
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 0; /* Resets default browser margins. */
-      padding: 10px; /* Base padding for the page content area. Adjusted in media queries. */
-      color: #fff; /* Default text color. */
-      min-height: 100vh; /* Ensures body takes at least full viewport height. */
-      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Background gradient. */
-      position: relative; /* For positioning of absolute children like blobs/character. */
-      overflow-x: hidden; /* PREVENTS horizontal scrollbars if any content accidentally overflows. Applied to html and body. */
-      /* box-sizing: border-box; /* This is now handled by the universal box-sizing rule above. */ */
+
+    html {
+      width: 100%;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0; /* Remove padding from html */
+      overflow-x: hidden; /* Apply to html to prevent scrollbars from body content */
+      /* position: relative; -- Not strictly necessary on html if body is used for positioning context */
     }
 
+    body {
+      width: 100%;
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 10px; /* Base padding for the page content area. Adjusted in media queries. */
+      color: #fff; /* Default text color for light mode */
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Light mode background on BODY */
+      position: relative; /* For positioning of absolute children like blobs/character */
+      /* overflow-x: hidden; -- Moved to HTML */
+    }
     /* Decorative Animated Blobs (Background) */
     /* Keyframes for blob animation */
     @keyframes dance {
