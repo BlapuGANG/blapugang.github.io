@@ -1731,3 +1731,14 @@ table.flashListing .subject {
   margin: 0;
   flex-grow: 1;
 }
+
+/* Custom Blapu Styles for Chan View Mobile Swap Widget */
+@media (max-width: 520px) {
+  /* Reduce height of the Vestige swap widget container on mobile for Chan view. */
+  /* New height: 320px (20% reduction from 400px). */
+  /* !important is used to override the inline style 'height: 400px;' in index.html. */
+  .chan-swap-widget-container {
+    height: 320px !important;
+  }
+  /* The iframe inside .chan-swap-widget-container has height="100%", so it will adapt. */
+}

@@ -5,6 +5,15 @@
       Purpose: Styling for the new Blapu UI, including responsive adjustments for mobile.
     */
 
+    /* Universal Box Sizing */
+    /* Apply a more intuitive box model to all elements. Padding and border will not increase the element's specified width/height. */
+    html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit; /* Inherit box-sizing from html element, making it easy to override if needed. */
+    }
+
     /* CSS Variables Definition */
     :root {
       /* Variables for controlling Blapu character's crip walk animation extents. */
@@ -25,6 +34,7 @@
     }
 
     /* General Page Setup */
+
     html {
       width: 100%;
       min-height: 100vh;
@@ -45,7 +55,6 @@
       position: relative; /* For positioning of absolute children like blobs/character */
       /* overflow-x: hidden; -- Moved to HTML */
     }
-
     /* Decorative Animated Blobs (Background) */
     /* Keyframes for blob animation */
     @keyframes dance {
@@ -834,6 +843,17 @@ body.dark-mode .blob-3 {
         padding-right: 8px; /* REDUCE right padding by approx 50% (was 15px). */
         /* Vertical padding (padding-top, padding-bottom) remains as per the default .widget style (15px) unless specified otherwise. */
       }
+
+      /* Reduce height of swap widget on small screens for better layout. New height: 340px (15% reduction from 400px) */
+      .widget-swap { /* Target the container for the swap widget */
+        height: 340px;       /* Explicitly set height for mobile, reducing from desktop's 400px min-height. */
+        min-height: 340px;   /* Ensure min-height also respects this new, shorter height on mobile. */
+      }
+      .widget-swap iframe { /* Target the iframe directly within .widget-swap */
+        height: 100%;        /* Make iframe fill the new height of its .widget-swap parent. */
+        min-height: auto;    /* Override the iframe's own min-height (was 380px) to allow it to shrink. */
+      }
+
 
       /* Adjust Blapu character size for small screens */
       .character-container {
