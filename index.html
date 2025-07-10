@@ -15,6 +15,22 @@
     <link rel="stylesheet" href="styles/xa24extra.css">
     <link rel="stylesheet" href="styles/cookie-banner.css">
     <link rel="icon" href="assets/images/blapu-logo.png" type="image/png">
+  <script>
+    // Random theme-color selection
+    (function() {
+      const colors = ['#355ca8', '#f28d1c'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', randomColor);
+      } else {
+        metaThemeColor = document.createElement('meta');
+        metaThemeColor.setAttribute('name', 'theme-color');
+        metaThemeColor.setAttribute('content', randomColor);
+        document.head.appendChild(metaThemeColor);
+      }
+    })();
+  </script>
 </head>
 <body >
     <div id="app">

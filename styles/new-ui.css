@@ -12,11 +12,12 @@
   This acts as a "visual log" by drawing a red outline around every element.
   The element whose outline extends past the screen edge is the source of the overflow.
   My analysis points to the character animation, which this updated stylesheet corrects.
-
-  * {
-    outline: 1px solid red !important;
-  }
 */
+* {
+  box-sizing: border-box;
+  /* outline: 1px solid red !important; */ /* Debugging outline commented out */
+}
+/*
 
 
 /* CSS Variables Definition */
@@ -82,6 +83,7 @@ html {
     Establishes a base font size, allowing `rem` units to be responsive to user browser settings.
   */
   font-size: 100%;
+  box-sizing: border-box;
 }
 
 body {
@@ -136,6 +138,7 @@ body {
     This contains the character animation which is a direct child of the body.
   */
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* Decorative Animated Blobs (Background) */
@@ -439,6 +442,7 @@ body.dark-mode .blob-3 {
     A performance hint for the browser, indicating that the transform property will be animated.
   */
   will-change: transform;
+  box-sizing: border-box;
 }
 .character-container:hover {
   /*
