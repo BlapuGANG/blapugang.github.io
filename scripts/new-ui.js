@@ -42,7 +42,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const randomIndex = Math.floor(Math.random() * quotes.length); // Get a random index
     quotes[randomIndex].style.display = 'block'; // Show the randomly selected quote by setting its display style to 'block'
   }
+    quotes[randomIndex].style.display = 'block'; // Show the randomly selected quote by setting its display style to 'block'
+  }
 });
+
+// Cookie helper functions
+function setCookie(name, value, days) {
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+}
+
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
 
 // Dark Mode Toggle Functionality
 document.addEventListener('DOMContentLoaded', function() {
@@ -58,8 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Check for saved theme preference on load
-  const savedTheme = localStorage.getItem('theme');
+  // Check for saved theme preference on load using cookies
+  const savedTheme = getCookie('theme');
   if (savedTheme) {
     applyTheme(savedTheme);
   } // Default is light mode (no class)
@@ -71,11 +95,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
       bodyElement.classList.toggle('dark-mode');
 
-      // Save the new preference
+      // Save the new preference using cookies
       if (bodyElement.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
+        setCookie('theme', 'dark', 30); // Cookie expires in 30 days
       } else {
-        localStorage.setItem('theme', 'light');
+        setCookie('theme', 'light', 30); // Cookie expires in 30 days
       }
     });
   }

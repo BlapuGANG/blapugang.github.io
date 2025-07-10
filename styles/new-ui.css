@@ -19,11 +19,11 @@
       /* Variables for controlling Blapu character's crip walk animation extents. */
       /* These are adjusted in media queries for responsiveness. */
       /* Using 'extreme' names to match the updated detailedCripWalk keyframes. */
-      /* Desktop path values: */
+      /* Desktop path values reverted to simpler, centered path as per user request: */
       --crip-walk-start-extreme: -45vw; /* Desktop's 'far left' */
-      --crip-walk-mid-1-extreme: -20vw; /* Desktop's re-entry path from left */
+      --crip-walk-mid-1-extreme: -10vw; /* Desktop's re-entry path from left, symmetrical */
       --crip-walk-end-extreme: 25vw;    /* Desktop's 'far right' */
-      --crip-walk-mid-2-extreme: 5vw;  /* Desktop's re-entry path from right */
+      --crip-walk-mid-2-extreme: -10vw; /* Desktop's re-entry path from right, symmetrical */
 
       /* Original desktop values (commented out as they are replaced by the above for the new keyframes)
       --crip-walk-start: -45vw;
