@@ -94,13 +94,7 @@ body.dark-mode {
   color: #fff;
 }
 
-body.dark-mode .glass-panel::after {
-  /* Adjust aurora colors for better visibility/harmony in dark mode */
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(74, 144, 226, 0.3) 0%, transparent 35%), /* Increased opacity */
-    radial-gradient(circle at 80% 70%, rgba(182, 31, 177, 0.25) 0%, transparent 40%), /* Increased opacity */
-    radial-gradient(circle at 50% 50%, rgba(253, 187, 45, 0.25) 0%, transparent 30%); /* Increased opacity */
-}
+/* body.dark-mode .glass-panel::after removed as aurora effect is disabled */
 
 body.dark-mode .blapu-blob {
   opacity: 0.6; /* Adjusted base opacity for dark mode blobs */
@@ -743,7 +737,8 @@ body.dark-mode .blob-3 {
       }
     }
 
-/* Global Aurora Glass Effect Styles (moved from mobile media query) */
+/* Global Aurora Glass Effect Styles - REMOVED */
+/*
 .glass-panel::after {
   content: "";
   position: absolute;
@@ -751,14 +746,14 @@ body.dark-mode .blob-3 {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -2; /* Behind existing ::before (inner shadow) and content */
+  z-index: -2;
   background-image:
     radial-gradient(circle at 20% 30%, rgba(74, 144, 226, 0.2) 0%, transparent 35%),
     radial-gradient(circle at 80% 70%, rgba(182, 31, 177, 0.15) 0%, transparent 40%),
     radial-gradient(circle at 50% 50%, rgba(253, 187, 45, 0.15) 0%, transparent 30%);
   background-size: 250% 250%;
   animation: aurora-flow 20s ease-in-out infinite;
-  filter: blur(1.5625rem); /* 25px -> 1.5625rem */
+  filter: blur(1.5625rem);
   pointer-events: none;
 }
 
@@ -767,7 +762,7 @@ body.dark-mode .blob-3 {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
+*/
     /* For small tablets and large mobile phones (max-width: 520px) */
     @media (max-width: 32.5rem) { /* 520px -> 32.5rem */
       .widget {
