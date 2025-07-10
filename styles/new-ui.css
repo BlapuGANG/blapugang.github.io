@@ -1,1018 +1,1198 @@
 /*
       Main Stylesheet for Blapu New UI
       Author: Jules (AI Assistant)
-      Date: [Current Date will be filled by system if possible, otherwise manually update]
-      Purpose: Styling for the new Blapu UI, including responsive adjustments for mobile.
-    */
+      Date: 2025-07-10
+      Purpose: Enhanced styling for the new Blapu UI, featuring an improved glassmorphism effect
+               and robust responsive adjustments to eliminate horizontal overflow on mobile devices.
+*/
 
-    /* CSS Variables Definition */
-    :root {
-      /* Variables for controlling Blapu character's crip walk animation extents. */
-      /* These are adjusted in media queries for responsiveness. */
-      /* Using 'extreme' names to match the updated detailedCripWalk keyframes. */
-      /* Desktop path values reverted to simpler, centered path as per user request: */
-      --crip-walk-start-extreme: -45vw; /* Desktop's 'far left' */
-      --crip-walk-mid-1-extreme: -10vw; /* Desktop's re-entry path from left, symmetrical */
-      --crip-walk-end-extreme: 25vw;    /* Desktop's 'far right' */
-      --crip-walk-mid-2-extreme: -10vw; /* Desktop's re-entry path from right, symmetrical */
+/* --- DEBUGGING STYLES --- */
+/*
+  To identify which element is causing horizontal overflow, you can uncomment the following rule.
+  This acts as a "visual log" by drawing a red outline around every element.
+  The element whose outline extends past the screen edge is the source of the overflow.
+  My analysis points to the character animation, which this updated stylesheet corrects.
 
-      /* Original desktop values (commented out as they are replaced by the above for the new keyframes)
-      --crip-walk-start: -45vw;
-      --crip-walk-mid-1: -10vw;
-      --crip-walk-end: 25vw;
-      --crip-walk-mid-2: -10vw;
-      */
+  * {
+    outline: 1px solid red !important;
+  }
+*/
 
-      /* Character Scaling Factor */
-      --scale-factor: 1; /* Default scale for desktop */
-    }
 
-    /* General Page Setup */
-    html {
-      width: 100%;
-      min-height: 100vh;
-      margin: 0;
-      padding: 0; /* Remove padding from html */
-      overflow-x: hidden; /* Apply to html to prevent scrollbars from body content */
-      /* position: relative; -- Not strictly necessary on html if body is used for positioning context */
-      font-size: 100%; /* Establish base for rem units, respecting user's browser settings */
-    }
+/* CSS Variables Definition */
+:root {
+  /*
+    --scale-factor:
+    Controls the overall size of the Blapu character. It is adjusted in media queries
+    to responsively scale the character down for smaller screens.
+  */
+  --scale-factor: 1; /* Default scale for desktop */
 
-    body {
-      width: 100%;
-      min-height: 100vh;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 0;
-      padding: 0.625rem; /* 10px -> 0.625rem. Base padding for the page content area. Adjusted in media queries. */
-      color: #fff; /* Default text color for light mode */
-      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Light mode background on BODY */
-      position: relative; /* For positioning of absolute children like blobs/character */
-      /* overflow-x: hidden; -- Moved to HTML */
-    }
+  /*
+    --crip-walk-*:
+    Variables controlling the Blapu character's crip walk animation extents.
+    These are adjusted in media queries for responsiveness.
+  */
+  --crip-walk-start-extreme: -45vw; /* Desktop's 'far left' */
+  --crip-walk-mid-1-extreme: -10vw; /* Desktop's re-entry path from left */
+  --crip-walk-end-extreme: 25vw;   /* Desktop's 'far right' */
+  --crip-walk-mid-2-extreme: -10vw; /* Desktop's re-entry path from right */
+}
 
-    /* Decorative Animated Blobs (Background) */
+/* General Page Setup */
+html {
+  /*
+    width: 100%;
+    Ensures the html element spans the full width of the viewport.
+  */
+  width: 100%;
+  /*
+    min-height: 100vh;
+    Ensures the html element spans the full height of the viewport.
+  */
+  min-height: 100vh;
+  /*
+    margin: 0;
+    Removes the default browser margin from the html element.
+  */
+  margin: 0;
+  /*
+    padding: 0;
+    Removes any padding from the html element.
+  */
+  padding: 0;
+  /*
+    overflow-x: hidden;
+    Crucial fix: Prevents horizontal scrollbars from appearing for the entire page,
+    effectively containing any content (like the character animation) that moves outside the viewport.
+  */
+  overflow-x: hidden;
+  /*
+    font-size: 100%;
+    Establishes a base font size, allowing `rem` units to be responsive to user browser settings.
+  */
+  font-size: 100%;
+}
 
-    /* Ensure the fixed background container does not cause overflow due to vw units with scrollbars */
-    #animated-blapu-bg {
-      width: 100% !important; /* Overrides inline style 'width: 100vw' */
-    }
+body {
+  /*
+    width: 100%;
+    Ensures the body takes up the full width of its container (html).
+  */
+  width: 100%;
+  /*
+    min-height: 100vh;
+    Ensures the body spans the full height of the viewport.
+  */
+  min-height: 100vh;
+  /*
+    font-family: ...;
+    Sets the default font stack for the entire page, with fallbacks.
+  */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /*
+    margin: 0;
+    Removes the default browser margin from the body.
+  */
+  margin: 0;
+  /*
+    padding: 0.625rem;
+    Sets a base padding for the page content area (10px).
+  */
+  padding: 0.625rem;
+  /*
+    color: #fff;
+    Sets the default text color to white for light mode.
+  */
+  color: #fff;
+  /*
+    background: linear-gradient(...);
+    Defines the default (light mode) background gradient for the page.
+  */
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  /*
+    position: relative;
+    Establishes a positioning context for absolutely positioned child elements.
+  */
+  position: relative;
+  /*
+    overflow-x: hidden;
+    Secondary safeguard: Ensures the body itself also hides overflowing content.
+    This contains the character animation which is a direct child of the body.
+  */
+  overflow-x: hidden;
+}
 
-    /* Keyframes for blob animation */
-    @keyframes dance {
-      0%, 100% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
-        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-      }
-      25% {
-        transform: translate(20px, -15px) rotate(5deg) scale(1.05);
-        border-radius: 30% 70% 50% 50% / 50% 40% 50% 60%;
-      }
-      50% {
-        transform: translate(-10px, 10px) rotate(-5deg) scale(1);
-        border-radius: 50% 50% 30% 70% / 40% 60% 30% 70%;
-      }
-      75% {
-        transform: translate(10px, 5px) rotate(3deg) scale(1.03);
-        border-radius: 60% 40% 70% 30% / 50% 50% 40% 60%;
-      }
-    }
+/* Decorative Animated Blobs (Background) */
+
+/*
+  #animated-blapu-bg:
+  This container for the blobs was previously causing issues with `vw` units.
+  It is now set to 100% width to safely fill its parent without causing overflow.
+*/
+#animated-blapu-bg {
+  /*
+    width: 100% !important;
+    Overrides any inline style to ensure the background container never exceeds the body width.
+  */
+  width: 100% !important;
+}
+
+/* Keyframes for blob animation */
+@keyframes dance {
+  /*
+    Defines the fluid, morphing animation for the background blobs.
+  */
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  }
+  25% {
+    transform: translate(20px, -15px) rotate(5deg) scale(1.05);
+    border-radius: 30% 70% 50% 50% / 50% 40% 50% 60%;
+  }
+  50% {
+    transform: translate(-10px, 10px) rotate(-5deg) scale(1);
+    border-radius: 50% 50% 30% 70% / 40% 60% 30% 70%;
+  }
+  75% {
+    transform: translate(10px, 5px) rotate(3deg) scale(1.03);
+    border-radius: 60% 40% 70% 30% / 50% 50% 40% 60%;
+  }
+}
 
 /* Animation Toggle Feature */
 body.no-animations .character-container,
 body.no-animations .blapu-blob,
-body.no-animations .arm, /* Stop arm swing */
-body.no-animations .leg { /* Stop leg swing */
+body.no-animations .arm,
+body.no-animations .leg {
+  /*
+    animation: none !important;
+    Disables all animations when the .no-animations class is on the body.
+  */
   animation: none !important;
 }
 
 /* Dark Mode Styles */
 body.dark-mode {
+  /*
+    background: linear-gradient(...);
+    Sets the background gradient for dark mode.
+  */
   background: linear-gradient(135deg, #000000 0%, #300030 70%, #4B0082 100%);
-  /* Ensure text color is appropriate if not handled by more specific selectors,
-     though most text is in .glass-panel which should maintain its light text.
-     Defaulting to white for any potential stray text on the body. */
+  /*
+    color: #fff;
+    Ensures default text color is white in dark mode.
+  */
   color: #fff;
 }
 
-/* body.dark-mode .glass-panel::after removed as aurora effect is disabled */
-
 body.dark-mode .glass-panel {
-  border-color: rgba(255, 255, 255, 0.1); /* Softer border for dark mode */
+  /*
+    border-color: rgba(255, 255, 255, 0.1);
+    Uses a softer, less prominent border for the glass panel in dark mode.
+  */
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .blapu-blob {
-  opacity: 0.6; /* Adjusted base opacity for dark mode blobs */
+  /*
+    opacity: 0.6;
+    Sets the base opacity for background blobs in dark mode.
+  */
+  opacity: 0.6;
 }
 body.dark-mode .blob-1 {
+  /*
+    background: radial-gradient(...);
+    Defines the color and gradient for blob-1 in dark mode.
+  */
   background: radial-gradient(circle at center, rgba(220, 100, 255, 0.6), rgba(150, 50, 180, 0.8));
 }
 body.dark-mode .blob-2 {
+  /*
+    background: radial-gradient(...);
+    Defines the color and gradient for blob-2 in dark mode.
+  */
   background: radial-gradient(circle at center, rgba(80, 120, 255, 0.6), rgba(40, 70, 190, 0.8));
 }
 body.dark-mode .blob-3 {
+  /*
+    background: radial-gradient(...);
+    Defines the color and gradient for blob-3 in dark mode.
+  */
   background: radial-gradient(circle at center, rgba(160, 120, 255, 0.55), rgba(100, 80, 190, 0.75));
-  /* Opacity for dark mode blobs is handled by body.dark-mode .blapu-blob { --blob-opacity: 0.6; } */
 }
 
-    /* Individual blob styling using CSS Custom Properties */
-    .blapu-blob {
-      position: absolute;
-      filter: blur(0.5rem); /* 8px -> 0.5rem */
-      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-      z-index: 0;
-
-      /* Default custom property values */
-      --blob-top: 0%;
-      --blob-left: 0%;
-      --blob-width: 20vmin;
-      --blob-height: 20vmin;
-      --blob-anim-duration: 20s;
-      --blob-anim-delay: 0s;
-      --blob-opacity: 0.5; /* Default light mode opacity */
-
-      top: var(--blob-top);
-      left: var(--blob-left);
-      width: var(--blob-width);
-      height: var(--blob-height);
-      animation-name: dance; /* Common animation name */
-      animation-duration: var(--blob-anim-duration);
-      animation-timing-function: ease-in-out;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
-      animation-delay: var(--blob-anim-delay);
-      opacity: var(--blob-opacity);
-
-      /* Base light-mode background, overridden by specific blobs if they have a different light mode bg */
-      background: radial-gradient(circle at center, rgba(0, 123, 255, 0.4), rgba(0, 80, 180, 0.6));
-    }
-
-    .blob-1 {
-      --blob-top: 10%;
-      --blob-left: 5%;
-      --blob-width: 30vmin;
-      --blob-height: 28vmin;
-      --blob-anim-duration: 22s;
-      --blob-anim-delay: -2s;
-      --blob-opacity: 0.4; /* Specific light mode opacity for blob-1 */
-       /* Retains default .blapu-blob background for light mode unless overridden here */
-    }
-
-    .blob-2 {
-      --blob-top: 55%;
-      --blob-left: 75%;
-      --blob-width: 22vmin;
-      --blob-height: 25vmin;
-      --blob-anim-duration: 15s;
-      --blob-anim-delay: -7s;
-      --blob-opacity: 0.35; /* Specific light mode opacity for blob-2 */
-    }
-
-    .blob-3 {
-      --blob-top: 25%;
-      --blob-left: 45%;
-      --blob-width: 18vmin;
-      --blob-height: 17vmin;
-      --blob-anim-duration: 25s;
-      --blob-anim-delay: -12s;
-      --blob-opacity: 0.45; /* Specific light mode opacity for blob-3 */
-    }
-    /* Note: .blob-3 is display: none; in @media (max-width: 43.75rem) further down */
-
-    /* Blapu Character Animation Keyframes */
-    /* Keyframe for the main character's side-to-side "crip walk" animation. */
-    /* Uses CSS variables (--crip-walk-*) to allow responsive adjustments of X-axis travel distance. */
-    /* translateY values adjusted for symmetrical vertical movement to balance perceived time on left/right. */
-    /* New keyframes for extreme path with pauses and hops, using vmin for translateY */
-    @keyframes detailedCripWalk {
-      0%   { transform: translateX(0vw) translateY(0vmin) rotate(-5deg); }
-
-      /* Go to Far Left and Pause/Hop */
-      18%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0vmin) rotate(-15deg); } /* Arrive Far Left */
-      20%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(-3vmin) rotate(-10deg); } /* Hop Up at Far Left (-25px -> -3vmin) */
-      22%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0vmin) rotate(-15deg); } /* Land at Far Left */
-
-      /* Travel to Mid-Screen from Left */
-      36%  { transform: translateX(var(--crip-walk-mid-1-extreme)) translateY(-5.5vmin) rotate(0deg); } /* Mid-travel 1, with main hop (-45px -> -5.5vmin) */
-      50%  { transform: translateX(0vw) translateY(0vmin) rotate(5deg); } /* Arrive near center */
-
-      /* Go to Far Right and Pause/Hop */
-      68%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0vmin) rotate(15deg); } /* Arrive Far Right */
-      70%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(-3vmin) rotate(10deg); } /* Hop Up at Far Right (-25px -> -3vmin) */
-      72%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0vmin) rotate(15deg); } /* Land at Far Right */
-
-      /* Travel to Mid-Screen from Right */
-      86%  { transform: translateX(var(--crip-walk-mid-2-extreme)) translateY(-5.5vmin) rotate(0deg); } /* Mid-travel 2, with main hop (-45px -> -5.5vmin) */
-      100% { transform: translateX(0vw) translateY(0vmin) rotate(-5deg); } /* Arrive near center, ready to loop */
-    }
-    /* Keyframes for arm and leg swing animations (decorative) */
-    @keyframes blapuArmSwing {
-      0%, 100% { transform: rotate(20deg);}
-      50% { transform: rotate(-20deg);}
-    }
-    @keyframes blapuArmSwingR {
-      0%, 100% { transform: rotate(-20deg);}
-      50% { transform: rotate(20deg);}
-    }
-    @keyframes blapuLegSwing {
-      0%, 100% { transform: rotate(-15deg);}
-      50% { transform: rotate(15deg);}
-    }
-    @keyframes blapuLegSwingR {
-      0%, 100% { transform: rotate(15deg);}
-      50% { transform: rotate(-15deg);}
-    }
-
-    /* Blapu Character Blueprint Styles */
-    /* Container for the animated Blapu character. */
-    .character-container {
-      position: absolute; /* Positioned relative to #animated-blapu-bg */
-      bottom: 1%; /* Sits near the bottom of the viewport */
-      left: 50%; /* Horizontally centered */
-      transform: translateX(-50%); /* Fine-tunes centering */
-      width: calc(15.625rem * var(--scale-factor)); /* 250px */
-      height: calc(20.3125rem * var(--scale-factor)); /* 325px */
-      z-index: 1; /* Above blobs, below main content panel */
-      filter: blur(0.3125rem); /* 5px -> 0.3125rem. Applies a blur effect, adjusted in media queries */
-      animation: detailedCripWalk 20s infinite ease-in-out; /* Duration shortened to 20s */
-      pointer-events: none; /* Character does not intercept mouse events */
-      user-select: none; /* Character cannot be selected */
-      will-change: transform; /* Performance hint */
-      pointer-events: auto; /* Make character interactive */
-      cursor: pointer; /* Show pointer on hover */
-    }
-    .character-container:hover {
-      animation-play-state: paused; /* Pause animation on hover */
-    }
-    /* Individual parts of the Blapu character (Head, Ears, Eyes, etc.) */
-    /* These are mostly decorative and use absolute positioning within .character-container. */
-    /* Base values converted to rem, scaled by --scale-factor */
-    .head {
-      position: absolute;
-      top: calc(1.5625rem * var(--scale-factor)); /* 25px */
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(8.75rem * var(--scale-factor)); /* 140px */
-      height: calc(7.8125rem * var(--scale-factor)); /* 125px */
-      background: #1e50ff;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%;
-      z-index: 5;
-    }
-    .ear {
-      position: absolute;
-      top: calc(0.46875rem * var(--scale-factor)); /* 7.5px */
-      width: calc(2.1875rem * var(--scale-factor)); /* 35px */
-      height: calc(2.8125rem * var(--scale-factor)); /* 45px */
-      background: #1e50ff;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      z-index: 4;
-    }
-    .ear.left {
-      left: calc(3.125rem * var(--scale-factor)); /* 50px */
-      border-radius: 80% 20% 5% 5% / 100% 20% 5% 5%;
-      transform: rotate(-15deg);
-    }
-    .ear.right {
-      right: calc(3.125rem * var(--scale-factor)); /* 50px */
-      border-radius: 20% 80% 5% 5% / 20% 100% 5% 5%;
-      transform: rotate(15deg);
-    }
-    .ear::after {
-      content: '';
-      position: absolute;
-      top: calc(0.46875rem * var(--scale-factor)); /* 7.5px */
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(1.25rem * var(--scale-factor)); /* 20px */
-      height: calc(1.5625rem * var(--scale-factor)); /* 25px */
-      background: #ff47b6;
-      border-radius: 50% / 60% 60% 40% 40%;
-    }
-    .eyes {
-      position: absolute;
-      top: calc(2.8125rem * var(--scale-factor)); /* 45px */
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      gap: calc(0.15625rem * var(--scale-factor)); /* 2.5px */
-    }
-    .eye {
-      width: calc(3.4375rem * var(--scale-factor)); /* 55px */
-      height: calc(2.8125rem * var(--scale-factor)); /* 45px */
-      background: #fff;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      border-radius: 50%;
-      position: relative;
-      overflow: hidden;
-    }
-    .eye::before {
-      content: '';
-      position: absolute;
-      top: calc(-1.5625rem * var(--scale-factor)); /* -25px */
-      left: calc(-0.3125rem * var(--scale-factor)); /* -5px */
-      width: calc(4.0625rem * var(--scale-factor)); /* 65px */
-      height: calc(3.125rem * var(--scale-factor)); /* 50px */
-      background: #1e50ff;
-      border-bottom-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-bottom-style: solid;
-      border-bottom-color: #000;
-      border-radius: 50%;
-    }
-    .pupil {
-      position: absolute;
-      bottom: calc(0.46875rem * var(--scale-factor)); /* 7.5px */
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(1.09375rem * var(--scale-factor)); /* 17.5px */
-      height: calc(1.25rem * var(--scale-factor)); /* 20px */
-      background: #000;
-      border-radius: 50%;
-    }
-    .pupil::after {
-      content: '';
-      position: absolute;
-      top: calc(0.25rem * var(--scale-factor)); /* 4px */
-      left: calc(0.25rem * var(--scale-factor)); /* 4px */
-      width: calc(0.3125rem * var(--scale-factor)); /* 5px */
-      height: calc(0.3125rem * var(--scale-factor)); /* 5px */
-      background: #fff;
-      border-radius: 50%;
-    }
-    .lips {
-      position: absolute;
-      top: calc(5.9375rem * var(--scale-factor)); /* 95px */
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(6.25rem * var(--scale-factor)); /* 100px */
-      height: calc(1.40625rem * var(--scale-factor)); /* 22.5px */
-      background: #ff47b6;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      border-radius: 30% 30% 50% 50% / 30% 30% 100% 100%;
-    }
-    .body {
-      position: absolute;
-      top: calc(9.3125rem * var(--scale-factor)); /* 149px */
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(7.5rem * var(--scale-factor)); /* 120px */
-      height: calc(5.625rem * var(--scale-factor)); /* 90px */
-      background: #6d4c41;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      border-top-style: none;
-      border-radius: 10% 10% calc(0.625rem * var(--scale-factor)) calc(0.625rem * var(--scale-factor)); /* 10px */
-      z-index: 3;
-    }
-    .neck-line {
-      position: absolute;
-      top: calc(9.3125rem * var(--scale-factor)); /* 149px */
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(3.125rem * var(--scale-factor)); /* 50px */
-      height: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      background: #000;
-      z-index: 6;
-    }
-    .arm {
-      position: absolute;
-      top: calc(9.6875rem * var(--scale-factor)); /* 155px */
-      width: calc(1.875rem * var(--scale-factor)); /* 30px */
-      height: calc(4.0625rem * var(--scale-factor)); /* 65px */
-      background: #6d4c41;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      z-index: 2;
-      transform-origin: top center;
-    }
-    .arm.left {
-      left: calc(2.1875rem * var(--scale-factor)); /* 35px */
-      border-radius: calc(0.9375rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)); /* 15px 5px 5px 15px */
-      animation: blapuArmSwing 3s infinite ease-in-out alternate;
-    }
-    .arm.right {
-      right: calc(2.1875rem * var(--scale-factor)); /* 35px */
-      border-radius: calc(0.3125rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)); /* 5px 15px 15px 5px */
-      animation: blapuArmSwingR 3s infinite ease-in-out alternate;
-    }
-    .hand {
-      position: absolute;
-      top: calc(3.4375rem * var(--scale-factor)); /* 55px */
-      width: calc(1.875rem * var(--scale-factor)); /* 30px */
-      height: calc(1.875rem * var(--scale-factor)); /* 30px */
-      background: #1e50ff;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    }
-    .arm.left .hand { left: calc(-0.46875rem * var(--scale-factor)); /* -7.5px */ }
-    .arm.right .hand { right: calc(-0.46875rem * var(--scale-factor)); /* -7.5px */ }
-    .legs {
-      position: absolute;
-      bottom: calc(2.1875rem * var(--scale-factor)); /* 35px */
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(8.75rem * var(--scale-factor)); /* 140px */
-      height: calc(3.75rem * var(--scale-factor)); /* 60px */
-      z-index: 1;
-    }
-    .leg {
-      position: absolute;
-      bottom: 0;
-      width: calc(3.75rem * var(--scale-factor)); /* 60px */
-      height: calc(3.75rem * var(--scale-factor)); /* 60px */
-      background: #bdc3c7;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      transform-origin: top center;
-    }
-    .leg.left {
-      left: 0;
-      border-radius: calc(1.25rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) 0 0; /* 20px 5px */
-      animation: blapuLegSwing 2s infinite ease-in-out;
-    }
-    .leg.right {
-      right: 0;
-      border-radius: calc(0.3125rem * var(--scale-factor)) calc(1.25rem * var(--scale-factor)) 0 0; /* 5px 20px */
-      animation: blapuLegSwingR 2s infinite ease-in-out;
-    }
-    .shoe {
-      position: absolute;
-      bottom: calc(-1.5625rem * var(--scale-factor)); /* -25px */
-      width: calc(4.0625rem * var(--scale-factor)); /* 65px */
-      height: calc(2.5rem * var(--scale-factor)); /* 40px */
-      background-color: #e74c3c;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      z-index: 2;
-    }
-    .leg.left .shoe {
-      left: calc(-0.15625rem * var(--scale-factor)); /* -2.5px */
-      border-radius: calc(0.9375rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)); /* 15px 5px 7.5px 7.5px */
-    }
-    .leg.right .shoe {
-      right: calc(-0.15625rem * var(--scale-factor)); /* -2.5px */
-      border-radius: calc(0.3125rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)); /* 5px 15px 7.5px 7.5px */
-    }
-    .shoe::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: calc(0.78125rem * var(--scale-factor)); /* 12.5px */
-      background: #fff;
-      border-top-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-top-style: solid;
-      border-top-color: #000;
-      border-radius: 0 0 calc(0.375rem * var(--scale-factor)) calc(0.375rem * var(--scale-factor)); /* 6px */
-    }
-    .shoe::after {
-      content: '';
-      position: absolute;
-      top: calc(0.46875rem * var(--scale-factor)); /* 7.5px */
-      left: calc(0.78125rem * var(--scale-factor)); /* 12.5px */
-      width: calc(1.09375rem * var(--scale-factor)); /* 17.5px */
-      height: calc(0.9375rem * var(--scale-factor)); /* 15px */
-      background: #fff;
-      border-width: calc(0.09375rem * var(--scale-factor)); /* 1.5px */
-      border-style: solid;
-      border-color: #000;
-      border-radius: calc(0.3125rem * var(--scale-factor)); /* 5px */
-    }
-
-    /* Main Content Glass Panel Styles */
-    /* Styles for the primary content container with a frosted glass effect. */
-    .glass-panel {
-      width: 90%; /* Responsive width relative to parent */
-      max-width: 50rem; /* 800px -> 50rem. Maximum width to maintain readability on large screens */
-      margin: 2.5rem auto 1.875rem auto; /* 40px auto 30px auto -> 2.5rem auto 1.875rem auto. Adjusted in media queries. */
-      overflow: hidden; /* Essential for containing pseudo-elements or potential internal overflow */
-      padding: 0.9375rem; /* 15px -> 0.9375rem. Inner spacing. Adjusted in media queries. */
-      text-align: center; /* Center-aligns inline content */
-      box-sizing: border-box; /* Ensure padding and border don't add to the width */
-      z-index: 10; /* Ensures panel is above background elements */
-      position: relative;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(0.625rem) saturate(140%); /* 10px -> 0.625rem */
-      -webkit-backdrop-filter: blur(0.625rem) saturate(140%); /* 10px -> 0.625rem */
-      border-radius: 1.5rem;
-      border: 0.0625rem solid rgba(255, 255, 255, 0.2); /* Already converted: 1px -> 0.0625rem */
-      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25), /* Already converted: 0 8px 24px */
-                  inset 0 0.125rem 0.5rem rgba(255, 255, 255, 0.1); /* Already converted: inset 0 2px 8px */
-    }
-    .glass-panel::before {
-      content: '';
-      position: absolute;
-      top: 1px; left: 1px; right: 1px; bottom: 1px;
-      width: calc(100% - 2px); height: calc(100% - 2px);
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 1.5rem;
-      z-index: -1;
-      pointer-events: none;
-      box-shadow: inset -4px -4px 12px rgba(255, 255, 255, 0.08),
-                  inset 4px 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    /* Hero Header and Navigation Links within Glass Panel */
-    /* Establishes a flex container for hero elements. Items are vertically centered. */
-    /* Space is distributed such that logo is central and links are on either side. */
-    .hero-header {
-      display: flex; /* Enables flexbox layout for precise control over item alignment and spacing. */
-      align-items: center; /* Vertically aligns logo and side links to their center. */
-      justify-content: space-between; /* Positions logo centrally with links taking available space on sides. */
-      flex-wrap: wrap; /* Allows items to wrap on smaller screens, though overridden by more specific mobile styles. */
-      margin-bottom: 0.9375rem; /* 15px -> 0.9375rem. Reduced bottom margin for tighter layout. */
-      gap: 0.625rem; /* 10px -> 0.625rem. Default gap, adjusted by specific link styles or media queries if needed. */
-    }
-
-    /* Base styling for all links in hero header and footer navigation. */
-    /* Provides consistent appearance (color, decoration, transitions). */
-    .hero-header .hero-link, .footer-nav a {
-      color: #e0e0e0; /* Standard link text color. */
-      text-decoration: none; /* Removes default underline from links. */
-      font-size: clamp(0.8em, 2.2vw, 0.9em); /* Responsive font size for adaptability. */
-      padding: 0.5rem 0.75rem; /* 8px 12px -> 0.5rem 0.75rem. Default padding, overridden for specific hero links. */
-      border-radius: 0.5rem; /* 8px -> 0.5rem. Slightly smaller border radius for a more rectangular feel. */
-      background: rgba(255, 255, 255, 0.1); /* Subtle semi-transparent background. */
-      border: 0.0625rem solid rgba(255, 255, 255, 0.3); /* 1px -> 0.0625rem. Light border for definition. */
-      box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.2), /* 0 4px 8px -> 0 0.25rem 0.5rem. Standard shadow for depth. */
-                  inset 0.0625rem 0.0625rem 0.0625rem rgba(255,255,255,0.2), /* inset 1px 1px 1px */
-                  inset -0.0625rem -0.0625rem 0.0625rem rgba(0,0,0,0.1); /* inset -1px -1px 1px */
-      transition: all 0.2s ease-out; /* Smooth transition for hover and active states. */
-      text-shadow: 0 0.0625rem 0.0625rem rgba(0,0,0,0.2); /* 0 1px 1px -> 0 0.0625rem 0.0625rem. Text shadow for improved readability. */
-      text-align: center; /* Ensures text within links is centered. */
-    }
-    .hero-header .hero-link:focus, .footer-nav a:focus {
-      outline: 0.125rem solid #fff; /* 2px -> 0.125rem */
-      outline-offset: 0.125rem; /* 2px -> 0.125rem */
-      background: rgba(255, 255, 255, 0.2); /* Slightly more prominent background on focus */
-    }
-
-    /* Specific styling for the side hero links (LP & PowApp). */
-    /* These links are designed to be smaller, rectangular, and flank the central logo. */
-    .hero-header .hero-link-left,
-    .hero-header .hero-link-right {
-      flex: 1; /* Replaces flex-basis and flex-grow for equal distribution of space */
-      min-width: 15vw; /* Suggested min-width */
-      padding: 0.375rem 0.625rem; /* 6px 10px -> 0.375rem 0.625rem. REDUCED padding for smaller, rectangular button appearance. */
-      font-size: clamp(0.7em, 1.8vw, 0.8em); /* SMALLER font size for these specific buttons. */
-      /* Height will be determined by content (font-size, padding). Ensure it's less than logo. */
-      min-height: auto; /* Override any potential min-height from general .hero-link styles if any were added. */
-      display: flex; /* Use flex to center text vertically if it wraps. */
-      align-items: center; /* Center text vertically. */
-      justify-content: center; /* Center text horizontally. */
-    }
-
-    /* Styling for the Blapu logo image link in the hero header. */
-    /* Ensures the logo is displayed correctly and maintains its aspect ratio. */
-    .hero-header .blapu-logo-link {
-      flex-shrink: 0; /* Prevents the logo from shrinking if space is tight. */
-      padding: 0; /* Remove padding from the logo link container. */
-      background: transparent; /* Ensure no background color is applied to the logo container. */
-      border: none; /* Remove border from the logo link container. */
-      box-shadow: none; /* Remove box-shadow from the logo link container. */
-    }
-    .hero-header .blapu-logo-link img { /* This rule seems to be overridden by a later one, converting both for now */
-      width: clamp(3.75rem, 15vw, 5rem); /* 60px, 80px -> 3.75rem, 5rem. SLIGHTLY SMALLER logo for better balance with new buttons. */
-      height: clamp(3.75rem, 15vw, 5rem); /* 60px, 80px -> 3.75rem, 5rem. SLIGHTLY SMALLER logo for better balance. */
-      display: block;
-    }
-
-    /* Hover effect for hero and footer links. Enhances interactivity. */
-    .hero-header .hero-link:hover, .footer-nav a:hover {
-      background: rgba(255, 255, 255, 0.15); /* Slightly less transparent on hover */
-      box-shadow: 0 0.375rem 0.75rem rgba(0,0,0,0.3), /* 0 6px 12px -> 0 0.375rem 0.75rem */
-                  inset 0.0625rem 0.0625rem 0.0625rem rgba(255,255,255,0.3), /* inset 1px 1px 1px */
-                  inset -0.0625rem -0.0625rem 0.0625rem rgba(0,0,0,0.15); /* inset -1px -1px 1px */
-      transform: translateY(-0.125rem); /* -2px -> -0.125rem */
-      color: #fff; /* Brighter text color on hover */
-    }
-    /* Active (pressed) state for links */
-    .hero-header .hero-link:active, .footer-nav a:active {
-      background: rgba(255, 255, 255, 0.05); /* Darker background when pressed */
-      box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.2), /* 0 2px 4px -> 0 0.125rem 0.25rem */
-                  inset 0.0625rem 0.0625rem 0.125rem rgba(0,0,0,0.2); /* inset 1px 1px 2px */
-      transform: translateY(0.0625rem); /* 1px -> 0.0625rem */
-    }
-    /* Styling for the Blapu logo image link */
-    .hero-header .blapu-logo-link img { /* This is likely the active rule for the logo img */
-      width: clamp(4.375rem, 18vw, 5.625rem); /* 70px, 90px -> 4.375rem, 5.625rem. Responsive logo size */
-      height: clamp(4.375rem, 18vw, 5.625rem); /* 70px, 90px -> 4.375rem, 5.625rem. Responsive logo size */
-      display: block; /* Ensures proper layout */
-    }
-
-    /* Typography within Glass Panel */
-    h1 {
-      font-size: clamp(1.8em, 5vw, 2.5em); /* Responsive heading font size */
-      margin-top: 0.625rem; /* 10px -> 0.625rem */
-      margin-bottom: 0.9375rem; /* 15px -> 0.9375rem */
-      color: #f0f0f0; /* Light text color for heading */
-      text-shadow: 0.0625rem 0.0625rem 0.1875rem rgba(0,0,0,0.3); /* 1px 1px 3px -> rem */
-    }
-    p {
-      font-size: clamp(1em, 3vw, 1.1em); /* Responsive paragraph font size */
-      line-height: 1.6; /* Spacing between lines of text */
-      margin-bottom: 1.5625rem; /* 25px -> 1.5625rem. Space below paragraphs */
-      color: #e0e0e0; /* Slightly darker text color for paragraphs */
-    }
-    /* Class for paragraphs that will be randomly selected for display */
-    .rotating-quote {
-      display: none; /* Hide all quotes by default; JS will show one */
-    }
-
-    /* Embedded Widgets (Vestige Charts/Swap) */
-    .widget-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5625rem; /* 25px -> 1.5625rem */
-      margin-top: 1.25rem; /* 20px -> 1.25rem */
-      width: 100%;
-    }
-    .widget {
-      /* ... existing styles ... */
-      position: relative; /* Ensure ::before is positioned relative to this */
-      /* ... existing styles ... */
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(0.375rem) saturate(140%); /* 6px -> 0.375rem */
-      -webkit-backdrop-filter: blur(0.375rem) saturate(140%); /* 6px -> 0.375rem */
-      border-radius: 1rem;
-      padding: 0.9375rem; /* 15px -> 0.9375rem */
-      border: 0.0625rem solid rgba(255, 255, 255, 0.15); /* 1px -> 0.0625rem */
-      box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.2), /* 0 4px 15px -> 0 0.25rem 0.9375rem */
-                  inset 0 0.0625rem 0.1875rem rgba(255, 255, 255, 0.08); /* inset 0 1px 3px */
-      width: 100%;
-      box-sizing: border-box;
-      position: relative;
-      /* min-height: 45vh; -- Removed to allow container to shrink-to-fit iframe content */
-    }
-    .widget::before {
-      content: 'Loading...';
-      display: none; /* Hidden by default */
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff; /* Or a color that fits the theme */
-      font-size: 1.25rem; /* Approx 20px */
-      z-index: 1; /* Ensure it's above the iframe if iframe is also z-indexed or content */
-      padding: 1rem 1.5rem;
-      background: rgba(0,0,0,0.5); /* Semi-transparent background for the text */
-      border-radius: 0.5rem;
-    }
-    .widget.loading iframe {
-      filter: blur(0.25rem); /* Optionally blur iframe when loading text is shown */
-    }
-    .widget.loading::before {
-      display: block; /* Show when .loading class is present */
-    }
-    /* .widget-swap { min-height: 50vh; } -- Removed to allow container to shrink-to-fit iframe content */
-    .widget iframe {
-      width: 100%;
-      /* height: 100%; -- Removed to allow iframe to use its content height or explicit height attribute */
-      display: block; /* Ensure block behavior for sizing */
-      border: none;
-      border-radius: 0.75rem;
-      min-height: 20.625rem; /* 330px (keeps a rem based min as fallback) */
-    }
-    .widget-swap iframe {
-      /* height: 100%; -- Removed to allow iframe to use its content height or explicit height attribute */
-      display: block; /* Ensure block behavior for sizing */
-      width: 100%; /* Ensure it takes full width of its container */
-      min-height: 23.75rem; /* 380px (keeps a rem based min as fallback) */
-      /* border and border-radius will be inherited from .widget iframe if not specified,
-         but it's good to be explicit or ensure .widget-swap iframe doesn't negate them if needed.
-         Assuming they should also be borderless and have the radius: */
-      border: none;
-      border-radius: 0.75rem;
-    }
-
-    /* Footer Navigation within Glass Panel */
-    .footer-nav {
-      margin-top: 1.875rem; /* 30px -> 1.875rem. Space above the footer navigation */
-      padding: 0.625rem 0.9375rem; /* 10px 15px -> 0.625rem 0.9375rem. Padding inside the footer navigation bar */
-      background: rgba(0, 0, 0, 0.15); /* Darker semi-transparent background */
-      border-radius: 0.625rem; /* 10px -> 0.625rem. Rounded corners */
-      width: auto; /* Auto width based on content */
-      display: flex; /* Enables flexbox layout */
-      flex-wrap: wrap; /* Allows items to wrap */
-      justify-content: center; /* Centers items */
-      gap: 0.625rem 0.9375rem; /* 10px 15px -> 0.625rem 0.9375rem. Gap between links (row and column) */
-    }
-    /* Separator dots in footer navigation */
-    .footer-nav .separator {
-      color: rgba(255,255,255,0.4); /* Color of the separator */
-      align-self: center; /* Vertically aligns separator with links */
-    }
-
-    /* Responsive Design Adjustments using Media Queries */
-
-    /* For tablets and smaller desktops (max-width: 43.75rem) */
-    @media (max-width: 43.75rem) { /* 700px -> 43.75rem */
-      .blob-3 {
-        display: none; /* Hide blob-3 on smaller screens */
-      }
-      /* Adjust Blapu character size and animation for medium screens */
-      /* .character-container direct width/height removed, now scaled by --scale-factor */
-      .character-container {
-        filter: blur(0.1875rem); /* 3px -> 0.1875rem. Reduced blur, specific to this breakpoint */
-      }
-      /* SCALED CHARACTER PARTS for max-width: 700px (Factor: 0.64) - REMOVED, now handled by global --scale-factor */
-
-      /* Update scale factor and crip walk variables for this breakpoint */
-      :root {
-        --scale-factor: 0.64; /* New scale factor for this breakpoint */
-        /* Adjusted HORIZONTAL PATH for 700px (43.75rem) */
-        --crip-walk-start-extreme: -60vw;
-        --crip-walk-mid-1-extreme: -12vw;
-        --crip-walk-end-extreme: 60vw;
-        --crip-walk-mid-2-extreme: 12vw;
-      }
-    }
-
-/* Global Aurora Glass Effect Styles - REMOVED */
-/*
-.glass-panel::after {
-  content: "";
+/* Individual blob styling using CSS Custom Properties */
+.blapu-blob {
+  /*
+    position: absolute;
+    Positions the blobs relative to the body.
+  */
   position: absolute;
-  top: 0;
+  /*
+    filter: blur(0.5rem);
+    Applies a blur effect to create a soft, out-of-focus look.
+  */
+  filter: blur(0.5rem);
+  /*
+    border-radius: ...;
+    Sets the initial organic shape of the blob.
+  */
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  /*
+    z-index: 0;
+    Places the blobs in the background, behind other content.
+  */
+  z-index: 0;
+
+  /* Default custom property values */
+  --blob-top: 0%;
+  --blob-left: 0%;
+  --blob-width: 20vmin;
+  --blob-height: 20vmin;
+  --blob-anim-duration: 20s;
+  --blob-anim-delay: 0s;
+  --blob-opacity: 0.5;
+
+  /*
+    Applying custom properties to allow for easy variation between blobs.
+  */
+  top: var(--blob-top);
+  left: var(--blob-left);
+  width: var(--blob-width);
+  height: var(--blob-height);
+  animation-name: dance;
+  animation-duration: var(--blob-anim-duration);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-delay: var(--blob-anim-delay);
+  opacity: var(--blob-opacity);
+
+  /*
+    background: radial-gradient(...);
+    Sets the default light-mode background color for blobs.
+  */
+  background: radial-gradient(circle at center, rgba(0, 123, 255, 0.4), rgba(0, 80, 180, 0.6));
+}
+
+.blob-1 {
+  /*
+    Custom properties to define the specific appearance and animation of the first blob.
+  */
+  --blob-top: 10%;
+  --blob-left: 5%;
+  --blob-width: 30vmin;
+  --blob-height: 28vmin;
+  --blob-anim-duration: 22s;
+  --blob-anim-delay: -2s;
+  --blob-opacity: 0.4;
+}
+
+.blob-2 {
+  /*
+    Custom properties to define the specific appearance and animation of the second blob.
+  */
+  --blob-top: 55%;
+  --blob-left: 75%;
+  --blob-width: 22vmin;
+  --blob-height: 25vmin;
+  --blob-anim-duration: 15s;
+  --blob-anim-delay: -7s;
+  --blob-opacity: 0.35;
+}
+
+.blob-3 {
+  /*
+    Custom properties to define the specific appearance and animation of the third blob.
+  */
+  --blob-top: 25%;
+  --blob-left: 45%;
+  --blob-width: 18vmin;
+  --blob-height: 17vmin;
+  --blob-anim-duration: 25s;
+  --blob-anim-delay: -12s;
+  --blob-opacity: 0.45;
+}
+
+/* Blapu Character Animation Keyframes */
+@keyframes detailedCripWalk {
+  /*
+    Defines the complex side-to-side "crip walk" animation for the character,
+    including pauses and hops for a more dynamic feel.
+  */
+  0%   { transform: translateX(0vw) translateY(0vmin) rotate(-5deg); }
+  18%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0vmin) rotate(-15deg); }
+  20%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(-3vmin) rotate(-10deg); }
+  22%  { transform: translateX(var(--crip-walk-start-extreme)) translateY(0vmin) rotate(-15deg); }
+  36%  { transform: translateX(var(--crip-walk-mid-1-extreme)) translateY(-5.5vmin) rotate(0deg); }
+  50%  { transform: translateX(0vw) translateY(0vmin) rotate(5deg); }
+  68%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0vmin) rotate(15deg); }
+  70%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(-3vmin) rotate(10deg); }
+  72%  { transform: translateX(var(--crip-walk-end-extreme)) translateY(0vmin) rotate(15deg); }
+  86%  { transform: translateX(var(--crip-walk-mid-2-extreme)) translateY(-5.5vmin) rotate(0deg); }
+  100% { transform: translateX(0vw) translateY(0vmin) rotate(-5deg); }
+}
+
+@keyframes blapuArmSwing {
+  /* Defines the swinging motion for the left arm. */
+  0%, 100% { transform: rotate(20deg);}
+  50% { transform: rotate(-20deg);}
+}
+@keyframes blapuArmSwingR {
+  /* Defines the swinging motion for the right arm. */
+  0%, 100% { transform: rotate(-20deg);}
+  50% { transform: rotate(20deg);}
+}
+@keyframes blapuLegSwing {
+  /* Defines the swinging motion for the left leg. */
+  0%, 100% { transform: rotate(-15deg);}
+  50% { transform: rotate(15deg);}
+}
+@keyframes blapuLegSwingR {
+  /* Defines the swinging motion for the right leg. */
+  0%, 100% { transform: rotate(15deg);}
+  50% { transform: rotate(-15deg);}
+}
+
+/* Blapu Character Blueprint Styles */
+.character-container {
+  /*
+    position: absolute;
+    Positions the character relative to the body.
+  */
+  position: absolute;
+  /*
+    bottom: 1%;
+    Places the character near the bottom of the viewport.
+  */
+  bottom: 1%;
+  /*
+    left: 50%;
+    Horizontally centers the character's starting point.
+  */
+  left: 50%;
+  /*
+    transform: translateX(-50%);
+    Fine-tunes the horizontal centering.
+  */
+  transform: translateX(-50%);
+  /*
+    width: calc(...);
+    Sets a responsive width based on a base rem value and the --scale-factor variable.
+  */
+  width: calc(15.625rem * var(--scale-factor));
+  /*
+    height: calc(...);
+    Sets a responsive height based on a base rem value and the --scale-factor variable.
+  */
+  height: calc(20.3125rem * var(--scale-factor));
+  /*
+    z-index: 1;
+    Places the character above the blobs but below the main content panel.
+  */
+  z-index: 1;
+  /*
+    filter: blur(...);
+    Applies a blur effect, adjusted in media queries.
+  */
+  filter: blur(0.3125rem);
+  /*
+    animation: detailedCripWalk ...;
+    Applies the main movement animation.
+  */
+  animation: detailedCripWalk 20s infinite ease-in-out;
+  /*
+    pointer-events: auto;
+    Makes the character interactive (e.g., for hover effects).
+  */
+  pointer-events: auto;
+  /*
+    cursor: pointer;
+    Shows a pointer cursor on hover to indicate interactivity.
+  */
+  cursor: pointer;
+  /*
+    user-select: none;
+    Prevents the character from being selected like text.
+  */
+  user-select: none;
+  /*
+    will-change: transform;
+    A performance hint for the browser, indicating that the transform property will be animated.
+  */
+  will-change: transform;
+}
+.character-container:hover {
+  /*
+    animation-play-state: paused;
+    Pauses the character's movement animation on hover.
+  */
+  animation-play-state: paused;
+}
+
+/*
+  Individual parts of the Blapu character (Head, Ears, Eyes, etc.)
+  All dimensions use `calc()` with the `--scale-factor` variable for consistent, maintainable scaling.
+*/
+.head {
+  position: absolute;
+  top: calc(1.5625rem * var(--scale-factor));
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(8.75rem * var(--scale-factor));
+  height: calc(7.8125rem * var(--scale-factor));
+  background: #1e50ff;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%;
+  z-index: 5;
+}
+.ear {
+  position: absolute;
+  top: calc(0.46875rem * var(--scale-factor));
+  width: calc(2.1875rem * var(--scale-factor));
+  height: calc(2.8125rem * var(--scale-factor));
+  background: #1e50ff;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  z-index: 4;
+}
+.ear.left {
+  left: calc(3.125rem * var(--scale-factor));
+  border-radius: 80% 20% 5% 5% / 100% 20% 5% 5%;
+  transform: rotate(-15deg);
+}
+.ear.right {
+  right: calc(3.125rem * var(--scale-factor));
+  border-radius: 20% 80% 5% 5% / 20% 100% 5% 5%;
+  transform: rotate(15deg);
+}
+.ear::after {
+  content: '';
+  position: absolute;
+  top: calc(0.46875rem * var(--scale-factor));
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(1.25rem * var(--scale-factor));
+  height: calc(1.5625rem * var(--scale-factor));
+  background: #ff47b6;
+  border-radius: 50% / 60% 60% 40% 40%;
+}
+.eyes {
+  position: absolute;
+  top: calc(2.8125rem * var(--scale-factor));
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: calc(0.15625rem * var(--scale-factor));
+}
+.eye {
+  width: calc(3.4375rem * var(--scale-factor));
+  height: calc(2.8125rem * var(--scale-factor));
+  background: #fff;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+.eye::before {
+  content: '';
+  position: absolute;
+  top: calc(-1.5625rem * var(--scale-factor));
+  left: calc(-0.3125rem * var(--scale-factor));
+  width: calc(4.0625rem * var(--scale-factor));
+  height: calc(3.125rem * var(--scale-factor));
+  background: #1e50ff;
+  border-bottom-width: calc(0.09375rem * var(--scale-factor));
+  border-bottom-style: solid;
+  border-bottom-color: #000;
+  border-radius: 50%;
+}
+.pupil {
+  position: absolute;
+  bottom: calc(0.46875rem * var(--scale-factor));
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(1.09375rem * var(--scale-factor));
+  height: calc(1.25rem * var(--scale-factor));
+  background: #000;
+  border-radius: 50%;
+}
+.pupil::after {
+  content: '';
+  position: absolute;
+  top: calc(0.25rem * var(--scale-factor));
+  left: calc(0.25rem * var(--scale-factor));
+  width: calc(0.3125rem * var(--scale-factor));
+  height: calc(0.3125rem * var(--scale-factor));
+  background: #fff;
+  border-radius: 50%;
+}
+.lips {
+  position: absolute;
+  top: calc(5.9375rem * var(--scale-factor));
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(6.25rem * var(--scale-factor));
+  height: calc(1.40625rem * var(--scale-factor));
+  background: #ff47b6;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  border-radius: 30% 30% 50% 50% / 30% 30% 100% 100%;
+}
+.body {
+  position: absolute;
+  top: calc(9.3125rem * var(--scale-factor));
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(7.5rem * var(--scale-factor));
+  height: calc(5.625rem * var(--scale-factor));
+  background: #6d4c41;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  border-top-style: none;
+  border-radius: 10% 10% calc(0.625rem * var(--scale-factor)) calc(0.625rem * var(--scale-factor));
+  z-index: 3;
+}
+.neck-line {
+  position: absolute;
+  top: calc(9.3125rem * var(--scale-factor));
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(3.125rem * var(--scale-factor));
+  height: calc(0.09375rem * var(--scale-factor));
+  background: #000;
+  z-index: 6;
+}
+.arm {
+  position: absolute;
+  top: calc(9.6875rem * var(--scale-factor));
+  width: calc(1.875rem * var(--scale-factor));
+  height: calc(4.0625rem * var(--scale-factor));
+  background: #6d4c41;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  z-index: 2;
+  transform-origin: top center;
+}
+.arm.left {
+  left: calc(2.1875rem * var(--scale-factor));
+  border-radius: calc(0.9375rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor));
+  animation: blapuArmSwing 3s infinite ease-in-out alternate;
+}
+.arm.right {
+  right: calc(2.1875rem * var(--scale-factor));
+  border-radius: calc(0.3125rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor));
+  animation: blapuArmSwingR 3s infinite ease-in-out alternate;
+}
+.hand {
+  position: absolute;
+  top: calc(3.4375rem * var(--scale-factor));
+  width: calc(1.875rem * var(--scale-factor));
+  height: calc(1.875rem * var(--scale-factor));
+  background: #1e50ff;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+.arm.left .hand { left: calc(-0.46875rem * var(--scale-factor)); }
+.arm.right .hand { right: calc(-0.46875rem * var(--scale-factor)); }
+.legs {
+  position: absolute;
+  bottom: calc(2.1875rem * var(--scale-factor));
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(8.75rem * var(--scale-factor));
+  height: calc(3.75rem * var(--scale-factor));
+  z-index: 1;
+}
+.leg {
+  position: absolute;
+  bottom: 0;
+  width: calc(3.75rem * var(--scale-factor));
+  height: calc(3.75rem * var(--scale-factor));
+  background: #bdc3c7;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  transform-origin: top center;
+}
+.leg.left {
+  left: 0;
+  border-radius: calc(1.25rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) 0 0;
+  animation: blapuLegSwing 2s infinite ease-in-out;
+}
+.leg.right {
+  right: 0;
+  border-radius: calc(0.3125rem * var(--scale-factor)) calc(1.25rem * var(--scale-factor)) 0 0;
+  animation: blapuLegSwingR 2s infinite ease-in-out;
+}
+.shoe {
+  position: absolute;
+  bottom: calc(-1.5625rem * var(--scale-factor));
+  width: calc(4.0625rem * var(--scale-factor));
+  height: calc(2.5rem * var(--scale-factor));
+  background-color: #e74c3c;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  z-index: 2;
+}
+.leg.left .shoe {
+  left: calc(-0.15625rem * var(--scale-factor));
+  border-radius: calc(0.9375rem * var(--scale-factor)) calc(0.3125rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor));
+}
+.leg.right .shoe {
+  right: calc(-0.15625rem * var(--scale-factor));
+  border-radius: calc(0.3125rem * var(--scale-factor)) calc(0.9375rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor)) calc(0.46875rem * var(--scale-factor));
+}
+.shoe::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  z-index: -2;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(74, 144, 226, 0.2) 0%, transparent 35%),
-    radial-gradient(circle at 80% 70%, rgba(182, 31, 177, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(253, 187, 45, 0.15) 0%, transparent 30%);
-  background-size: 250% 250%;
-  animation: aurora-flow 20s ease-in-out infinite;
-  filter: blur(1.5625rem);
+  height: calc(0.78125rem * var(--scale-factor));
+  background: #fff;
+  border-top-width: calc(0.09375rem * var(--scale-factor));
+  border-top-style: solid;
+  border-top-color: #000;
+  border-radius: 0 0 calc(0.375rem * var(--scale-factor)) calc(0.375rem * var(--scale-factor));
+}
+.shoe::after {
+  content: '';
+  position: absolute;
+  top: calc(0.46875rem * var(--scale-factor));
+  left: calc(0.78125rem * var(--scale-factor));
+  width: calc(1.09375rem * var(--scale-factor));
+  height: calc(0.9375rem * var(--scale-factor));
+  background: #fff;
+  border-width: calc(0.09375rem * var(--scale-factor));
+  border-style: solid;
+  border-color: #000;
+  border-radius: calc(0.3125rem * var(--scale-factor));
+}
+
+/* Main Content Glass Panel Styles - ENHANCED */
+.glass-panel {
+  /*
+    width: 90%;
+    Sets a responsive width relative to the parent container.
+  */
+  width: 90%;
+  /*
+    max-width: 50rem;
+    Sets a maximum width to maintain readability on large screens.
+  */
+  max-width: 50rem;
+  /*
+    margin: ...;
+    Centers the panel and provides vertical spacing.
+  */
+  margin: 2.5rem auto 1.875rem auto;
+  /*
+    overflow: hidden;
+    Essential for containing pseudo-elements and ensuring rounded corners are applied correctly.
+  */
+  overflow: hidden;
+  /*
+    padding: 0.9375rem;
+    Sets the inner spacing of the panel.
+  */
+  padding: 0.9375rem;
+  /*
+    text-align: center;
+    Center-aligns inline content like text.
+  */
+  text-align: center;
+  /*
+    box-sizing: border-box;
+    Ensures padding and border do not add to the element's total width.
+  */
+  box-sizing: border-box;
+  /*
+    z-index: 10;
+    Ensures the panel is stacked above background elements.
+  */
+  z-index: 10;
+  /*
+    position: relative;
+    Establishes a positioning context for its pseudo-elements.
+  */
+  position: relative;
+  /*
+    background: rgba(255, 255, 255, 0.05);
+    Sets a very transparent base background color.
+  */
+  background: rgba(255, 255, 255, 0.05);
+  /*
+    backdrop-filter: ...;
+    The core of the glass effect, blurring the content behind the panel.
+  */
+  backdrop-filter: blur(0.625rem) saturate(140%);
+  /*
+    -webkit-backdrop-filter: ...;
+    Vendor prefix for Safari compatibility.
+  */
+  -webkit-backdrop-filter: blur(0.625rem) saturate(140%);
+  /*
+    border-radius: 1.5rem;
+    Rounds the corners of the panel.
+  */
+  border-radius: 1.5rem;
+  /*
+    border: ...;
+    Defines a subtle border to help define the panel's edge.
+  */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  /*
+    box-shadow: ...;
+    ENHANCED: Adds multiple shadow layers for a more realistic, three-dimensional effect.
+    Includes a main shadow, a subtle top highlight, and a soft inner shadow.
+  */
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3),
+              inset 0 1px 1px rgba(255, 255, 255, 0.1),
+              inset 0 -1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel::before {
+  /*
+    ENHANCED: This pseudo-element creates a subtle, glossy sheen on the glass,
+    simulating a light source reflecting off the surface to add depth.
+  */
+  content: '';
+  /*
+    position: absolute;
+    Positions the sheen inside the panel.
+  */
+  position: absolute;
+  /*
+    top, left, right, bottom: 0;
+    Stretches the sheen to cover the entire panel.
+  */
+  top: 0; left: 0; right: 0; bottom: 0;
+  /*
+    background: radial-gradient(...);
+    Creates a soft, white-to-transparent radial gradient positioned at the top-left.
+  */
+  background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.15), transparent 50%);
+  /*
+    border-radius: inherit;
+    Ensures the sheen has the same rounded corners as the panel.
+  */
+  border-radius: inherit;
+  /*
+    z-index: -1;
+    Places the sheen behind the panel's content but above its background.
+  */
+  z-index: -1;
+  /*
+    pointer-events: none;
+    Ensures the sheen does not interfere with mouse interactions.
+  */
   pointer-events: none;
 }
 
-@keyframes aurora-flow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Hero Header and Navigation Links within Glass Panel */
+.hero-header {
+  /*
+    display: flex;
+    Enables flexbox for precise alignment and spacing of header items.
+  */
+  display: flex;
+  /*
+    align-items: center;
+    Vertically aligns all items in the header.
+  */
+  align-items: center;
+  /*
+    justify-content: space-between;
+    Distributes space so the logo is central and links are on the sides.
+  */
+  justify-content: space-between;
+  /*
+    flex-wrap: wrap;
+    Allows items to wrap onto the next line on smaller screens.
+  */
+  flex-wrap: wrap;
+  /*
+    margin-bottom: 0.9375rem;
+    Adds space below the header.
+  */
+  margin-bottom: 0.9375rem;
+  /*
+    gap: 0.625rem;
+    Sets the space between header items.
+  */
+  gap: 0.625rem;
 }
-*/
-    /* For small tablets and large mobile phones (max-width: 520px) */
-    @media (max-width: 32.5rem) { /* 520px -> 32.5rem */
-      .widget {
-        min-height: 40vh; /* Adjusted for smaller screens */
-      }
-      .widget-swap {
-        min-height: 45vh; /* Adjusted for smaller screens */
-      }
-      /* Reduce body padding for smaller screens to maximize content visibility and space efficiency. */
-      body {
-        padding: 0.3125rem 0.1875rem; /* 5px 3px -> 0.3125rem 0.1875rem. MINIMIZE body padding on small screens for tightest fit. */
-      }
-      /* Adjust glass panel padding and margins for smaller screens to create a compact layout. */
-      .glass-panel {
-        padding: 0.375rem; /* 6px (was 8px). Further reduce inner padding. */
-        margin-top: 0.125rem; /* 2px (was 5px). Further reduce top margin. */
-        margin-bottom: 0.25rem; /* 4px (was 10px). Further reduce bottom margin. */
-        width: 98%; /* Ensure panel uses almost full width effectively. */
-      }
 
-      /* --- Mobile Hero Section Adjustments --- */
-      /* Stack hero header items vertically and make them more compact */
-      .hero-header {
-        flex-direction: column; /* Stack items vertically */
-        align-items: center; /* Center items horizontally */
-        gap: 0.375rem; /* 6px (was 10px). Further reduce gap. */
-        margin-bottom: 0.5rem; /* 8px (was 10px). Further reduce bottom margin. */
-      }
+/* Base styling for all links in hero header and footer navigation. */
+.hero-header .hero-link, .footer-nav a {
+  color: #e0e0e0;
+  text-decoration: none;
+  font-size: clamp(0.8em, 2.2vw, 0.9em);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.2),
+              inset 1px 1px 1px rgba(255,255,255,0.2),
+              inset -1px -1px 1px rgba(0,0,0,0.1);
+  transition: all 0.2s ease-out;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  text-align: center;
+}
+.hero-header .hero-link:focus, .footer-nav a:focus {
+  outline: 0.125rem solid #fff;
+  outline-offset: 0.125rem;
+  background: rgba(255, 255, 255, 0.2);
+}
 
-      /* Reduce margin for paragraphs (like rotating quotes) on mobile */
-      .glass-panel p { /* More specific to avoid affecting all p tags if not intended */
-        margin-bottom: 0.75rem; /* 12px (was 25px globally) */
-      }
+/* Specific styling for the side hero links (LP & PowApp). */
+.hero-header .hero-link-left,
+.hero-header .hero-link-right {
+  flex: 1;
+  min-width: 15vw;
+  padding: 0.375rem 0.625rem;
+  font-size: clamp(0.7em, 1.8vw, 0.8em);
+  min-height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-      /* --- Mobile Footer Navigation Adjustments --- */
-      /* Allow footer links to sit side-by-side and wrap, instead of strict stacking */
-      .footer-nav {
-        flex-direction: row; /* Allow items to flow in a row */
-        flex-wrap: wrap;     /* Allow footer links to wrap if they don't all fit */
-        justify-content: center; /* Center the wrapped lines of links */
-        align-items: center; /* Align items nicely if they wrap to multiple lines */
-        gap: 0.5rem; /* 8px. Gap between footer links */
-        margin-top: 1rem; /* 16px (was 30px globally). Reduced top margin. */
-        padding: 0.375rem 0.5rem; /* 6px T/B, 8px L/R (was 10px/15px globally). Reduced padding. */
-      }
-      /* Fine-tune footer link behavior on mobile for better wrapping */
-      .footer-nav a {
-        flex-grow: 0; /* Prevent individual links from growing disproportionately */
-        flex-basis: auto; /* Let links size based on their content and padding */
-      }
-      /* Separators are hidden as they might look odd with centered, wrapped links - User wants them visible */
-      .footer-nav .separator {
-        display: inline;
-        color: rgba(255, 255, 255, 0.6); /* Slightly more opaque */
-        font-size: 0.8rem; /* Explicit font size for mobile separator */
-      }
+/* Styling for the Blapu logo image link in the hero header. */
+.hero-header .blapu-logo-link {
+  flex-shrink: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.hero-header .blapu-logo-link img {
+  width: clamp(4.375rem, 18vw, 5.625rem);
+  height: clamp(4.375rem, 18vw, 5.625rem);
+  display: block;
+}
 
-      /* --- Mobile Button Height and Font Size Adjustments --- */
-      /* Slightly smaller, responsive font for all hero and footer buttons on mobile */
-      .hero-header .hero-link, .footer-nav a {
-        font-size: clamp(0.75em, 2vw, 0.85em); /* This is already relative, good. */
-      }
-      /* Make hero buttons (LP & TOP 35) snug: significantly reduce vertical padding for a tighter fit to text. */
-      /* This was part of a previous iteration; specific hero link sizing is now handled by .hero-link-left/right */
-      /* and the general .hero-header .hero-link styles. */
-      /* Removing these more generic overrides to rely on the new specific styles. */
+/* Hover and active effects for links */
+.hero-header .hero-link:hover, .footer-nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0.375rem 0.75rem rgba(0,0,0,0.3),
+              inset 1px 1px 1px rgba(255,255,255,0.3),
+              inset -1px -1px 1px rgba(0,0,0,0.15);
+  transform: translateY(-0.125rem);
+  color: #fff;
+}
+.hero-header .hero-link:active, .footer-nav a:active {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.2),
+              inset 1px 1px 2px rgba(0,0,0,0.2);
+  transform: translateY(1px);
+}
 
-      /* Standard reduced padding for footer nav links (keeps them slightly taller than hero links for differentiation if needed) */
-      .footer-nav a {
-        padding-top: 8px;    /* Default reduced top padding for footer links */
-        padding-bottom: 8px; /* Default reduced bottom padding for footer links */
-      }
+/* Typography within Glass Panel */
+h1 {
+  font-size: clamp(1.8em, 5vw, 2.5em);
+  margin-top: 0.625rem;
+  margin-bottom: 0.9375rem;
+  color: #f0f0f0;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+p {
+  font-size: clamp(1em, 3vw, 1.1em);
+  line-height: 1.6;
+  margin-bottom: 1.5625rem;
+  color: #e0e0e0;
+}
+.rotating-quote {
+  /*
+    display: none;
+    Hides all quotes by default; JavaScript is expected to show one.
+  */
+  display: none;
+}
 
-      /* --- Mobile Widget Adjustments --- */
-      /* Reduce horizontal padding within widgets on small screens to decrease their perceived width and mitigate side-scrolling. */
-      /* .widget padding already converted in global rule, this specific media query rule for padding can be removed if not different */
-      .widget { /* This rule for padding-left/right at 520px is more specific than global, so keep if different */
-         padding-left: 0.5rem; /* 8px -> 0.5rem */
-         padding-right: 0.5rem; /* 8px -> 0.5rem */
-      }
-      /* Adjust Blapu character size for small screens */
-      /* .character-container direct width/height removed, now scaled by --scale-factor */
-      .character-container {
-        filter: blur(0.25rem); /* 4px -> 0.25rem. Reduced blur, specific to this breakpoint */
-      }
-      /* SCALED CHARACTER PARTS for max-width: 520px (Factor: 0.4) - REMOVED */
+/* Embedded Widgets (Vestige Charts/Swap) */
+.widget-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5625rem;
+  margin-top: 1.25rem;
+  width: 100%;
+}
+.widget {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(0.375rem) saturate(140%);
+  -webkit-backdrop-filter: blur(0.375rem) saturate(140%);
+  border-radius: 1rem;
+  padding: 0.9375rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.2),
+              inset 0 1px 3px rgba(255, 255, 255, 0.08);
+  width: 100%;
+  box-sizing: border-box;
+}
+.widget::before {
+  content: 'Loading...';
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 1.25rem;
+  z-index: 1;
+  padding: 1rem 1.5rem;
+  background: rgba(0,0,0,0.5);
+  border-radius: 0.5rem;
+}
+.widget.loading iframe {
+  filter: blur(0.25rem);
+}
+.widget.loading::before {
+  display: block;
+}
+.widget iframe {
+  width: 100%;
+  display: block;
+  border: none;
+  border-radius: 0.75rem;
+  min-height: 20.625rem;
+}
+.widget-swap iframe {
+  display: block;
+  width: 100%;
+  min-height: 23.75rem;
+  border: none;
+  border-radius: 0.75rem;
+}
 
-      /* Update scale factor and crip walk variables for this breakpoint */
-      :root {
-        --scale-factor: 0.4; /* New scale factor for this breakpoint */
-        /* Adjusted HORIZONTAL PATH for 520px (32.5rem) - user example values */
-        --crip-walk-start-extreme: -50vw;
-        --crip-walk-mid-1-extreme: -10vw;
-        --crip-walk-end-extreme: 50vw;
-        --crip-walk-mid-2-extreme: 10vw;
-      }
+/* Footer Navigation within Glass Panel */
+.footer-nav {
+  margin-top: 1.875rem;
+  padding: 0.625rem 0.9375rem;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0.625rem;
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.625rem 0.9375rem;
+}
+.footer-nav .separator {
+  color: rgba(255,255,255,0.4);
+  align-self: center;
+}
 
-      .widget-container {
-        gap: 0.5rem; /* 8px (was 12px). Further reduce gap. */
-        margin-top: 0.5rem; /* 8px (was 12px). Further reduce top margin. */
-      }
-    }
+/* Responsive Design Adjustments using Media Queries */
 
-    /* For very small mobile screens (max-width: 380px) */
-    @media (max-width: 380px) {
-      /* Adjust Blapu character size for very small screens */
-      .character-container {
-        width: 75px;    /* Base: 250px. Scale: 0.3 */
-        height: 97.5px; /* Base: 325px. Scale: 0.3 */
-        filter: blur(4px); /* Reduced blur */
-      }
-      /* SCALED CHARACTER PARTS for max-width: 380px (Factor: 0.3) */
-      .character-container .head {
-        top: 7.5px; /* 25px * 0.3 */
-        width: 42px; /* 140px * 0.3 */
-        height: 37.5px; /* 125px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .ear {
-        top: 2.25px; /* 7.5px * 0.3 */
-        width: 10.5px; /* 35px * 0.3 */
-        height: 13.5px; /* 45px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .ear.left { left: 15px; /* 50px * 0.3 */ }
-      .character-container .ear.right { right: 15px; /* 50px * 0.3 */ }
-      .character-container .ear::after {
-        top: 2.25px; /* 7.5px * 0.3 */
-        width: 6px; /* 20px * 0.3 */
-        height: 7.5px; /* 25px * 0.3 */
-      }
-      .character-container .eyes {
-        top: 13.5px; /* 45px * 0.3 */
-        gap: 0.75px; /* 2.5px * 0.3 */
-      }
-      .character-container .eye {
-        width: 16.5px; /* 55px * 0.3 */
-        height: 13.5px; /* 45px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .eye::before {
-        top: -7.5px; /* -25px * 0.3 */
-        left: -1.5px; /* -5px * 0.3 */
-        width: 19.5px; /* 65px * 0.3 */
-        height: 15px; /* 50px * 0.3 */
-        border-bottom-width: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .pupil {
-        bottom: 2.25px; /* 7.5px * 0.3 */
-        width: 5.25px; /* 17.5px * 0.3 */
-        height: 6px; /* 20px * 0.3 */
-      }
-      .character-container .pupil::after {
-        top: 1.2px; /* 4px * 0.3 */
-        left: 1.2px; /* 4px * 0.3 */
-        width: 1.5px; /* 5px * 0.3 */
-        height: 1.5px; /* 5px * 0.3 */
-      }
-      .character-container .lips {
-        top: 28.5px; /* 95px * 0.3 */
-        width: 30px; /* 100px * 0.3 */
-        height: 6.75px; /* 22.5px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .body {
-        top: 44.7px; /* 149px * 0.3 */
-        width: 36px; /* 120px * 0.3 */
-        height: 27px; /* 90px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-        border-radius: 3px 3px 3px 3px; /* 10px * 0.3 */
-      }
-      .character-container .neck-line {
-        top: 44.7px; /* 149px * 0.3 */
-        width: 15px; /* 50px * 0.3 */
-        height: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .arm {
-        top: 46.5px; /* 155px * 0.3 */
-        width: 9px; /* 30px * 0.3 */
-        height: 19.5px; /* 65px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .arm.left {
-        left: 10.5px; /* 35px * 0.3 */
-        border-radius: 4.5px 1.5px 1.5px 4.5px; /* 15px*0.3, 5px*0.3 */
-      }
-      .character-container .arm.right {
-        right: 10.5px; /* 35px * 0.3 */
-        border-radius: 1.5px 4.5px 4.5px 1.5px; /* 5px*0.3, 15px*0.3 */
-      }
-      .character-container .hand {
-        top: 16.5px; /* 55px * 0.3 */
-        width: 9px; /* 30px * 0.3 */
-        height: 9px; /* 30px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .arm.left .hand { left: -2.25px; /* -7.5px * 0.3 */ }
-      .character-container .arm.right .hand { right: -2.25px; /* -7.5px * 0.3 */ }
-      .character-container .legs {
-        bottom: 10.5px; /* 35px * 0.3 */
-        width: 42px; /* 140px * 0.3 */
-        height: 18px; /* 60px * 0.3 */
-      }
-      .character-container .leg {
-        width: 18px; /* 60px * 0.3 */
-        height: 18px; /* 60px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .leg.left { border-radius: 6px 1.5px 0 0; /* 20px*0.3, 5px*0.3 */ }
-      .character-container .leg.right { border-radius: 1.5px 6px 0 0; /* 5px*0.3, 20px*0.3 */ }
-      .character-container .shoe {
-        bottom: -7.5px; /* -25px * 0.3 */
-        width: 19.5px; /* 65px * 0.3 */
-        height: 12px; /* 40px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-      }
-      .character-container .leg.left .shoe {
-        left: -0.75px; /* -2.5px * 0.3 */
-        border-radius: 4.5px 1.5px 2.25px 2.25px; /* 15px*0.3, 5px*0.3, 7.5px*0.3 */
-      }
-      .character-container .leg.right .shoe {
-        right: -0.75px; /* -2.5px * 0.3 */
-        border-radius: 1.5px 4.5px 2.25px 2.25px; /* 5px*0.3, 15px*0.3, 7.5px*0.3 */
-      }
-      .character-container .shoe::before {
-        height: 3.75px; /* 12.5px * 0.3 */
-        border-top-width: 0.5px; /* 1.5px * 0.3 */
-        border-radius: 0 0 2px 2px; /* 6px * 0.3, rounded */
-      }
-      .character-container .shoe::after {
-        top: 2.25px; /* 7.5px * 0.3 */
-        left: 3.75px; /* 12.5px * 0.3 */
-        width: 5.25px; /* 17.5px * 0.3 */
-        height: 4.5px; /* 15px * 0.3 */
-        border-width: 0.5px; /* 1.5px * 0.3 */
-        border-radius: 1.5px; /* 5px * 0.3 */
-      }
-      /* Most restricted crip walk animation range for very small screens */
-      /* Adjust crip walk for very small screens: current center -9vw, radius 15vw. */
-      /* VW units are relative, not directly scaling. */
-      :root {
-        /* EXTREME HORIZONTAL PATH with pauses for 380px */
-        --crip-walk-start-extreme: -70vw;
-        --crip-walk-mid-1-extreme: -15vw;
-        --crip-walk-end-extreme: 70vw;
-        --crip-walk-mid-2-extreme: 15vw;
-      }
-    }
+/* For tablets and smaller desktops (max-width: 700px) */
+@media (max-width: 43.75rem) {
+  .blob-3 {
+    /*
+      display: none;
+      Hides the third blob on smaller screens to reduce clutter.
+    */
+    display: none;
+  }
+  .character-container {
+    /*
+      filter: blur(...);
+      Reduces the blur on the character for better clarity on smaller screens.
+    */
+    filter: blur(0.1875rem);
+  }
+  :root {
+    /*
+      --scale-factor: 0.64;
+      Reduces the character's size by setting the scale factor to 0.64.
+    */
+    --scale-factor: 0.64;
+    /*
+      Adjusts the horizontal travel distance of the character for this screen size.
+    */
+    --crip-walk-start-extreme: -60vw;
+    --crip-walk-mid-1-extreme: -12vw;
+    --crip-walk-end-extreme: 60vw;
+    --crip-walk-mid-2-extreme: 12vw;
+  }
+}
+
+/* For small tablets and large mobile phones (max-width: 520px) */
+@media (max-width: 32.5rem) {
+  body {
+    /*
+      padding: ...;
+      Reduces body padding on small screens to maximize content space.
+    */
+    padding: 0.3125rem 0.1875rem;
+  }
+  .glass-panel {
+    /*
+      Reduces padding and margins for a more compact layout on small screens.
+    */
+    padding: 0.375rem;
+    margin-top: 0.125rem;
+    margin-bottom: 0.25rem;
+    /*
+      width: 98%;
+      Ensures the panel uses almost the full screen width.
+    */
+    width: 98%;
+  }
+
+  /* Mobile Hero Section Adjustments */
+  .hero-header {
+    /*
+      flex-direction: column;
+      Stacks header items vertically for a mobile-friendly layout.
+    */
+    flex-direction: column;
+    /*
+      align-items: center;
+      Horizontally centers the stacked items.
+    */
+    align-items: center;
+    /*
+      gap: 0.375rem;
+      Reduces the gap between stacked items.
+    */
+    gap: 0.375rem;
+    /*
+      margin-bottom: 0.5rem;
+      Reduces the space below the header.
+    */
+    margin-bottom: 0.5rem;
+  }
+
+  .glass-panel p {
+    /*
+      margin-bottom: 0.75rem;
+      Reduces the margin below paragraphs on mobile.
+    */
+    margin-bottom: 0.75rem;
+  }
+
+  /* Mobile Footer Navigation Adjustments */
+  .footer-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.375rem 0.5rem;
+  }
+  .footer-nav a {
+    flex-grow: 0;
+    flex-basis: auto;
+  }
+  .footer-nav .separator {
+    display: inline;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+  }
+
+  /* Mobile Button and Font Adjustments */
+  .hero-header .hero-link, .footer-nav a {
+    /*
+      font-size: clamp(...);
+      Uses a responsive font size for all buttons.
+    */
+    font-size: clamp(0.75em, 2vw, 0.85em);
+  }
+  .footer-nav a {
+    /*
+      padding-top, padding-bottom: 8px;
+      Sets a standard padding for footer links on mobile.
+    */
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  /* Mobile Widget Adjustments */
+  .widget {
+    /*
+      padding-left, padding-right: 0.5rem;
+      Reduces horizontal padding inside widgets to save space.
+    */
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .character-container {
+    /*
+      filter: blur(0.25rem);
+      Further reduces character blur.
+    */
+    filter: blur(0.25rem);
+  }
+  .widget-container {
+    /*
+      gap: 0.5rem;
+      Reduces the gap between widgets.
+    */
+    gap: 0.5rem;
+    /*
+      margin-top: 0.5rem;
+      Reduces the top margin of the widget container.
+    */
+    margin-top: 0.5rem;
+  }
+  :root {
+    /*
+      --scale-factor: 0.4;
+      Scales the character down further for this breakpoint.
+    */
+    --scale-factor: 0.4;
+    /*
+      Adjusts the character's horizontal travel distance.
+    */
+    --crip-walk-start-extreme: -50vw;
+    --crip-walk-mid-1-extreme: -10vw;
+    --crip-walk-end-extreme: 50vw;
+    --crip-walk-mid-2-extreme: 10vw;
+  }
+}
+
+/* For very small mobile screens (max-width: 380px) */
+@media (max-width: 23.75rem) { /* 380px -> 23.75rem */
+  /*
+    REFACTORED: This entire section now uses the --scale-factor variable for consistency
+    and maintainability, removing all hardcoded pixel values for the character.
+  */
+  .character-container {
+    /*
+      filter: blur(0.25rem);
+      Sets a minimal blur for the smallest screens.
+    */
+    filter: blur(0.25rem);
+  }
+  :root {
+    /*
+      --scale-factor: 0.3;
+      Sets the smallest scale factor for the character.
+    */
+    --scale-factor: 0.3;
+    /*
+      Adjusts the character's horizontal travel for the smallest screens.
+    */
+    --crip-walk-start-extreme: -70vw;
+    --crip-walk-mid-1-extreme: -15vw;
+    --crip-walk-end-extreme: 70vw;
+    --crip-walk-mid-2-extreme: 15vw;
+  }
+}
