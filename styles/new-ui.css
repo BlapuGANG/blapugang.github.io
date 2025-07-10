@@ -51,6 +51,12 @@
     }
 
     /* Decorative Animated Blobs (Background) */
+
+    /* Ensure the fixed background container does not cause overflow due to vw units with scrollbars */
+    #animated-blapu-bg {
+      width: 100% !important; /* Overrides inline style 'width: 100vw' */
+    }
+
     /* Keyframes for blob animation */
     @keyframes dance {
       0%, 100% {
