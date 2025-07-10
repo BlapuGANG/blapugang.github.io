@@ -43,3 +43,40 @@ document.addEventListener('DOMContentLoaded', function() {
     quotes[randomIndex].style.display = 'block'; // Show the randomly selected quote by setting its display style to 'block'
   }
 });
+
+// Dark Mode Toggle Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const themeToggleButton = document.querySelector('.blapu-logo-link'); // Blapu logo is the toggle
+  const bodyElement = document.body;
+
+  // Function to apply theme based on preference
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      bodyElement.classList.add('dark-mode');
+    } else {
+      bodyElement.classList.remove('dark-mode');
+    }
+  }
+
+  // Check for saved theme preference on load
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    applyTheme(savedTheme);
+  } // Default is light mode (no class)
+
+  // Event listener for the toggle button
+  if (themeToggleButton) {
+    themeToggleButton.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent navigation if the logo is also a link
+
+      bodyElement.classList.toggle('dark-mode');
+
+      // Save the new preference
+      if (bodyElement.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
+});
