@@ -35,9 +35,9 @@
     These are adjusted in media queries for responsiveness.
   */
   --crip-walk-start-extreme: -45vw; /* Desktop's 'far left' */
-  --crip-walk-mid-1-extreme: -10vw; /* Desktop's re-entry path from left */
+  --crip-walk-mid-1-extreme: -15vw; /* Desktop's re-entry path from left */
   --crip-walk-end-extreme: 25vw;   /* Desktop's 'far right' */
-  --crip-walk-mid-2-extreme: -10vw; /* Desktop's re-entry path from right */
+  --crip-walk-mid-2-extreme: -15vw; /* Desktop's re-entry path from right */
 }
 
 /* General Page Setup */
