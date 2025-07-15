@@ -42,13 +42,8 @@ function trackView() {
 
   // All-Time Views
   let allTimeViews = parseInt(getCookie('allTimeViews') || '0', 10);
-  const returningVisitor = getCookie('returningVisitor');
-
-  if (!returningVisitor) {
-      allTimeViews++;
-      setCookie('allTimeViews', allTimeViews, 365 * 10); // 10-year cookie for all-time count
-      setCookie('returningVisitor', 'true', 365 * 10); // 10-year cookie to mark as returning visitor
-  }
+  allTimeViews++;
+  setCookie('allTimeViews', allTimeViews, 365 * 10); // 10-year cookie
 
   // Daily Views
   let dailyViewsData = JSON.parse(getCookie('dailyViews') || '{}');
